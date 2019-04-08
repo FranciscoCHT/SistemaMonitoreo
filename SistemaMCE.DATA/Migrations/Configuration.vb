@@ -10,6 +10,8 @@ Namespace Migrations
 
         Public Sub New()
             AutomaticMigrationsEnabled = False
+
+            SetSqlGenerator("MySql.Data.MySqlClient", New MySql.Data.Entity.MySqlMigrationSqlGenerator())
         End Sub
 
         Protected Overrides Sub Seed(context As Model.MCEContext)
