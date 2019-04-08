@@ -90,6 +90,10 @@
       <DependentUpon>201904062120165_InitialCreate.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201904062120165_InitialCreate.vb" />
+    <Compile Include="Migrations\201904082119032_PropiedadesMySQLporCambio.Designer.vb">
+      <DependentUpon>201904082119032_PropiedadesMySQLporCambio.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904082119032_PropiedadesMySQLporCambio.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\Lectura.vb" />
     <Compile Include="Model\MCEContext.vb" />
@@ -115,6 +119,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904062120165_InitialCreate.resx">
       <DependentUpon>201904062120165_InitialCreate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904082119032_PropiedadesMySQLporCambio.resx">
+      <DependentUpon>201904082119032_PropiedadesMySQLporCambio.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
