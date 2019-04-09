@@ -31,7 +31,11 @@ Public Module BundleConfig
                   "~/Content/bootstrap.css",
                   "~/Content/dx.common.css",
                   "~/Content/Site.css",
-                  "~/Content/dx.light.css"))
+                  "~/Content/dx.light.css",
+                  "~/Content/font-awesome.css",
+                  "~/admin-lte/css/AdminLTE.css",
+                  "~/admin-lte/css/skins/skin-blue.css",
+                  "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"))
 
         bundles.Add(New StyleBundle("~/Content/custom/css").Include(
                   "~/Content/bootstrap.css",
@@ -42,6 +46,11 @@ Public Module BundleConfig
         bundles.Add(New ScriptBundle("~/bundles/app").Include(
                  "~/Scripts/app/app.js",
                  "~/Scripts/app/Utils.js"))
+
+        bundles.Add(New ScriptBundle("~/admin-lte/js").Include(
+                "~/admin-lte/js/adminlte.js",
+                "~/admin-lte/plugins/fastclick/lib/fastclick.js",
+                "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"))
 
         '' JsPdf for client side export
         'bundles.Add(New ScriptBundle("~/bundles/jspdf").Include(
