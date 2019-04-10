@@ -29,3 +29,10 @@ End Code
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
+
+@section scripts
+    <script type="text/javascript" src="~/Scripts/app/Home/home.js"></script>
+    <script>
+        ko.applyBindings(new Home.HomeIndexViewModel());
+    </script>
+End Section

@@ -203,12 +203,18 @@
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="App_Start\WebApiConfig.vb" />
-    <Compile Include="Controllers\APIControllers\HomeAPIController.vb" />
-    <Compile Include="Controllers\APIControllers\LoginAPIController.vb" />
+    <Compile Include="Controllers\API\HomeAPIController.vb" />
+    <Compile Include="Controllers\API\LoginAPIController.vb" />
+    <Compile Include="Controllers\API\SectoresAPIController.vb" />
+    <Compile Include="Controllers\API\UsuariosAPIController.vb" />
     <Compile Include="Controllers\LoginController.vb" />
+    <Compile Include="Controllers\SectoresController.vb" />
+    <Compile Include="Controllers\UsuariosController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\SectorDTO.vb" />
+    <Compile Include="Models\UsuarioDTO.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -694,6 +700,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_Header.vbhtml" />
     <Content Include="Views\Login\Index.vbhtml" />
+    <Content Include="Views\Usuarios\Index.vbhtml" />
+    <Content Include="Views\Sectores\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -735,7 +743,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SistemaMCE.DATA\SistemaMCE.DATA.vbproj">
@@ -746,6 +753,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\app\Home\home.ts" />
     <TypeScriptCompile Include="Scripts\app\Login\login.ts" />
+    <TypeScriptCompile Include="Scripts\app\Sectores\sectores.ts" />
+    <TypeScriptCompile Include="Scripts\app\Usuarios\usuarios.ts" />
     <TypeScriptCompile Include="Scripts\index.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\devextreme\devextreme.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />

@@ -214,7 +214,7 @@ desired effect
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="#" onClick="logout()" class="btn btn-default btn-flat">Cerrar sesión</a>
                                     </div>
                                 </li>
                             </ul>
@@ -261,7 +261,24 @@ desired effect
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">HEADER</li>
                     <!-- Optionally, you can add icons to the links -->
-                    <li class="active"><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i><span>Home</span></a></li>
+                    <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i><span>Home</span></a></li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-link"></i> <span>Nodos</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="#">Crear nodos</a></li>
+                            <li><a href="#">Consumo actual</a></li>
+                            <li><a href="#">Consumo por nodo</a></li>
+                            <li><a href="#">Consumo por fecha</a></li>
+                            <li><a href="#">Reportes</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-user"></i><span>Usuarios</span></a></li>
+                    <li><a href="@Url.Action("Index", "Sectores")"><i class="fa fa-user"></i><span>Sectores</span></a></li>
                     <li><a href="@Url.Action("About", "Home")"><i class="fa fa-info"></i><span>About</span></a></li>
                     <li><a href="@Url.Action("Contact", "Home")"><i class="fa fa-address-card"></i><span>Contact</span></a></li>
                     <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
@@ -286,7 +303,7 @@ desired effect
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <section class="content-header">
+            @*<section class="content-header">
                 <h1>
                     Page Header
                     <small>Optional description</small>
@@ -295,7 +312,7 @@ desired effect
                     <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
                     <li class="active">Here</li>
                 </ol>
-            </section>
+            </section>*@
 
             <!-- Main content -->
             <section class="content container-fluid">
@@ -418,6 +435,36 @@ desired effect
     <script>
         //bootstrap WYSIHTML5 - text editor
         $(".textarea").wysihtml5();
+        /** add active class and stay opened when selected */
+        var url = window.location;
+
+        // for sidebar menu entirely but not cover treeview
+        $('ul.sidebar-menu a').filter(function () {
+            return this.href == url;
+        }).parent().addClass('active');
+
+        $('ul.navbar-nav a').filter(function () {
+            return this.href == url;
+        }).parent().addClass('active');
+
+        // for treeview
+        $('ul.treeview-menu a').filter(function () {
+            return this.href == url;
+        }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
+
+        $('#mainMenu ul li').find('a').each(function () {
+            if (document.location.href == $(this).attr('href')) {
+                $(this).parents().addClass("active");
+                $(this).addClass("active");
+                // add class as you need ul or li or a 
+            }
+        });
+
+        function logout() {
+            window.localStorage.removeItem("user");
+            window.localStorage.removeItem("pass");
+            window.location.replace(window.location.origin + '/Login');
+        };
     </script>
 </body>
 </html>

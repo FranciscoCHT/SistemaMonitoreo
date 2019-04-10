@@ -6,7 +6,6 @@ End Code
 @Scripts.Render("~/bundles/bootstrap")
 @Scripts.Render("~/bundles/knockout")
 @Scripts.Render("~/bundles/devextreme")
-@Scripts.Render("~/admin-lte/js")
 @Scripts.Render("~/bundles/app")
 
 <!DOCTYPE html>
@@ -28,72 +27,33 @@ End Code
 <body>
     <div class="lowin lowin-red">
         <div class="lowin-brand">
-            <img src="kodinger.jpg" alt="logo">
+            <img src="~/dist/img/kodinger.jpg" alt="logo">
         </div>
         <div class="lowin-wrapper">
             <div class="lowin-box lowin-login">
                 <div class="lowin-box-inner">
                     <form>
-                        <p>Sign in to continue</p>
+                        <p>Inicie sesión para continuar</p>
                         <div class="lowin-group">
-                            <label>Email <a href="#" class="login-back-link">Sign in?</a></label>
-                            <input type="email" autocomplete="email" name="email" class="lowin-input">
-                        </div>
-                        <div class="lowin-group password-group">
-                            <label>Password <a href="#" class="forgot-link">Forgot Password?</a></label>
-                            <input type="password" name="password" autocomplete="current-password" class="lowin-input">
-                        </div>
-                        <button class="lowin-btn login-btn">
-                            Sign In
-                        </button>
-
-                        <div class="text-foot">
-                            Don't have an account? <a href="" class="register-link">Register</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div class="lowin-box lowin-register">
-                <div class="lowin-box-inner">
-                    <form>
-                        <p>Let's create your account</p>
-                        <div class="lowin-group">
-                            <label>Name</label>
-                            <input type="text" name="name" autocomplete="name" class="lowin-input">
+                            <label>Usuario <a href="#" class="login-back-link">Iniciar sesión?</a></label>
+                            <div id="textbox-user" class="lowin-input" data-bind="dxTextBox: userBoxOptions"></div>
                         </div>
                         <div class="lowin-group">
-                            <label>Email</label>
-                            <input type="email" autocomplete="email" name="email" class="lowin-input">
+                            <label>Contraseña</label>
+                            <div id="textbox-pass" class="lowin-input" data-bind="dxTextBox: passBoxOptions"></div>
                         </div>
-                        <div class="lowin-group">
-                            <label>Password</label>
-                            <input type="password" name="password" autocomplete="current-password" class="lowin-input">
-                        </div>
-                        <button class="lowin-btn">
-                            Sign Up
-                        </button>
-
-                        <div class="text-foot">
-                            Already have an account? <a href="" class="login-link">Login</a>
-                        </div>
+                        <div class="lowin-btn login-btn" style="margin-top: 10px" data-bind="dxButton: buttonOptionsLogin"></div>
                     </form>
                 </div>
             </div>
         </div>
 
+        <div data-bind="dxLoadPanel: { visible: loading, message: 'Cargando . . .' }"></div>
+
         <footer class="lowin-footer">
             Design By <a href="http://fb.me/itskodinger">itskodinger</a>
         </footer>
     </div>
-
-    <script src="~/Scripts/customScripts/loginauth.js"></script>
-    <script>
-        Auth.init({
-            login_url: '#login',
-            forgot_url: '#forgot'
-        });
-    </script>
 
 </body>
 </html>
