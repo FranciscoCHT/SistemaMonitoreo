@@ -8,7 +8,7 @@ End Code
         <small>Lista de sectores en el sistema y creación de éstos.</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="/home"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/Home"><i class="fa fa-dashboard"></i> Inicio</a></li>
         <li class="active">Sectores</li>
     </ol>
 </section>

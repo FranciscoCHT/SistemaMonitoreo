@@ -20,17 +20,16 @@ namespace Login {
                     ID: 0,
                     User: userBox,
                     Pass: passBox
-                },
-                success: (data: any): void => {
-                    window.localStorage.setItem('user', data.user);
-                    window.localStorage.setItem('pass', data.pass);
+                }
+            }).done((data: any) => {
+                    window.localStorage.setItem('user', data.User);
+                    window.localStorage.setItem('nombre', data.NombreCompleto);
+                    window.localStorage.setItem('pass', data.Pass);
                     window.location.replace(window.location.origin + '/Home');
-                },
-                error: (data: any): void => {
+            }).fail((data: any) => {
                     this.loading(false);
                     DevExpress.ui.notify(data.responseJSON, "error", 3000);
-                }
-            })
+            });
         }
 
         buttonOptionsLogin: DevExpress.ui.dxButtonOptions = {

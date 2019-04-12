@@ -21,6 +21,7 @@ Namespace Controllers.API
                     listUsuarioDto.Add(New Models.UsuarioDTO With {.ID = usuario.ID,
                                                                 .Nombre = usuario.Nombre,
                                                                 .Apellido = usuario.Apellido,
+                                                                .NombreCompleto = usuario.Nombre + " " + usuario.Apellido,
                                                                 .User = usuario.User,
                                                                 .Pass = usuario.Pass,
                                                                 .EsAdmin = usuario.EsAdmin})

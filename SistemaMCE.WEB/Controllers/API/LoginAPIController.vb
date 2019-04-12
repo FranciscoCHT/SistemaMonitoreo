@@ -21,6 +21,7 @@ Namespace Controllers.API
                 If user Is Nothing Then Return Me.Content(HttpStatusCode.Unauthorized, "Usuario o Contraseña inválidos")
 
                 With model
+                    .NombreCompleto = user.Nombre + " " + user.Apellido
                     .User = user.User
                     .Pass = user.Pass
                 End With

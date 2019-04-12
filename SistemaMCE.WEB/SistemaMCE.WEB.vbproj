@@ -205,15 +205,19 @@
     <Compile Include="App_Start\WebApiConfig.vb" />
     <Compile Include="Controllers\API\HomeAPIController.vb" />
     <Compile Include="Controllers\API\LoginAPIController.vb" />
+    <Compile Include="Controllers\API\NodosAPIController.vb" />
     <Compile Include="Controllers\API\SectoresAPIController.vb" />
     <Compile Include="Controllers\API\UsuariosAPIController.vb" />
     <Compile Include="Controllers\LoginController.vb" />
+    <Compile Include="Controllers\NodosController.vb" />
     <Compile Include="Controllers\SectoresController.vb" />
     <Compile Include="Controllers\UsuariosController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\NodoDTO.vb" />
     <Compile Include="Models\SectorDTO.vb" />
+    <Compile Include="Models\TipoDTO.vb" />
     <Compile Include="Models\UsuarioDTO.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -702,6 +706,7 @@
     <Content Include="Views\Login\Index.vbhtml" />
     <Content Include="Views\Usuarios\Index.vbhtml" />
     <Content Include="Views\Sectores\Index.vbhtml" />
+    <Content Include="Views\Nodos\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -753,6 +758,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\app\Home\home.ts" />
     <TypeScriptCompile Include="Scripts\app\Login\login.ts" />
+    <TypeScriptCompile Include="Scripts\app\Nodos\nodos.ts" />
     <TypeScriptCompile Include="Scripts\app\Sectores\sectores.ts" />
     <TypeScriptCompile Include="Scripts\app\Usuarios\usuarios.ts" />
     <TypeScriptCompile Include="Scripts\index.d.ts" />

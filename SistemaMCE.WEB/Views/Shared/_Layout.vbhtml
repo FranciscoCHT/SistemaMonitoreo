@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Starter</title>
+    @*<title>Sistema MCE | Inicio</title>*@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">-->
@@ -60,11 +60,11 @@ desired effect
         <header class="main-header">
 
             <!-- Logo -->
-            <a href="index2.html" class="logo">
+            <a href="/Home" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>A</b>LT</span>
+                <span class="logo-mini"><b>M</b>CE</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Admin</b>LTE</span>
+                <span class="logo-lg"><b>Sistema</b>MCE</span>
             </a>
 
             <!-- Header Navbar -->
@@ -93,7 +93,7 @@ desired effect
                                             <a href="#">
                                                 <div class="pull-left">
                                                     <!-- User Image -->
-                                                    <img src="~/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                                    <img src="~/dist/img/user.png" class="img-circle" alt="User Image">
                                                 </div>
                                                 <!-- Message title and timestamp -->
                                                 <h4>
@@ -179,18 +179,17 @@ desired effect
                             <!-- Menu Toggle Button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
-                                <img src="~/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                <img src="~/dist/img/user.png" class="user-image" alt="User Image">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs">Alexander Pierce</span>
+                                <span class="hidden-xs usuario"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
-                                <li class="user-header">
-                                    <img src="~/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                <li class="user-header" style="height: 145px;">
+                                    <img src="~/dist/img/user.png" class="img-circle" alt="User Image">
 
                                     <p>
-                                        Alexander Pierce - Web Developer
-                                        <small>Member since Nov. 2012</small>
+                                        <span class="nombre"></span>
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
@@ -211,7 +210,7 @@ desired effect
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="#" class="btn btn-default btn-flat">Perfil</a>
                                     </div>
                                     <div class="pull-right">
                                         <a href="#" onClick="logout()" class="btn btn-default btn-flat">Cerrar sesión</a>
@@ -236,19 +235,19 @@ desired effect
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="~/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        <img src="~/dist/img/user.png" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
+                        <p class="nombre"></p>
                         <!-- Status -->
-                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        <a href="#"><i class="fa fa-circle text-success"></i> En línea</a>
                     </div>
                 </div>
 
                 <!-- search form (Optional) -->
                 <form action="#" method="get" class="sidebar-form">
                     <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search...">
+                        <input type="text" name="q" class="form-control" placeholder="Buscar...">
                         <span class="input-group-btn">
                             <button type="submit" name="search" id="search-btn" class="btn btn-flat">
                                 <i class="fa fa-search"></i>
@@ -261,7 +260,7 @@ desired effect
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">HEADER</li>
                     <!-- Optionally, you can add icons to the links -->
-                    <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i><span>Home</span></a></li>
+                    <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i><span>Inicio</span></a></li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-link"></i> <span>Nodos</span>
@@ -270,7 +269,7 @@ desired effect
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="#">Crear nodos</a></li>
+                            <li><a href="@Url.Action("Index", "Nodos")"><i class="fa fa-tasks"></i><span>Gestión de nodos</span></a></li>
                             <li><a href="#">Consumo actual</a></li>
                             <li><a href="#">Consumo por nodo</a></li>
                             <li><a href="#">Consumo por fecha</a></li>
@@ -329,10 +328,10 @@ desired effect
         <footer class="main-footer">
             <!-- To the right -->
             <div class="pull-right hidden-xs">
-                Anything you want
+                Sistema MCE
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+            <strong>&copy; 2019 <a href="#">Sistema Monitoreo y Control del Consumo Eléctrico</a>.</strong>
         </footer>
 
         <!-- Control Sidebar -->
@@ -460,9 +459,28 @@ desired effect
             }
         });
 
+       //document.getElementByClassName("nombre").innerHTML = window.localStorage.getItem("nombre");
+        var nombres = document.getElementsByClassName("nombre");
+        for (var i = 0; i < nombres.length; i++) {
+            nombres[i].innerHTML = window.localStorage.getItem("nombre");
+        }
+        //document.getElementById("usuario").innerHTML = window.localStorage.getItem("user");
+        var usuarios = document.getElementsByClassName("usuario");
+        for (var i = 0; i < usuarios.length; i++) {
+            usuarios[i].innerHTML = window.localStorage.getItem("user");
+        }
+
+        var titulo = window.location.pathname.split('/').slice(-1)[0];
+        if (window.location.pathname.split('/').slice(-1)[0] == "Home") {
+            titulo = "Inicio";
+        }
+        document.title = "Sistema MCE | " + titulo;
+        //document.getElementById("titulo").innerHTML = window.location.pathname.split('/').slice(-1)[0];
+
         function logout() {
             window.localStorage.removeItem("user");
             window.localStorage.removeItem("pass");
+            window.localStorage.removeItem("nombre");
             window.location.replace(window.location.origin + '/Login');
         };
     </script>
