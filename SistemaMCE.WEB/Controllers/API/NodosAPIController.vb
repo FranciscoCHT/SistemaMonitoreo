@@ -13,7 +13,14 @@ Namespace Controllers.API
 
             Dim db As New MCEContext
             Try
-                Dim listNodos As List(Of Nodo) = db.Nodos.Where(Function(n) n.Usuario.User = user).ToList()
+                Dim listNodos As List(Of Nodo) = Nothing
+                Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = user).SingleOrDefault()
+                If usuarioAdmin.EsAdmin = True Then
+                    listNodos = db.Nodos.ToList()
+                Else
+                    listNodos = db.Nodos.Where(Function(n) n.Usuario.User = user).ToList()
+                End If
+
                 If listNodos Is Nothing OrElse listNodos.Count = 0 Then Return Me.Ok(New List(Of Models.NodoDTO))
                 Dim listNodoDto As New List(Of Models.NodoDTO)
 
@@ -21,6 +28,7 @@ Namespace Controllers.API
                     listNodoDto.Add(New Models.NodoDTO With {.ID = nodo.ID,
                                                                 .Nombre = nodo.Nombre,
                                                                 .Tipo = nodo.Tipo,
+                                                                .TipoStr = nodo.Tipo.ToString,
                                                                 .Estado = nodo.Estado,
                                                                 .Voltaje = nodo.Voltaje,
                                                                 .Sector = New Models.SectorDTO With {.ID = nodo.Sector.ID,

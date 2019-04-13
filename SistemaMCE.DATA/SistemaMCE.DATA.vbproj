@@ -102,6 +102,10 @@
       <DependentUpon>201904120504244_TipoModificadoAEnum.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201904120504244_TipoModificadoAEnum.vb" />
+    <Compile Include="Migrations\201904121835471_EstadoABoolean.Designer.vb">
+      <DependentUpon>201904121835471_EstadoABoolean.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904121835471_EstadoABoolean.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\Lectura.vb" />
     <Compile Include="Model\MCEContext.vb" />
@@ -137,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904120504244_TipoModificadoAEnum.resx">
       <DependentUpon>201904120504244_TipoModificadoAEnum.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904121835471_EstadoABoolean.resx">
+      <DependentUpon>201904121835471_EstadoABoolean.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

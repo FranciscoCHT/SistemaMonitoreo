@@ -271,7 +271,7 @@ desired effect
                         <ul class="treeview-menu">
                             <li><a href="@Url.Action("Index", "Nodos")"><i class="fa fa-tasks"></i><span>Gestión de nodos</span></a></li>
                             <li><a href="#">Consumo actual</a></li>
-                            <li><a href="#">Consumo por nodo</a></li>
+                            <li><a href="@Url.Action("ConsumoHistorico", "Nodos")"><i class="fa fa-tasks"></i><span>Consumo histórico</span></a></li>
                             <li><a href="#">Consumo por fecha</a></li>
                             <li><a href="#">Reportes</a></li>
                         </ul>
@@ -473,6 +473,9 @@ desired effect
         var titulo = window.location.pathname.split('/').slice(-1)[0];
         if (window.location.pathname.split('/').slice(-1)[0] == "Home") {
             titulo = "Inicio";
+        }
+        else if (window.location.pathname.split('/').slice(-1)[0] == "ConsumoHistorico") {
+            titulo = "Consumo Historico";
         }
         document.title = "Sistema MCE | " + titulo;
         //document.getElementById("titulo").innerHTML = window.location.pathname.split('/').slice(-1)[0];

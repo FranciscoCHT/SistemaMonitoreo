@@ -707,6 +707,8 @@
     <Content Include="Views\Usuarios\Index.vbhtml" />
     <Content Include="Views\Sectores\Index.vbhtml" />
     <Content Include="Views\Nodos\Index.vbhtml" />
+    <Content Include="Views\Nodos\ConsumoActual.vbhtml" />
+    <Content Include="Views\Nodos\ConsumoHistorico.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

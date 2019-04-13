@@ -38,8 +38,9 @@ namespace Nodos {
                         ID: data[i].ID,
                         Nombre: data[i].Nombre,
                         Tipo: data[i].Tipo,
+                        TipoStr: data[i].TipoStr,
                         Estado: data[i].Estado,
-                        Voltaje: data[i].Pass,
+                        Voltaje: data[i].Voltaje,
                         Sector: data[i].Sector,
                         Usuario: data[i].Usuario
                     });
@@ -218,8 +219,7 @@ namespace Nodos {
                         dataSource: this.sectores,
                         placeholder: "Seleccione el sector...",
                         displayExpr: 'Nombre',
-                        valueExpr: 'ID',
-                        value: this.nombreTipo
+                        valueExpr: 'ID'
                     }
                 }, {
                     dataField: "Usuario",
@@ -248,6 +248,7 @@ namespace Nodos {
 
         dataGridOptions: any = {
             dataSource: this.nodos,
+            width: "80%",
             loadPanel: {
                 enabled: true,
                 text: 'Cargando datos...'
@@ -255,7 +256,7 @@ namespace Nodos {
             selection: {
                 mode: "single"
             },
-            columns: [{ dataField: 'ID', visible: false }, 'Nombre', 'Tipo', 'Estado', 'Voltaje', 'Sector', 'Usuario' ],
+            columns: [{ dataField: 'ID', visible: false }, { dataField: 'Estado', caption: 'Activo', width: '7%' }, 'Nombre', { dataField: 'TipoStr', caption: 'Tipo' }, 'Sector.Nombre', { dataField: 'Voltaje', alignment: "left", width: '10%' }, { dataField: 'Usuario.User', caption: 'Usuario' } ],
             editing: {
                 texts: {
                     confirmDeleteMessage: '¿Esta seguro de eliminar registro de nodo?'

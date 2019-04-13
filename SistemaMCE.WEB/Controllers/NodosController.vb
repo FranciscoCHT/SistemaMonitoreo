@@ -9,5 +9,16 @@ Namespace Controllers
         Function Index() As ActionResult
             Return View()
         End Function
+
+        <Route("ConsumoActual")>
+        Function ConsumoActual() As ActionResult
+            Return View()
+        End Function
+
+        <Route("ConsumoHistorico")>
+        Function ConsumoHistorico() As ActionResult
+            Return View()
+        End Function
+
     End Class
 End Namespace
