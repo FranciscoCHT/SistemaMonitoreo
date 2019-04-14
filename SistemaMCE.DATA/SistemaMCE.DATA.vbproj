@@ -94,18 +94,10 @@
       <DependentUpon>201904082119032_PropiedadesMySQLporCambio.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201904082119032_PropiedadesMySQLporCambio.vb" />
-    <Compile Include="Migrations\201904092119433_esAdmin_agregado.Designer.vb">
-      <DependentUpon>201904092119433_esAdmin_agregado.vb</DependentUpon>
+    <Compile Include="Migrations\201904142048517_BDModificada_ValoresConfig.Designer.vb">
+      <DependentUpon>201904142048517_BDModificada_ValoresConfig.vb</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904092119433_esAdmin_agregado.vb" />
-    <Compile Include="Migrations\201904120504244_TipoModificadoAEnum.Designer.vb">
-      <DependentUpon>201904120504244_TipoModificadoAEnum.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904120504244_TipoModificadoAEnum.vb" />
-    <Compile Include="Migrations\201904121835471_EstadoABoolean.Designer.vb">
-      <DependentUpon>201904121835471_EstadoABoolean.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904121835471_EstadoABoolean.vb" />
+    <Compile Include="Migrations\201904142048517_BDModificada_ValoresConfig.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\Lectura.vb" />
     <Compile Include="Model\MCEContext.vb" />
@@ -136,14 +128,8 @@
     <EmbeddedResource Include="Migrations\201904082119032_PropiedadesMySQLporCambio.resx">
       <DependentUpon>201904082119032_PropiedadesMySQLporCambio.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904092119433_esAdmin_agregado.resx">
-      <DependentUpon>201904092119433_esAdmin_agregado.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904120504244_TipoModificadoAEnum.resx">
-      <DependentUpon>201904120504244_TipoModificadoAEnum.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904121835471_EstadoABoolean.resx">
-      <DependentUpon>201904121835471_EstadoABoolean.vb</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904142048517_BDModificada_ValoresConfig.resx">
+      <DependentUpon>201904142048517_BDModificada_ValoresConfig.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

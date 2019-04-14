@@ -18,30 +18,11 @@ End Code
 
 <div id="cuerpo" style="margin-bottom:70px" class="dx-fieldset">
 
-    <div class="dx-field" style="display: none;">
-        <div id="form-nodos" data-bind="dxForm: formOptions"></div>
-    </div>
-
-    <div class="dx-field" style="width: 80%;margin: 10px auto;">
-        <div id="botonesDetalle" class="btn-group" role="group" style="float:right;">
-            <div id="botonOpt" data-bind="dxButton: modifPopup"></div>
-            <div id="botonOpt" data-bind="dxButton: buttonOptionsDelete"></div>
-        </div>
-        <div id="botonesDetalle" class="btn-group" role="group">
-            <div id="botonCrear" data-bind="dxButton: addPopup"></div>
-        </div>
-    </div>
-
-    <div class="dx-field">
-        <div id="grid-nodos" style="margin: 0 auto;" data-bind="dxDataGrid: dataGridOptions"></div>
-    </div>
-
-    <div id="form-popup" data-bind="dxPopup: formPopup"></div>
 </div>
 
 @section scripts
     <script type="text/javascript" src="~/Scripts/app/Nodos/nodohistorico.js"></script>
     <script>
-        ko.applyBindings(new Nodos.NodosIndexViewModel());
+        ko.applyBindings(new Nodos.NodoHistoricoIndexViewModel());
     </script>
 End Section

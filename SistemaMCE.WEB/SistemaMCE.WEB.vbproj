@@ -760,6 +760,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\app\Home\home.ts" />
     <TypeScriptCompile Include="Scripts\app\Login\login.ts" />
+    <TypeScriptCompile Include="Scripts\app\Nodos\nodoactual.ts" />
+    <TypeScriptCompile Include="Scripts\app\Nodos\nodohistorico.ts" />
     <TypeScriptCompile Include="Scripts\app\Nodos\nodos.ts" />
     <TypeScriptCompile Include="Scripts\app\Sectores\sectores.ts" />
     <TypeScriptCompile Include="Scripts\app\Usuarios\usuarios.ts" />
