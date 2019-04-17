@@ -138,5 +138,48 @@ Namespace Controllers.API
             Return Me.Ok(New With {.tipoNodo = tipoNodo})
         End Function
 
+        '<HttpGet>
+        '<Route("lectura", Name:="GetLecturas")>
+        'Public Function GetLecturas(user As String) As IHttpActionResult
+
+        '    Dim db As New MCEContext
+        '    Try
+        '        Dim listNodos As List(Of Nodo) = Nothing
+        '        Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = user).SingleOrDefault()
+        '        If usuarioAdmin.EsAdmin = True Then
+        '            listNodos = db.Nodos.ToList()
+        '        Else
+        '            listNodos = db.Nodos.Where(Function(n) n.Usuario.User = user).ToList()
+        '        End If
+
+        '        If listNodos Is Nothing OrElse listNodos.Count = 0 Then Return Me.Ok(New List(Of Models.NodoDTO))
+        '        Dim listNodoDto As New List(Of Models.NodoDTO)
+
+        '        For Each nodo As Nodo In listNodos
+        '            listNodoDto.Add(New Models.NodoDTO With {.ID = nodo.ID,
+        '                                                        .Nombre = nodo.Nombre,
+        '                                                        .Tipo = nodo.Tipo,
+        '                                                        .TipoStr = nodo.Tipo.ToString,
+        '                                                        .Estado = nodo.Estado,
+        '                                                        .Voltaje = nodo.Voltaje,
+        '                                                        .Sector = New Models.SectorDTO With {.ID = nodo.Sector.ID,
+        '                                                                                            .Nombre = nodo.Sector.Nombre},
+        '                                                        .Usuario = New Models.UsuarioDTO With {.ID = nodo.Usuario.ID, 'No creo que esto sea necesario, al ser el mismo usuario en cada iteracion.
+        '                                                                                                .Nombre = nodo.Usuario.Nombre,
+        '                                                                                                .Apellido = nodo.Usuario.Apellido,
+        '                                                                                                .EsAdmin = nodo.Usuario.EsAdmin,
+        '                                                                                                .User = nodo.Usuario.User,
+        '                                                                                                .Pass = nodo.Usuario.Pass}
+        '                            })
+        '        Next
+        '        Return Me.Ok(listNodoDto)
+
+        '    Catch ex As Exception
+        '        Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+        '    Finally
+        '        db.Dispose()
+        '    End Try
+        'End Function
+
     End Class
 End Namespace

@@ -18,6 +18,10 @@ End Code
 
 <div id="cuerpo" style="margin-bottom:70px" class="dx-fieldset">
 
+    <div class="dx-field">
+        <div id="chartHist" data-bind="dxChart: chartHist"></div>
+    </div>
+
 </div>
 
 @section scripts

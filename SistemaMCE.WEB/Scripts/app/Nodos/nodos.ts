@@ -248,7 +248,7 @@ namespace Nodos {
 
         dataGridOptions: any = {
             dataSource: this.nodos,
-            width: "80%",
+            widthasd: "80%",
             loadPanel: {
                 enabled: true,
                 text: 'Cargando datos...'

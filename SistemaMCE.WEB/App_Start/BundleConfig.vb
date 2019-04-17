@@ -47,6 +47,10 @@ Public Module BundleConfig
                  "~/Scripts/app/app.js",
                  "~/Scripts/app/Utils.js"))
 
+        'bundles.Add(New ScriptBundle("~/bundles/custom").Include(
+        '         "~/Scripts/devextreme-aspnet-data/js/dx.aspnet.data.js",
+        '         "~/Scripts/devextreme-aspnet-data/js/dx.aspnet.data.d.ts"))
+
         bundles.Add(New ScriptBundle("~/admin-lte/js").Include(
                 "~/admin-lte/js/adminlte.js",
                 "~/admin-lte/plugins/fastclick/lib/fastclick.js",
@@ -85,6 +89,8 @@ Public Module BundleConfig
 
         ' DevExtreme
         bundle.Include("~/Scripts/dx.web.js")
+        'bundle.Include("~/Scripts/devextreme-aspnet-data/js/dx.aspnet.data.js")
+        'bundle.Include("~/Scripts/devextreme-aspnet-data/js/dx.aspnet.data.d.ts")
 
         Return bundle
     End Function
