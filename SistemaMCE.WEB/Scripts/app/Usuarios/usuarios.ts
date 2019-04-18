@@ -239,7 +239,7 @@ namespace Usuarios {
 
         formPopup: any = {
             visible: false,
-            width: 500,
+            width: "380",
             height: 510,
             position: {
                 my: 'center',

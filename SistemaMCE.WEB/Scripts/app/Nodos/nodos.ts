@@ -313,8 +313,8 @@ namespace Nodos {
 
         formPopup: any = {
             visible: false,
-            width: 500,
-            height: 510,
+            width: 380,
+            height: "auto",
             position: {
                 my: 'center',
                 at: 'center',

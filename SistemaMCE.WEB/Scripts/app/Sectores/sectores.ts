@@ -175,7 +175,7 @@ namespace Sectores {
 
         formPopup: any = {
             visible: false,
-            width: 400,
+            width: 380,
             height: "auto",
             position: {
                 my: 'center',

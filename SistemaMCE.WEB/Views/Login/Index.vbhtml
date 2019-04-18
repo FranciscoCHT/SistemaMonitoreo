@@ -51,7 +51,7 @@ End Code
         <div data-bind="dxLoadPanel: { visible: loading, message: 'Cargando . . .' }"></div>
 
         <footer class="lowin-footer">
-            Design By <a href="http://fb.me/itskodinger">itskodinger</a>
+            Desarrollado por <a href="">Francisco Chacón</a>
         </footer>
     </div>
 

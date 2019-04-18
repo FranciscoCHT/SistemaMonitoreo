@@ -88,7 +88,7 @@ Public Module BundleConfig
         bundle.Include("~/Scripts/jszip.js")
 
         ' DevExtreme
-        bundle.Include("~/Scripts/dx.web.js")
+        bundle.Include("~/Scripts/dx.all.js")
         'bundle.Include("~/Scripts/devextreme-aspnet-data/js/dx.aspnet.data.js")
         'bundle.Include("~/Scripts/devextreme-aspnet-data/js/dx.aspnet.data.d.ts")
 
