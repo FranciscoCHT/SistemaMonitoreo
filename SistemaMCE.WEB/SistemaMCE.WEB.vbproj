@@ -218,6 +218,7 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\LecturaDTO.vb" />
     <Compile Include="Models\NodoDTO.vb" />
     <Compile Include="Models\SectorDTO.vb" />
     <Compile Include="Models\TipoDTO.vb" />

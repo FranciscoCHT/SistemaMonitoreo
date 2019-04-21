@@ -8,17 +8,25 @@ Namespace Controllers.API
         Inherits ApiController
 
         <HttpGet>
-        <Route("{user}", Name:="GetNodosByUser")>
-        Public Function GetNodosByUser(user As String) As IHttpActionResult
+        <Route("{sect}/{user}", Name:="GetNodosByUser")>
+        Public Function GetNodosByUser(user As String, sect As Integer) As IHttpActionResult
 
             Dim db As New MCEContext
             Try
                 Dim listNodos As List(Of Nodo) = Nothing
                 Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = user).SingleOrDefault()
                 If usuarioAdmin.EsAdmin = True Then
-                    listNodos = db.Nodos.ToList()
+                    If sect < 0 Then
+                        listNodos = db.Nodos.ToList()
+                    Else
+                        listNodos = db.Nodos.Where(Function(n) n.Sector.ID = sect).ToList()
+                    End If
                 Else
-                    listNodos = db.Nodos.Where(Function(n) n.Usuario.User = user).ToList()
+                    If sect < 0 Then
+                        listNodos = db.Nodos.Where(Function(n) n.Usuario.User = user).ToList()
+                    Else
+                        listNodos = db.Nodos.Where(Function(n) n.Usuario.User = user And n.Sector.ID = sect).ToList()
+                    End If
                 End If
 
                 If listNodos Is Nothing OrElse listNodos.Count = 0 Then Return Me.Ok(New List(Of Models.NodoDTO))
@@ -138,48 +146,47 @@ Namespace Controllers.API
             Return Me.Ok(New With {.tipoNodo = tipoNodo})
         End Function
 
-        '<HttpGet>
-        '<Route("lectura", Name:="GetLecturas")>
-        'Public Function GetLecturas(user As String) As IHttpActionResult
+        <HttpGet>
+        <Route("lectura/{idNodo}", Name:="GetLecturas")>
+        Public Function GetLecturas(idNodo As Integer) As IHttpActionResult
 
-        '    Dim db As New MCEContext
-        '    Try
-        '        Dim listNodos As List(Of Nodo) = Nothing
-        '        Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = user).SingleOrDefault()
-        '        If usuarioAdmin.EsAdmin = True Then
-        '            listNodos = db.Nodos.ToList()
-        '        Else
-        '            listNodos = db.Nodos.Where(Function(n) n.Usuario.User = user).ToList()
-        '        End If
+            Dim db As New MCEContext
+            Try
+                Dim listLecturas As List(Of Lectura) = Nothing
+                'Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = User).SingleOrDefault()
+                'If usuarioAdmin.EsAdmin = True Then
+                ' listNodos = db.Nodos.ToList()
+                'Else
+                listLecturas = db.Lecturas.Where(Function(l) l.Nodo.ID = idNodo).ToList()
+                'End If
 
-        '        If listNodos Is Nothing OrElse listNodos.Count = 0 Then Return Me.Ok(New List(Of Models.NodoDTO))
-        '        Dim listNodoDto As New List(Of Models.NodoDTO)
+                If listLecturas Is Nothing OrElse listLecturas.Count = 0 Then Return Me.Ok(New List(Of Models.LecturaDTO))
+                Dim listLecturaDto As New List(Of Models.LecturaDTO)
 
-        '        For Each nodo As Nodo In listNodos
-        '            listNodoDto.Add(New Models.NodoDTO With {.ID = nodo.ID,
-        '                                                        .Nombre = nodo.Nombre,
-        '                                                        .Tipo = nodo.Tipo,
-        '                                                        .TipoStr = nodo.Tipo.ToString,
-        '                                                        .Estado = nodo.Estado,
-        '                                                        .Voltaje = nodo.Voltaje,
-        '                                                        .Sector = New Models.SectorDTO With {.ID = nodo.Sector.ID,
-        '                                                                                            .Nombre = nodo.Sector.Nombre},
-        '                                                        .Usuario = New Models.UsuarioDTO With {.ID = nodo.Usuario.ID, 'No creo que esto sea necesario, al ser el mismo usuario en cada iteracion.
-        '                                                                                                .Nombre = nodo.Usuario.Nombre,
-        '                                                                                                .Apellido = nodo.Usuario.Apellido,
-        '                                                                                                .EsAdmin = nodo.Usuario.EsAdmin,
-        '                                                                                                .User = nodo.Usuario.User,
-        '                                                                                                .Pass = nodo.Usuario.Pass}
-        '                            })
-        '        Next
-        '        Return Me.Ok(listNodoDto)
+                For Each lectura As Lectura In listLecturas
+                    listLecturaDto.Add(New Models.LecturaDTO With {.ID = lectura.ID,
+                                                                .Irms = lectura.Irms,
+                                                                .Watt = lectura.Watt,
+                                                                .Kwh = lectura.Kwh,
+                                                                .Precio = lectura.Precio,
+                                                                .FechaHora = lectura.FechaHora,
+                                                                .FechaHoraUTC = lectura.FechaHora.ToUniversalTime,
+                                                                .FechaHoraString = lectura.FechaHora.ToString,
+                                                                .Nodo = New Models.NodoDTO With {.ID = lectura.Nodo.ID,
+                                                                                                    .Nombre = lectura.Nodo.Nombre,
+                                                                                                    .TipoStr = lectura.Nodo.Tipo.ToString,
+                                                                                                    .Estado = lectura.Nodo.Estado,
+                                                                                                    .Voltaje = lectura.Nodo.Voltaje}
+                                    })
+                Next
+                Return Me.Ok(listLecturaDto)
 
-        '    Catch ex As Exception
-        '        Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
-        '    Finally
-        '        db.Dispose()
-        '    End Try
-        'End Function
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+        End Function
 
     End Class
 End Namespace

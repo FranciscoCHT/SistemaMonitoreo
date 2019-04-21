@@ -26,9 +26,9 @@ namespace Nodos {
             formData.Usuario = "";
         };
 
-        getNodosByUser(user: any): void {
+        getNodosByUser(user: any, sect: any): void {
             this.nodos([]);
-            let url = 'api/nodos/' + user;
+            let url = 'api/nodos/' + sect + '/' + user;
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -135,7 +135,7 @@ namespace Nodos {
             }).done((data: any) => {
                 DevExpress.ui.notify("Datos guardados correctamente.", "success", 2000);
                 $('#form-nodos').dxForm('instance').resetValues();
-                this.getNodosByUser(window.localStorage.getItem('user'));
+                this.getNodosByUser(window.localStorage.getItem('user'), -1);
                 let grid = $('#grid-nodos').dxDataGrid('instance');
                 // this.limpiarForm();
                 this.enable(true);
@@ -164,7 +164,7 @@ namespace Nodos {
         constructor() {
             this.getUsuarios();
             this.getSectores();
-            this.getNodosByUser(window.localStorage.getItem('user'));
+            this.getNodosByUser(window.localStorage.getItem('user'), -1);
             $.getJSON('api/nodos/tipos').then((result: any): void => {
                 for (var i: number = 0; i < result.tipoNodo.length; i++) {
                     this.tipoNodos.push({
