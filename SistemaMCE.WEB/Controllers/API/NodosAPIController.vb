@@ -170,6 +170,8 @@ Namespace Controllers.API
                                                                 .Kwh = lectura.Kwh,
                                                                 .Precio = lectura.Precio,
                                                                 .FechaHora = lectura.FechaHora,
+                                                                .Mes = lectura.FechaHora.Month,
+                                                                .Año = lectura.FechaHora.Year,
                                                                 .FechaHoraUTC = lectura.FechaHora.ToUniversalTime,
                                                                 .FechaHoraString = lectura.FechaHora.ToString,
                                                                 .Nodo = New Models.NodoDTO With {.ID = lectura.Nodo.ID,

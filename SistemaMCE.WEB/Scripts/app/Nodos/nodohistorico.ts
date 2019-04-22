@@ -233,6 +233,7 @@ namespace Nodos {
 
         nodoFilter: any = {
             dataSource: this.nodos,
+            width: "auto",
             placeholder: "Seleccione nodo a visualizar...",
             displayExpr: 'Nombre',
             valueExpr: 'ID',
@@ -241,12 +242,19 @@ namespace Nodos {
                 this.idNodo(e.itemData.ID);
                 let chartHist = $('#chartHist').dxChart('instance');
                 let chartDataSource = chartHist.option('dataSource');
+                //let mas = this.mes(); //Hacer un SELECTBOX CON YEAR, luego al click, guardar el year en un observable, y despues un selectbox con seleccionar Mes, al hacer click, pasar el valor al filter y el year observable.
+                //let year = this.year();
+                //chartHist.option('dataSource', new DevExpress.data.DataSource({ //ME SERVIRÁ PARA PODER HACER UN FILTRO SELECCIONANDO UN MES Y CAMBIAR EL MES DE LOS GRAFICOS filter: [['Mes', '=', '3']]
+                //    store: this.customStore,
+                //    filter: [['Mes', '=', mas], "and", ['Año', '=', year]]
+                //}));
                 chartDataSource.load();
             }
         }
 
         sectFilter: any = {
             dataSource: this.sectores,
+            width: "auto",
             placeholder: "Seleccione sector de nodos...",
             displayExpr: 'Nombre',
             valueExpr: 'ID',
@@ -266,7 +274,8 @@ namespace Nodos {
                 $.getJSON(window.location.origin + '/api/nodos/lectura/' + this.idNodo()).done((data) => {
                     for (var i: number = 0; i < data.length; i++) {
                         data[i].FechaHoraUTC = Date.parse(data[i].FechaHoraUTC);
-                        data[i].FechaHoraString = new Date(data[i].FechaHora).toUTCString().slice(0, -7);
+                        let dateString = new Date(data[i].FechaHora).toString().split(" GMT");
+                        data[i].FechaHoraString = dateString[0].slice(0, -3);
                     }
                     // Perform filtering on client side
                     var query = DevExpress.data.query(data);
@@ -283,10 +292,10 @@ namespace Nodos {
             palette: "Dark Violet",
             dataSource: new DevExpress.data.DataSource({
                 store: this.customStore,
-                filter: [['FechaHoraUTC', '<=', Date.parse(new Date().toUTCString())], "and", ['FechaHoraUTC', '>=', Date.parse(new Date().toUTCString()) - 86400000*25]]
+                filter: [['FechaHoraUTC', '<=', Date.parse(new Date().toUTCString())], "and", ['FechaHoraUTC', '>=', Date.parse(new Date().toUTCString()) - 86400000*21]]
             }),
             commonSeriesSettings: {
-                argumentField: "FechaHoraString"
+                argumentField: "FechaHora"
             },
             margin: {
                 bottom: 20
@@ -294,16 +303,43 @@ namespace Nodos {
             argumentAxis: {
                 valueMarginsEnabled: false,
                 discreteAxisDivisionMode: "crossLabels",
+                argumentType: "datetime",
+                aggregationInterval: "day",
                 grid: {
                     visible: true
                 },
                 label: {
                     overlappingBehavior: "rotate",
-                    rotationAngle: "-60"
-                }
+                    rotationAngle: "-60",
+                    format: (FechaHora) => {
+                        var weekday = new Array(7);
+                        weekday[0] = "Domingo";
+                        weekday[1] = "Lunes";
+                        weekday[2] = "Martes";
+                        weekday[3] = "Miercoles";
+                        weekday[4] = "Jueves";
+                        weekday[5] = "Viernes";
+                        weekday[6] = "Sabado";
+                        return weekday[FechaHora.getDay()];
+                    }
+                },
+                tickInterval: { days: 1 }
             },
             series: [
-                { valueField: "Kwh", name: "Kwh" }
+                {
+                    axis: "Kwh",
+                    color: "#e91e63",
+                    valueField: "Kwh",
+                    point: {
+                        size: 7
+                    },
+                    type: "bar",
+                    aggregation: {
+                        enabled: true,
+                        method: "sum"
+                    },
+                    name: "Kilowatt por Hora"
+                }
             ],
             legend: {
                 verticalAlignment: "bottom",
@@ -311,9 +347,9 @@ namespace Nodos {
                 itemTextPosition: "bottom"
             },
             title: {
-                text: "Energy Consumption in 2004",
+                text: "Consumo eléctrico esta semana",
                 subtitle: {
-                    text: "(Millions of Tons, Oil Equivalent)"
+                    text: "(Kilowatt por hora, día equivalente)"
                 }
             },
             "export": {
@@ -322,9 +358,11 @@ namespace Nodos {
             tooltip: {
                 enabled: true,
                 customizeTooltip: function (arg) {
+                    var options = { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric" };
+                    let slice = arg.argument.toLocaleString("es-ES", options).slice(0, -2);
                     return {
-                        text: arg.valueText
-                    };
+                        text: "Fecha: " + slice + "<br/>" + "KwH: " + arg.value
+                    }
                 }
             }
         }
