@@ -477,6 +477,9 @@ desired effect
         else if (window.location.pathname.split('/').slice(-1)[0] == "ConsumoHistorico") {
             titulo = "Consumo Historico";
         }
+        else if (window.location.pathname.split('/').slice(-1)[0] == "ConsumoActual") {
+            titulo = "Consumo Actual";
+        }
         document.title = "Sistema MCE | " + titulo;
         //document.getElementById("titulo").innerHTML = window.location.pathname.split('/').slice(-1)[0];
 

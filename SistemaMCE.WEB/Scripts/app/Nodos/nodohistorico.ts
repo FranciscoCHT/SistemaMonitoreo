@@ -171,6 +171,13 @@ namespace Nodos {
         //    );
         //}
 
+        getLastWeek() {
+            var today = new Date();
+            today.setDate(today.getDate() - 22);
+            var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            return lastWeek;
+        }
+
         getNodosByUser(user: any, sect: any): void {
             this.nodos([]);
             let url = window.location.origin + '/api/nodos/' + sect + '/' + user;
@@ -191,12 +198,13 @@ namespace Nodos {
                     });
                 }
                 this.idNodo(data[0].ID);
-                let chartHist = $('#chartHist').dxChart('instance');
-                let chartDataSource = chartHist.option('dataSource');
-                chartDataSource.load();
-                let nodoFilterIns = $('#selectNodo').dxSelectBox('instance');
-                nodoFilterIns.option('value', this.idNodo());
-                //let chartHist = $('#chartHist').dxChart('instance');
+                let chartHist = $('#chartHist').dxChart('instance');            //
+                let chartDataSource = chartHist.option('dataSource');           //  Esto recarga el datasource, lo que hace que se consulte de nuevo la lectura, con el nuevo IDNODO
+                chartDataSource.load();                                         //
+
+                let nodoFilterIns = $('#selectNodo').dxSelectBox('instance');       //
+                nodoFilterIns.option('value', this.idNodo());                       //  Esto pone el valor del filtro en el IDNODO actual
+                //let chartHist = $('#chartHist').dxChart('instance'); 
                 //let ds = chartHist.option('dataSource')
                 //chartHist.option('dataSource', ds);
             }).fail((data: any) => {
@@ -273,9 +281,10 @@ namespace Nodos {
                 var defer = $.Deferred();
                 $.getJSON(window.location.origin + '/api/nodos/lectura/' + this.idNodo()).done((data) => {
                     for (var i: number = 0; i < data.length; i++) {
-                        data[i].FechaHoraUTC = Date.parse(data[i].FechaHoraUTC);
-                        let dateString = new Date(data[i].FechaHora).toString().split(" GMT");
-                        data[i].FechaHoraString = dateString[0].slice(0, -3);
+                        data[i].FechaHoraJS = new Date(data[i].FechaHora);
+                        //data[i].FechaHoraUTC = Date.parse(data[i].FechaHoraUTC);                  // Esto para filtrar con date en milisegundos. Es con UTC ya que el date parse solo se puede con UTC String
+                        //let dateString = new Date(data[i].FechaHora).toString().split(" GMT");
+                        //data[i].FechaHoraString = dateString[0].slice(0, -3);
                     }
                     // Perform filtering on client side
                     var query = DevExpress.data.query(data);
@@ -287,12 +296,12 @@ namespace Nodos {
                 return defer.promise();
             }
         })
-
+        
         chartHist: any = {
             palette: "Dark Violet",
             dataSource: new DevExpress.data.DataSource({
-                store: this.customStore,
-                filter: [['FechaHoraUTC', '<=', Date.parse(new Date().toUTCString())], "and", ['FechaHoraUTC', '>=', Date.parse(new Date().toUTCString()) - 86400000*21]]
+                store: this.customStore,                                // v Esto para filtrar con date en milisegundos. v
+                filter: [['FechaHoraJS', '>=', this.getLastWeek()]]     //['FechaHoraUTC', '<=', Date.parse(new Date().toUTCString())], "and", ['FechaHoraUTC', '>=', Date.parse(new Date().toUTCString()) - 86400000*21]
             }),
             commonSeriesSettings: {
                 argumentField: "FechaHora"
@@ -301,7 +310,7 @@ namespace Nodos {
                 bottom: 20
             },
             argumentAxis: {
-                valueMarginsEnabled: false,
+                //valueMarginsEnabled: false,
                 discreteAxisDivisionMode: "crossLabels",
                 argumentType: "datetime",
                 aggregationInterval: "day",
