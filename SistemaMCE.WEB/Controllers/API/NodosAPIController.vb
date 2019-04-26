@@ -147,17 +147,48 @@ Namespace Controllers.API
         End Function
 
         <HttpGet>
-        <Route("lectura/{idNodo}", Name:="GetLecturas")>
-        Public Function GetLecturas(idNodo As Integer) As IHttpActionResult
+        <Route("lectura/{user}/{idSector}/{idNodo}", Name:="GetLecturas")>
+        Public Function GetLecturas(user As String, idSector As Integer, idNodo As Integer) As IHttpActionResult
 
             Dim db As New MCEContext
             Try
                 Dim listLecturas As List(Of Lectura) = Nothing
-                'Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = User).SingleOrDefault()
+                Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = user).SingleOrDefault()
                 'If usuarioAdmin.EsAdmin = True Then
                 ' listNodos = db.Nodos.ToList()
                 'Else
-                listLecturas = db.Lecturas.Where(Function(l) l.Nodo.ID = idNodo).ToList()
+
+                If usuarioAdmin.EsAdmin = True Then
+                    If idSector < 0 Then
+                        If idNodo < 0 Then
+                            listLecturas = db.Lecturas.ToList()
+                        Else
+                            listLecturas = db.Lecturas.Where(Function(l) l.Nodo.ID = idNodo).ToList()
+                        End If
+                    Else
+                        If idNodo < 0 Then
+                            listLecturas = db.Lecturas.Where(Function(l) l.Nodo.Sector.ID = idSector).ToList()
+                        Else
+                            listLecturas = db.Lecturas.Where(Function(l) l.Nodo.ID = idNodo).ToList()
+                        End If
+                    End If
+                Else
+                    If idSector < 0 Then
+                        If idNodo < 0 Then
+                            listLecturas = db.Lecturas.Where(Function(l) l.Nodo.Usuario.User = user).ToList()
+                        Else
+                            listLecturas = db.Lecturas.Where(Function(l) l.Nodo.ID = idNodo).ToList()
+                        End If
+                    Else
+                        If idNodo < 0 Then
+                            listLecturas = db.Lecturas.Where(Function(l) l.Nodo.Usuario.User = user And l.Nodo.Sector.ID = idSector).ToList()
+                        Else
+                            listLecturas = db.Lecturas.Where(Function(l) l.Nodo.ID = idNodo).ToList()
+                        End If
+                    End If
+                End If
+
+                'listLecturas = db.Lecturas.Where(Function(l) l.Nodo.ID = idNodo).ToList()
                 'End If
 
                 If listLecturas Is Nothing OrElse listLecturas.Count = 0 Then Return Me.Ok(New List(Of Models.LecturaDTO))

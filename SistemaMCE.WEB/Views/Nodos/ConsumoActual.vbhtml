@@ -37,6 +37,15 @@ End Code
         </div>
     </div>
 
+    <div class="" style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 5em;-webkit-column-rule: 1px dotted #ddd;">
+        <div style="" id="gaugeDiaActual" data-bind="dxCircularGauge: gaugeDiaActual"></div>
+        <div style="" id="gaugeLecturaActual" data-bind="dxCircularGauge: gaugeLecturaActual"></div>
+    </div>
+
+    <div class="" style="">
+    </div>
+    <div class="dx-field">
+    </div>
     <div class="dx-field">
         <div id="chartHist" data-bind="dxChart: chartHist"></div>
     </div>

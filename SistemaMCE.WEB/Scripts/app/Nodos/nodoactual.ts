@@ -6,9 +6,13 @@ namespace Nodos {
     'use strict'
     export class NodoActualIndexViewModel {
 
-        //UNA MANERA DE HACERLO ES SACAR EL DATENOW POR JAVASCRIPT Y LUEGO SACAR EL GETDAY GETMONTH GETYEAR, PARA ASI DATASOURCE FILTER POR DAY = GETDAY MONTH=GETMONTH... ETC, SI NO, LLAMADA AJAX A UN METODO API CON PARAMETROS DIA MES Y AÑO
-
         public lectura: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public kwhDia: KnockoutObservable<number> = ko.observable<number>(0);
+        public maxDia: KnockoutObservable<number> = ko.observable<number>(0);
+        public minDia: KnockoutObservable<number> = ko.observable<number>(0);
+        public avgDia: KnockoutObservable<number> = ko.observable<number>(0);
+        public lastLectura: KnockoutObservable<number> = ko.observable<number>(0);
+        public lastNodo: KnockoutObservable<any> = ko.observable<any>();
         public nodos: KnockoutObservableArray<any> = ko.observableArray<any>();
         public idNodo: KnockoutObservable<any> = ko.observable<any>(-1);
         public idSector: KnockoutObservable<any> = ko.observable<any>(-1);
@@ -22,10 +26,45 @@ namespace Nodos {
 
         getLastWeek() {
             var today = new Date();
-            today.setDate(today.getDate() - 22);
+            today.setDate(today.getDate() - 40);
             var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             return lastWeek;
         }
+
+        reloadChartLastWeek() {
+            let chartHist = $('#chartHist').dxChart('instance');            //
+            let chartDataSource = chartHist.option('dataSource');           //  Esto recarga el datasource, lo que hace que se consulte de nuevo la lectura, con el nuevo IDNODO
+            chartDataSource.load();                                         //
+        }
+
+        updateNodoFilter() {
+            let nodoFilterIns = $('#selectNodo').dxSelectBox('instance');       //
+            nodoFilterIns.option('value', this.idNodo());                       //  Esto pone el valor del filtro en el IDNODO actual
+        }
+
+        updateGaugeDia() {
+            let gaugeDiaActual = $('#gaugeDiaActual').dxCircularGauge('instance');       //
+            gaugeDiaActual.option("value", this.kwhDia());                               //  Esto pone el valor del gauge en el valor diario calculado
+            if (this.idNodo() == -1) {
+                gaugeDiaActual.option('scale.endValue', 20);
+                gaugeDiaActual.option('scale.tickInterval', 5);
+                gaugeDiaActual.option('scale.minorTickInterval', 1);
+                //gaugeDiaActual.option('subvalues', [this.minDia(), this.maxDia()]);
+            } else {
+                gaugeDiaActual.option('scale.endValue', 10);
+                gaugeDiaActual.option('scale.tickInterval', 1);
+                gaugeDiaActual.option('scale.minorTickInterval', 0.1);
+                //gaugeDiaActual.option('subvalues', [this.minDia(), this.maxDia()]);
+            }
+        }
+
+        updateGaugeLastLectura() {
+            let gaugeLecturaActual = $('#gaugeLecturaActual').dxCircularGauge('instance');       //
+            gaugeLecturaActual.option("value", this.lastLectura());                               //  Esto pone el valor del gauge en el valor diario calculado
+            gaugeLecturaActual.option('subvalues', [this.minDia(), this.maxDia()]);
+        }
+
+        // PODRÍA INCLUIR UN SWITCH QUE AL PONERLO EN ON LOS VALORES MIN Y MAX DE LOS GAUGES (CAMBIANDOLE EL VALUE POR INSTANCE) SE ADAPTEN DE ACUERDO A UN PROMEDIO DE SU CONSUMO HISTORICO (PROMEDIO DE LOS MAX VALUES - PROMEDIO DE LOS MIN VALUES) Y AL PONER OFF SE PONGAN LOS VALORES DEFECTOS DE CHILE.
 
         getNodosByUser(user: any, sect: any): void {
             this.nodos([]);
@@ -34,25 +73,29 @@ namespace Nodos {
                 type: 'GET',
                 url: url,
             }).done((data: any) => {
+                this.nodos.push({
+                    ID: -1,
+                    Nombre: 'Todos'
+                });
                 for (var i: number = 0; i < data.length; i++) {
-                    this.nodos.push({
-                        ID: data[i].ID,
-                        Nombre: data[i].Nombre,
-                        Tipo: data[i].Tipo,
-                        TipoStr: data[i].TipoStr,
-                        Estado: data[i].Estado,
-                        Voltaje: data[i].Voltaje,
-                        Sector: data[i].Sector,
-                        Usuario: data[i].Usuario
-                    });
+                    if (data[i].TipoStr == "Monitoreo") {
+                        this.nodos.push({
+                            ID: data[i].ID,
+                            Nombre: data[i].Nombre,
+                            Tipo: data[i].Tipo,
+                            TipoStr: data[i].TipoStr,
+                            Estado: data[i].Estado,
+                            Voltaje: data[i].Voltaje,
+                            Sector: data[i].Sector,
+                            Usuario: data[i].Usuario
+                        });
+                    }
                 }
-                this.idNodo(data[0].ID);
-                let chartHist = $('#chartHist').dxChart('instance');            //
-                let chartDataSource = chartHist.option('dataSource');           //  Esto recarga el datasource, lo que hace que se consulte de nuevo la lectura, con el nuevo IDNODO
-                chartDataSource.load();                                         //
-
-                let nodoFilterIns = $('#selectNodo').dxSelectBox('instance');       //
-                nodoFilterIns.option('value', this.idNodo());                       //  Esto pone el valor del filtro en el IDNODO actual
+                this.idNodo(this.nodos()[0].ID);
+                this.reloadChartLastWeek();
+                this.updateGaugeDia();
+                this.updateGaugeLastLectura();
+                this.updateNodoFilter();
                 //let chartHist = $('#chartHist').dxChart('instance'); 
                 //let ds = chartHist.option('dataSource')
                 //chartHist.option('dataSource', ds);
@@ -91,13 +134,36 @@ namespace Nodos {
         public customStore = new DevExpress.data.CustomStore({
             load: (loadOptions: any) => {
                 var defer = $.Deferred();
-                $.getJSON(window.location.origin + '/api/nodos/lectura/' + this.idNodo()).done((data) => {
+                $.getJSON(window.location.origin + '/api/nodos/lectura/' + window.localStorage.getItem('user') + '/' + this.idSector() + '/' + this.idNodo()).done((data) => {
+                    let dateactual = new Date();
+                    this.lastLectura(0);
+                    let sumKwhDia = 0;
+                    let maxDia = 0;
+                    let minDia = 100;
                     for (var i: number = 0; i < data.length; i++) {
                         data[i].FechaHoraJS = new Date(data[i].FechaHora);
+                        if (data[i].Dia == 24 && data[i].Mes == 3 && data[i].Año == 2019) { //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                            sumKwhDia = sumKwhDia + data[i].Kwh
+                            if (data[i].Kwh > maxDia) {
+                                maxDia = data[i].Kwh;
+                            }
+                            if (data[i].Kwh < minDia) {
+                                minDia = data[i].Kwh;
+                            }
+                            this.lastLectura(data[i].Kwh);
+                            this.lastNodo(data[i].Nodo.Nombre);
+                        }
                         //data[i].FechaHoraUTC = Date.parse(data[i].FechaHoraUTC);                  // Esto para filtrar con date en milisegundos. Es con UTC ya que el date parse solo se puede con UTC String
                         //let dateString = new Date(data[i].FechaHora).toString().split(" GMT");
                         //data[i].FechaHoraString = dateString[0].slice(0, -3);
                     }
+                    this.kwhDia(Math.round(sumKwhDia * 1e12) / 1e12);
+                    this.avgDia((Math.round(sumKwhDia * 1e12) / 1e12) / data.length);
+                    this.maxDia(maxDia);
+                    this.minDia(minDia);
+                    //this.lastLectura(data[i-1].Kwh);
+                    this.updateGaugeDia();
+                    this.updateGaugeLastLectura();
                     // Perform filtering on client side
                     var query = DevExpress.data.query(data);
                     if (loadOptions.filter) {
@@ -118,15 +184,14 @@ namespace Nodos {
             value: this.idNodo(),
             onItemClick: (e) => {
                 this.idNodo(e.itemData.ID);
-                let chartHist = $('#chartHist').dxChart('instance');
-                let chartDataSource = chartHist.option('dataSource');
+                this.reloadChartLastWeek();
+                this.updateGaugeDia();
                 //let mas = this.mes(); //Hacer un SELECTBOX CON YEAR, luego al click, guardar el year en un observable, y despues un selectbox con seleccionar Mes, al hacer click, pasar el valor al filter y el year observable.
                 //let year = this.year();
                 //chartHist.option('dataSource', new DevExpress.data.DataSource({ //ME SERVIRÁ PARA PODER HACER UN FILTRO SELECCIONANDO UN MES Y CAMBIAR EL MES DE LOS GRAFICOS filter: [['Mes', '=', '3']]
                 //    store: this.customStore,
                 //    filter: [['Mes', '=', mas], "and", ['Año', '=', year]]
                 //}));
-                chartDataSource.load();
             }
         }
 
@@ -140,10 +205,117 @@ namespace Nodos {
             onItemClick: (e) => {
                 this.idSector(e.itemData.ID);
                 this.getNodosByUser(window.localStorage.getItem('user'), this.idSector());
-                //let chartHist = $('#chartHist').dxChart('instance');
-                //let chartDataSource = chartHist.option('dataSource');
-                //chartDataSource.load();
+                //this.reloadChartLastWeek();
             }
+        }
+
+        box: any = {
+        direction: "row",
+            width: "100%",
+            height: 75
+        };
+
+        gaugeDiaActual: any = {
+            //size: { width: "600" },
+            scale: {
+                startValue: 0, endValue: 20,
+                tick: {
+                    color: "#536878"
+                },
+                minorTick: {
+                    color: "#9c9c9c",
+                    visible: true
+                },
+                tickInterval: 5,
+                label: {
+                    indentFromTick: 3
+                }
+            },
+            rangeContainer: {
+                offset: 15,
+                width: 10,
+                ranges: [
+                    { startValue: 0, endValue: 10, color: "#77DD77" }, 
+                    { startValue: 10, endValue: 15, color: "#E6E200" },
+                    { startValue: 15, endValue: 20, color: "#ff0000" }
+                ]
+            },
+            valueIndicator: {
+                offset: 10,
+                type: "TriangleNeedle"
+            },
+            subvalueIndicator: {
+                offset: -25
+            },
+            title: {
+                text: "Consumo actual en el día<br>(KwH en el día)",
+                font: { size: 18 }
+            },
+            "export": {
+                enabled: true
+            },
+            tooltip: {
+                enabled: true,
+                customizeTooltip: (scaleValue) => {
+                    return {
+                        text: "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value
+                    }
+                }
+            },
+            value: this.kwhDia(),
+            //subvalues: [40, 90] //https://www.iea.org/statistics/?country=CHILE&year=2016&category=Energy%20consumption&indicator=ElecConsPerCapita&mode=chart&dataTable=INDICATORS
+        }
+
+        gaugeLecturaActual: any = {
+            //size: { width: '600' },
+            scale: {
+                startValue: 0, endValue: 0.35, //0 - 0.3    CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                tick: {
+                    color: "#536878"
+                },
+                minorTick: {
+                    color: "#9c9c9c",
+                    visible: true
+                },
+                tickInterval: 0.05,
+                label: {
+                    indentFromTick: 3
+                }
+            },
+            rangeContainer: {
+                offset: 15,
+                width: 10,
+                ranges: [
+                    { startValue: 0, endValue: 0.1, color: "#77DD77" },
+                    { startValue: 0.1, endValue: 0.2, color: "#E6E200" },
+                    { startValue: 0.2, endValue: 0.35, color: "#ff0000" }
+                ]
+            },
+            valueIndicator: {
+                offset: 10,
+                type: "TriangleNeedle"
+            },
+            subvalueIndicator: {
+                offset: -25
+            },
+            title: {
+                text: "Última lectura por nodo<br>(KwH ultima lectura)",
+                subtitle: { text: "Con indicadores de lectura mín y<br>máx del nodo selecionado (del día).", font: { size: 12, opacity: 0.8 }},
+                font: { size: 18 }
+            },
+            "export": {
+                enabled: true
+            },
+            tooltip: {
+                enabled: true,
+                customizeTooltip: (scaleValue) => {
+                    return {
+                        text: "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value
+                    }
+                }
+            },
+            value: this.lastLectura(),
+            //subvalues: [40, 90] //https://www.iea.org/statistics/?country=CHILE&year=2016&category=Energy%20consumption&indicator=ElecConsPerCapita&mode=chart&dataTable=INDICATORS
         }
 
         chartHist: any = {
@@ -159,7 +331,6 @@ namespace Nodos {
                 bottom: 20
             },
             argumentAxis: {
-                //valueMarginsEnabled: false,
                 discreteAxisDivisionMode: "crossLabels",
                 argumentType: "datetime",
                 aggregationInterval: "day",
@@ -215,11 +386,11 @@ namespace Nodos {
             },
             tooltip: {
                 enabled: true,
-                customizeTooltip: function (arg) {
+                customizeTooltip: (arg) => {
                     var options = { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric" };
                     let slice = arg.argument.toLocaleString("es-ES", options).slice(0, -2);
                     return {
-                        text: "Fecha: " + slice + "<br/>" + "KwH: " + arg.value
+                        text: "Fecha: " + slice + "<br/>" + "KwH: " + Math.round(arg.value * 1e12) / 1e12
                     }
                 }
             }
