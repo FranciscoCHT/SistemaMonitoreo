@@ -42,10 +42,6 @@ End Code
         <div style="" id="gaugeLecturaActual" data-bind="dxCircularGauge: gaugeLecturaActual"></div>
     </div>
 
-    <div class="" style="">
-    </div>
-    <div class="dx-field">
-    </div>
     <div class="dx-field">
         <div id="chartHist" data-bind="dxChart: chartHist"></div>
     </div>

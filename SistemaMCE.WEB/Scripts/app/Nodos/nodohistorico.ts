@@ -287,7 +287,6 @@ namespace Nodos {
                 var defer = $.Deferred();
                 $.getJSON(window.location.origin + '/api/nodos/lectura/' + window.localStorage.getItem('user') + '/' + this.idSector() + '/' + this.idNodo()).done((data) => {
                     let dateactual = new Date();
-                    this.lastLectura(0);
                     let sumKwhDia = 0;
                     let maxDia = 0;
                     let minDia = 100;
@@ -301,7 +300,6 @@ namespace Nodos {
                             if (data[i].Kwh < minDia) {
                                 minDia = data[i].Kwh;
                             }
-                            this.lastLectura(data[i].Kwh);
                             this.lastNodo(data[i].Nodo.Nombre);
                         }
                         //data[i].FechaHoraUTC = Date.parse(data[i].FechaHoraUTC);                  // Esto para filtrar con date en milisegundos. Es con UTC ya que el date parse solo se puede con UTC String

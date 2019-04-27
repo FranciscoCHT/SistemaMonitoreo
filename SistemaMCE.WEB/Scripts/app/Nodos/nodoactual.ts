@@ -137,6 +137,7 @@ namespace Nodos {
                 $.getJSON(window.location.origin + '/api/nodos/lectura/' + window.localStorage.getItem('user') + '/' + this.idSector() + '/' + this.idNodo()).done((data) => {
                     let dateactual = new Date();
                     this.lastLectura(0);
+                    let arrayLast: any = [];
                     let sumKwhDia = 0;
                     let maxDia = 0;
                     let minDia = 100;
@@ -150,18 +151,30 @@ namespace Nodos {
                             if (data[i].Kwh < minDia) {
                                 minDia = data[i].Kwh;
                             }
-                            this.lastLectura(data[i].Kwh);
+
+                            if (arrayLast.some(e => e.ID === data[i].Nodo.ID)) {                        // Este if buscara todos los ultimas lecturas de los nodos correspondientes y lo guardara en un array.
+                                arrayLast.forEach((item, x) => {                                        //
+                                    if (item.ID == data[i].Nodo.ID)                                     //
+                                        arrayLast[x] = { ID: data[i].Nodo.ID, Lectura: data[i].Kwh };   //
+                                });                                                                     //
+                            } else {                                                                    //
+                                arrayLast.push({ ID: data[i].Nodo.ID, Lectura: data[i].Kwh });          //
+                            }                                                                           //
+
                             this.lastNodo(data[i].Nodo.Nombre);
                         }
                         //data[i].FechaHoraUTC = Date.parse(data[i].FechaHoraUTC);                  // Esto para filtrar con date en milisegundos. Es con UTC ya que el date parse solo se puede con UTC String
                         //let dateString = new Date(data[i].FechaHora).toString().split(" GMT");
                         //data[i].FechaHoraString = dateString[0].slice(0, -3);
                     }
+                    arrayLast.forEach((item) => {
+                        let temp = this.lastLectura();
+                        this.lastLectura(temp + item.Lectura);
+                    });
                     this.kwhDia(Math.round(sumKwhDia * 1e12) / 1e12);
                     this.avgDia((Math.round(sumKwhDia * 1e12) / 1e12) / data.length);
                     this.maxDia(maxDia);
                     this.minDia(minDia);
-                    //this.lastLectura(data[i-1].Kwh);
                     this.updateGaugeDia();
                     this.updateGaugeLastLectura();
                     // Perform filtering on client side
