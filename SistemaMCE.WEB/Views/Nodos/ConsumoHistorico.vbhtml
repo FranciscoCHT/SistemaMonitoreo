@@ -18,22 +18,42 @@ End Code
 
 <div id="cuerpo" style="margin-bottom:70px; margin-top:20px;" class="dx-fieldset">
     <span class="dx-form-group-caption" style="color: #6a828e;">Seleccione sector/nodo:</span>
-    <div class="dx-field" style="display: flex; flex-direction: row; justify-content: flex-start; align-items: stretch; width: auto; height: auto; flex-basis: 0px; flex-grow: 1; border-top: 1px solid #7eb2be; border-bottom: 1px solid #7eb2be; padding-bottom: 16px;padding-top: 8px; margin-top: 6px;margin-bottom: 24px;">
-        <div class="dx-item dx-box-item dx-item-content dx-box-item-content" style="display: flex; min-width: auto; flex: 1 1 0px; width: auto;height: auto;flex-basis: 0px;flex-grow: 1;flex-direction: column; padding-right: 15px;">
-            <label class="dx-field-item-label dx-field-item-label-location-top" for="dx_dx-e344b929-29e2-9de5-484a-2570a7dd3fa5_Sector">
-                <span class="dx-field-item-label-content" style="width: 46px;">
-                    <span class="dx-field-item-label-text">Sector:</span>
-                </span>
-            </label>
-            <div id="selectSect" data-bind="dxSelectBox: sectFilter"></div>
+    <div class="" style="-webkit-column-count: 2;-webkit-column-width: 300px;-webkit-column-gap: 2em; border-top: 1px solid #7eb2be; border-bottom: 1px solid #7eb2be; padding-bottom: 16px;padding-top: 8px; margin-top: 6px; margin-bottom: 24px;">
+        <div style="-webkit-column-count: 2;-webkit-column-width: 150px;">
+            <div>
+                <label class="dx-field-item-label dx-field-item-label-location-top" for="dx_dx-e344b929-29e2-9de5-484a-2570a7dd3fa5_Sector">
+                    <span class="dx-field-item-label-content" style="width: 46px;">
+                        <span class="dx-field-item-label-text">Sector:</span>
+                    </span>
+                </label>
+                <div id="selectSect" data-bind="dxSelectBox: sectFilter" style="overflow:hidden;"></div>
+            </div>
+            <div>
+                <label class="dx-field-item-label dx-field-item-label-location-top" for="dx_dx-e344b929-29e2-9de5-484a-2570a7dd3fa5_Nodo">
+                    <span class="dx-field-item-label-content">
+                        <span class="dx-field-item-label-text">Nodo:</span>
+                    </span>
+                </label>
+                <div id="selectNodo" data-bind="dxSelectBox: nodoFilter" style="overflow:hidden;"></div>
+            </div>
         </div>
-        <div class="dx-item dx-box-item dx-item-content dx-box-item-content" style="display: flex; min-width: auto; flex: 1 1 0px; width: auto;height: auto;flex-basis: 0px;flex-grow: 1;flex-direction: column; padding-left: 15px;">
-            <label class="dx-field-item-label dx-field-item-label-location-top" for="dx_dx-e344b929-29e2-9de5-484a-2570a7dd3fa5_Nodo">
-                <span class="dx-field-item-label-content" style="width: 41px;">
-                    <span class="dx-field-item-label-text">Nodo:</span>
-                </span>
-            </label>
-            <div id="selectNodo" data-bind="dxSelectBox: nodoFilter"></div>
+        <div style="-webkit-column-count: 2;-webkit-column-width: 150px;">
+            <div>
+                <label class="dx-field-item-label dx-field-item-label-location-top" for="dx_dx-e344b929-29e2-9de5-484a-2570a7dd3fa5_Sector">
+                    <span class="dx-field-item-label-content" style="width: 46px;">
+                        <span class="dx-field-item-label-text">Mes:</span>
+                    </span>
+                </label>
+                <div id="selectMes" data-bind="dxSelectBox: mesFilter" style="overflow:hidden;"></div>
+            </div>
+            <div>
+                <label class="dx-field-item-label dx-field-item-label-location-top" for="dx_dx-e344b929-29e2-9de5-484a-2570a7dd3fa5_Nodo">
+                    <span class="dx-field-item-label-content" style="width: 41px;">
+                        <span class="dx-field-item-label-text">Año:</span>
+                    </span>
+                </label>
+                <div id="selectAño" data-bind="dxSelectBox: añoFilter" style="overflow:hidden;"></div>
+            </div>
         </div>
     </div>
 
@@ -42,14 +62,14 @@ End Code
         <div style="" id="gaugeLecturaActual" data-bind="dxCircularGauge: gaugeLecturaActual"></div>
     </div>
     <div class="dx-field">
-        <div id="chartHist" data-bind="dxChart: chartHist"></div>
+        <div id="chartYear" data-bind="dxChart: chartYear"></div>
     </div>
 
 </div>
 
-@section scripts
-    <script type="text/javascript" src="~/Scripts/app/Nodos/nodohistorico.js"></script>
-    <script>
-        ko.applyBindings(new Nodos.NodoHistoricoIndexViewModel());
-    </script>
-End Section
+    @section scripts
+        <script type="text/javascript" src="~/Scripts/app/Nodos/nodohistorico.js"></script>
+        <script>
+            ko.applyBindings(new Nodos.NodoHistoricoIndexViewModel());
+        </script>
+    End Section

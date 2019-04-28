@@ -6,146 +6,13 @@ namespace Nodos {
     'use strict'
     export class NodoHistoricoIndexViewModel {
 
-        //public lectura: KnockoutObservableArray<any> = ko.observableArray<any>();
-        //public nodos: KnockoutObservableArray<any> = ko.observableArray<any>();
-        //public idNodo: KnockoutObservable<any> = ko.observable<any>(-1);
-        //public tipoNodos: KnockoutObservableArray<any> = ko.observableArray<any>();
-        //public nombreTipo: KnockoutObservable<any> = ko.observable<any>();
-        //public sectores: KnockoutObservableArray<any> = ko.observableArray<any>();
-        //public usuarios: KnockoutObservableArray<any> = ko.observableArray<any>();
-        //public enable: KnockoutObservable<boolean> = ko.observable(true);
-        //public idRow: KnockoutObservable<number> = ko.observable(0);
-        //public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
-
-        //getNodosByUser(user: any): void {
-        //    this.nodos([]);
-        //    let url = window.location.origin + '/api/nodos/' + user;
-        //    $.ajax({
-        //        type: 'GET',
-        //        url: url,
-        //    }).done((data: any) => {
-        //        for (var i: number = 0; i < data.length; i++) {
-        //            this.nodos.push({
-        //                ID: data[i].ID,
-        //                Nombre: data[i].Nombre,
-        //                Tipo: data[i].Tipo,
-        //                TipoStr: data[i].TipoStr,
-        //                Estado: data[i].Estado,
-        //                Voltaje: data[i].Voltaje,
-        //                Sector: data[i].Sector,
-        //                Usuario: data[i].Usuario
-        //            });
-        //        }
-        //        this.idNodo(data[1].ID);
-        //        this.dataSource.filter(["ID", "<", 50]);
-        //        //this.dataSource.load;
-        //        let chartHist = $('#chartHist').dxChart('instance');
-        //        let ds = chartHist.option('dataSource')
-        //        chartHist.option('dataSource', ds);
-        //    }).fail((data: any) => {
-        //        DevExpress.ui.notify(data.responseJSON, "error", 3000);
-        //    });
-        //}
-
-        //constructor() {
-        //    this.getNodosByUser(window.localStorage.getItem('user'));
-        //}
-
-        //public store = new DevExpress.data.CustomStore({
-        //    load: (loadOptions: any) => {
-        //        var defer = $.Deferred();
-        //        $.getJSON(window.location.origin + '/api/nodos/lectura/' + this.idNodo()).done(function (data) {
-
-        //            // Perform filtering on client side
-        //            var query = DevExpress.data.query(data);
-        //            if (loadOptions.filter) {
-        //                query = query.filter(loadOptions.filter);
-        //            }
-        //            defer.resolve(query.toArray());
-        //        });
-        //        return defer.promise();
-        //    }
-        //});
-
-        //public dataSource = new DevExpress.data.DataSource({
-        //    store: this.store
-        //})
-    
-        //chartHist: any = {
-        //    palette: "Violet",
-        //    dataSource: this.dataSource,
-        //    commonSeriesSettings: {
-        //        argumentField: "FechaHora"
-        //    },
-        //    margin: {
-        //        bottom: 20
-        //    },
-        //    argumentAxis: {
-        //        valueMarginsEnabled: false,
-        //        discreteAxisDivisionMode: "crossLabels",
-        //        grid: {
-        //            visible: true
-        //        }
-        //    },
-        //    series: [
-        //        { valueField: "Kwh", name: "Kwh" }
-        //    ],
-        //    legend: {
-        //        verticalAlignment: "bottom",
-        //        horizontalAlignment: "center",
-        //        itemTextPosition: "bottom"
-        //    },
-        //    title: {
-        //        text: "Energy Consumption in 2004",
-        //        subtitle: {
-        //            text: "(Millions of Tons, Oil Equivalent)"
-        //        }
-        //    },
-        //    "export": {
-        //        enabled: true
-        //    },
-        //    tooltip: {
-        //        enabled: true,
-        //        customizeTooltip: function (arg) {
-        //            return {
-        //                text: arg.valueText
-        //            };
-        //        }
-        //    }
-        //    //dataSource: [
-        //    //    {
-        //    //        "arg": "Monday",
-        //    //        "val": 3
-        //    //    },
-        //    //    {
-        //    //        "arg": "Tuesday",
-        //    //        "val": 2
-        //    //    },
-        //    //    {
-        //    //        "arg": "Wednesday",
-        //    //        "val": 3
-        //    //    },
-        //    //    {
-        //    //        "arg": "Thursday",
-        //    //        "val": 4
-        //    //    },
-        //    //    {
-        //    //        "arg": "Friday",
-        //    //        "val": 6
-        //    //    },
-        //    //    {
-        //    //        "arg": "Saturday",
-        //    //        "val": 11
-        //    //    },
-        //    //    {
-        //    //        "arg": "Sunday",
-        //    //        "val": 4
-        //    //    }
-        //    //],
-        //    //series: {}
-        //}
-
         public lectura: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public years: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public añoMes: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public yearSelect: KnockoutObservable<number> = ko.observable<number>(0);
+        public contador: KnockoutObservable<number> = ko.observable<number>(0);
+        public mesSelect: KnockoutObservable<any> = ko.observable<any>();
+        public meses: KnockoutObservableArray<any> = ko.observableArray<any>();
         public kwhDia: KnockoutObservable<number> = ko.observable<number>(0);
         public maxDia: KnockoutObservable<number> = ko.observable<number>(0);
         public minDia: KnockoutObservable<number> = ko.observable<number>(0);
@@ -184,13 +51,7 @@ namespace Nodos {
             return lastWeek;
         }
 
-        reloadChartLastWeek() {
-            let chartHist = $('#chartHist').dxChart('instance');            //
-            let chartDataSource = chartHist.option('dataSource');           //  Esto recarga el datasource, lo que hace que se consulte de nuevo la lectura, con el nuevo IDNODO
-            chartDataSource.load();                                         //
-        }
-
-        updateNodoFilter() {
+         updateNodoFilter() {
             let nodoFilterIns = $('#selectNodo').dxSelectBox('instance');       //
             nodoFilterIns.option('value', this.idNodo());                       //  Esto pone el valor del filtro en el IDNODO actual
         }
@@ -212,9 +73,39 @@ namespace Nodos {
         }
 
         updateGaugeLastLectura() {
-            let gaugeLecturaActual = $('#gaugeLecturaActual').dxCircularGauge('instance');       //
+            let gaugeLecturaActual = $('#gaugeLecturaActual').dxCircularGauge('instance');        //
             gaugeLecturaActual.option("value", this.lastLectura());                               //  Esto pone el valor del gauge en el valor diario calculado
             gaugeLecturaActual.option('subvalues', [this.minDia(), this.maxDia()]);
+        }
+
+        updateAñoFilter() {
+            let añoFilterIns = $('#selectAño').dxSelectBox('instance');       
+            añoFilterIns.option('value', this.yearSelect());
+        }
+
+        updateChartYear() {
+            let chartYear = $('#chartYear').dxChart('instance');
+            //let chartDataSource = chartYear.option('dataSource');        
+            //chartDataSource.load();
+            chartYear.option('dataSource', new DevExpress.data.DataSource({ 
+                store: this.customStore,
+                filter: ['Año', '=', this.yearSelect()]
+            }));
+        }
+
+        updateMesFilter() {
+            var mon = new Array(11);
+            this.meses([]);
+            mon[0] = "Enero"; mon[1] = "Febrero"; mon[2] = "Marzo"; mon[3] = "Abril"; mon[4] = "Mayo"; mon[5] = "Junio";
+            mon[6] = "Julio"; mon[7] = "Agosto"; mon[8] = "Septiembre"; mon[9] = "Octubre"; mon[10] = "Noviembre"; mon[11] = "Diciembre";
+            this.añoMes().forEach((item, x) => {
+                if (item.Año == this.yearSelect()) {
+                    this.meses.push({ Mes: item.Mes, MesStr: mon[item.Mes-1] });
+                    this.mesSelect(item.Mes);
+                }
+            });
+            let mesFilterIns = $('#selectMes').dxSelectBox('instance');       
+            mesFilterIns.option('value', this.mesSelect())
         }
 
         getNodosByUser(user: any, sect: any): void {
@@ -243,13 +134,14 @@ namespace Nodos {
                     }
                 }
                 this.idNodo(this.nodos()[0].ID);
-                this.reloadChartLastWeek();
+                //this.reloadChartLastWeek();
+                this.updateChartYear();
                 this.updateGaugeDia();
                 this.updateGaugeLastLectura();
                 this.updateNodoFilter();
-                //let chartHist = $('#chartHist').dxChart('instance'); 
-                //let ds = chartHist.option('dataSource')
-                //chartHist.option('dataSource', ds);
+                //let chartYear = $('#chartYear').dxChart('instance'); 
+                //let ds = chartYear.option('dataSource')
+                //chartYear.option('dataSource', ds);
             }).fail((data: any) => {
                 DevExpress.ui.notify(data.responseJSON, "error", 3000);
             });
@@ -287,32 +179,81 @@ namespace Nodos {
                 var defer = $.Deferred();
                 $.getJSON(window.location.origin + '/api/nodos/lectura/' + window.localStorage.getItem('user') + '/' + this.idSector() + '/' + this.idNodo()).done((data) => {
                     let dateactual = new Date();
+                    let dateayer = new Date();
+                    dateayer.setDate(dateayer.getDate() - 1);
+                    this.lastLectura(0);
+                    this.lastNodo("");
+                    //this.lastNodoMax("");
+                    //this.lastNodoMin("");
+                    let arrayLast: any = [];
                     let sumKwhDia = 0;
-                    let maxDia = 0;
-                    let minDia = 100;
+                    let sumKwhAyer = 0;
+                    this.maxDia(0);
+                    this.minDia(100);
                     for (var i: number = 0; i < data.length; i++) {
                         data[i].FechaHoraJS = new Date(data[i].FechaHora);
+
+                        if (!this.añoMes().some((e => e.Año === data[i].Año && e.Mes === data[i].Mes))) {
+                            this.añoMes.push({ Año: data[i].Año, Mes: data[i].Mes });
+                            var xd = this.añoMes();
+                            if (!this.years().some(e => e.Año === data[i].Año)) {
+                                this.years.push({ Año: data[i].Año });
+                            }
+                        }
+
                         if (data[i].Dia == 24 && data[i].Mes == 3 && data[i].Año == 2019) { //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
                             sumKwhDia = sumKwhDia + data[i].Kwh
-                            if (data[i].Kwh > maxDia) {
-                                maxDia = data[i].Kwh;
+                            //if (data[i].Kwh > this.maxDia()) {
+                            //    this.maxDia(data[i].Kwh);
+                            //    this.lastNodoMax(data[i].Nodo.Nombre);
+                            //}
+                            //if (data[i].Kwh < this.minDia()) {
+                            //    this.minDia(data[i].Kwh);
+                            //    this.lastNodoMin(data[i].Nodo.Nombre);
+                            //}
+
+                            //if (arrayLast.some(e => e.ID === data[i].Nodo.ID)) {                        // Este if buscara todos los ultimas lecturas de los nodos correspondientes y lo guardara en un array.
+                            //    arrayLast.forEach((item, x) => {                                        //
+                            //        if (item.ID == data[i].Nodo.ID)                                     //
+                            //            arrayLast[x] = { ID: data[i].Nodo.ID, Lectura: data[i].Kwh };   //
+                            //    });                                                                     //
+                            //} else {                                                                    //
+                            //    arrayLast.push({ ID: data[i].Nodo.ID, Lectura: data[i].Kwh });          //
+                            //}                                                                           //
+
+                            if (this.idNodo() != -1) {
+                                this.lastNodo(data[i].Nodo.Nombre);
+                            } else {
+                                this.lastNodo("Todos");
                             }
-                            if (data[i].Kwh < minDia) {
-                                minDia = data[i].Kwh;
-                            }
-                            this.lastNodo(data[i].Nodo.Nombre);
+                        }
+
+                        if (data[i].Dia == 23 && data[i].Mes == 3 && data[i].Año == 2019) {         //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                            sumKwhAyer = sumKwhAyer + data[i].Kwh                                   // Suma de los valores Kwh dia anterior
                         }
                         //data[i].FechaHoraUTC = Date.parse(data[i].FechaHoraUTC);                  // Esto para filtrar con date en milisegundos. Es con UTC ya que el date parse solo se puede con UTC String
                         //let dateString = new Date(data[i].FechaHora).toString().split(" GMT");
                         //data[i].FechaHoraString = dateString[0].slice(0, -3);
                     }
-                    this.kwhDia(Math.round(sumKwhDia * 1e12) / 1e12);
-                    this.avgDia((Math.round(sumKwhDia * 1e12) / 1e12) / data.length);
-                    this.maxDia(maxDia);
-                    this.minDia(minDia);
-                    //this.lastLectura(data[i-1].Kwh);
-                    this.updateGaugeDia();
-                    this.updateGaugeLastLectura();
+                    if (this.yearSelect() == 0) {
+                        this.yearSelect(data[i-1].Año);
+                    }
+                    if (this.contador() == 0) {
+                        this.updateChartYear();
+                        this.contador(1);
+                    }
+                    this.updateAñoFilter();
+                    this.updateMesFilter();
+                    //this.updateChartMes();
+                    //arrayLast.forEach((item) => {
+                    //    let temp = this.lastLectura();
+                    //    this.lastLectura(temp + item.Lectura);
+                    //});
+                    //this.kwhDia(Math.round(sumKwhDia * 1e12) / 1e12);
+                    //this.kwhDiaAyer(Math.round(sumKwhAyer * 1e12) / 1e12);
+                    //this.avgDia((Math.round(sumKwhDia * 1e12) / 1e12) / data.length);
+                    //this.updateGaugeDia();
+                    //this.updateGaugeLastLectura();
                     // Perform filtering on client side
                     var query = DevExpress.data.query(data);
                     if (loadOptions.filter) {
@@ -333,11 +274,11 @@ namespace Nodos {
             value: this.idNodo(),
             onItemClick: (e) => {
                 this.idNodo(e.itemData.ID);
-                this.reloadChartLastWeek();
+                this.updateChartYear();
                 this.updateGaugeDia();
                 //let mas = this.mes(); //Hacer un SELECTBOX CON YEAR, luego al click, guardar el year en un observable, y despues un selectbox con seleccionar Mes, al hacer click, pasar el valor al filter y el year observable.
                 //let year = this.year();
-                //chartHist.option('dataSource', new DevExpress.data.DataSource({ //ME SERVIRÁ PARA PODER HACER UN FILTRO SELECCIONANDO UN MES Y CAMBIAR EL MES DE LOS GRAFICOS filter: [['Mes', '=', '3']]
+                //chartYear.option('dataSource', new DevExpress.data.DataSource({ //ME SERVIRÁ PARA PODER HACER UN FILTRO SELECCIONANDO UN MES Y CAMBIAR EL MES DE LOS GRAFICOS filter: [['Mes', '=', '3']]
                 //    store: this.customStore,
                 //    filter: [['Mes', '=', mas], "and", ['Año', '=', year]]
                 //}));
@@ -358,11 +299,34 @@ namespace Nodos {
             }
         }
 
-        box: any = {
-            direction: "row",
-            width: "100%",
-            height: 75
-        };
+        mesFilter: any = {
+            dataSource: this.meses,
+            width: "auto",
+            placeholder: "Seleccione mes...",
+            displayExpr: 'MesStr',
+            valueExpr: 'Mes',
+            value: this.mesSelect(),
+            onItemClick: (e) => {
+                //this.idSector(e.itemData.ID);
+                //this.getNodosByUser(window.localStorage.getItem('user'), e.itemData.Año);
+                //this.reloadChartLastWeek();
+            }
+        }
+
+        añoFilter: any = {
+            dataSource: this.years,
+            width: "auto",
+            placeholder: "Seleccione año...",
+            displayExpr: 'Año',
+            valueExpr: 'Año',
+            value: this.yearSelect(),
+            onItemClick: (e) => {
+                this.yearSelect(e.itemData.Año);
+                this.updateMesFilter();
+                this.updateChartYear();
+                //this.reloadChartLastWeek();
+            }
+        }
 
         gaugeDiaActual: any = {
             //size: { width: "600" },
@@ -427,6 +391,7 @@ namespace Nodos {
                     visible: true
                 },
                 tickInterval: 0.05,
+                minorTickInterval: 0.01,
                 label: {
                     indentFromTick: 3
                 }
@@ -435,9 +400,9 @@ namespace Nodos {
                 offset: 15,
                 width: 10,
                 ranges: [
-                    { startValue: 0, endValue: 0.1, color: "#77DD77" },
-                    { startValue: 0.1, endValue: 0.2, color: "#E6E200" },
-                    { startValue: 0.2, endValue: 0.35, color: "#ff0000" }
+                    { startValue: 0, endValue: 0.15, color: "#77DD77" },
+                    { startValue: 0.15, endValue: 0.3, color: "#E6E200" },
+                    { startValue: 0.3, endValue: 0.5, color: "#ff0000" }
                 ]
             },
             valueIndicator: {
@@ -458,20 +423,26 @@ namespace Nodos {
             tooltip: {
                 enabled: true,
                 customizeTooltip: (scaleValue) => {
-                    return {
-                        text: "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value
-                    }
+                    //if (scaleValue.value == this.maxDia()) {
+                    //    return { text: "Nodo: " + this.lastNodoMax() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                    //}
+                    //else if (scaleValue.value == this.minDia()) {
+                    //    return { text: "Nodo: " + this.lastNodoMin() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                    //}
+                    //else {
+                        return { text: "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                    //}
                 }
             },
             value: this.lastLectura(),
             //subvalues: [40, 90] //https://www.iea.org/statistics/?country=CHILE&year=2016&category=Energy%20consumption&indicator=ElecConsPerCapita&mode=chart&dataTable=INDICATORS
         }
 
-        chartHist: any = {
+        chartYear: any = {
             palette: "Dark Violet",
             dataSource: new DevExpress.data.DataSource({
                 store: this.customStore,                                // v Esto para filtrar con date en milisegundos. v
-                filter: [['FechaHoraJS', '>=', this.getLastWeek()]]     //['FechaHoraUTC', '<=', Date.parse(new Date().toUTCString())], "and", ['FechaHoraUTC', '>=', Date.parse(new Date().toUTCString()) - 86400000*21]
+                filter: [['Año', '=', this.yearSelect()]]     //['FechaHoraUTC', '<=', Date.parse(new Date().toUTCString())], "and", ['FechaHoraUTC', '>=', Date.parse(new Date().toUTCString()) - 86400000*21]
             }),
             commonSeriesSettings: {
                 argumentField: "FechaHora"
@@ -482,7 +453,7 @@ namespace Nodos {
             argumentAxis: {
                 discreteAxisDivisionMode: "crossLabels",
                 argumentType: "datetime",
-                aggregationInterval: "day",
+                aggregationInterval: "month",
                 grid: {
                     visible: true
                 },
@@ -490,18 +461,23 @@ namespace Nodos {
                     overlappingBehavior: "rotate",
                     rotationAngle: "-60",
                     format: (FechaHora) => {
-                        var weekday = new Array(7);
-                        weekday[0] = "Domingo";
-                        weekday[1] = "Lunes";
-                        weekday[2] = "Martes";
-                        weekday[3] = "Miercoles";
-                        weekday[4] = "Jueves";
-                        weekday[5] = "Viernes";
-                        weekday[6] = "Sabado";
-                        return weekday[FechaHora.getDay()];
+                        var month = new Array(12);
+                        month[0] = "Enero";
+                        month[1] = "Febrero";
+                        month[2] = "Marzo";
+                        month[3] = "Abril";
+                        month[4] = "Mayo";
+                        month[5] = "Junio";
+                        month[6] = "Julio";
+                        month[7] = "Agosto";
+                        month[8] = "Septiembre";
+                        month[9] = "Octubre";
+                        month[10] = "Noviembre";
+                        month[11] = "Diciembre";
+                        return month[FechaHora.getMonth()];
                     }
                 },
-                tickInterval: { days: 1 }
+                tickInterval: 'month'
             },
             series: [
                 {

@@ -8,11 +8,14 @@ namespace Nodos {
 
         public lectura: KnockoutObservableArray<any> = ko.observableArray<any>();
         public kwhDia: KnockoutObservable<number> = ko.observable<number>(0);
+        public kwhDiaAyer: KnockoutObservable<number> = ko.observable<number>(0);
         public maxDia: KnockoutObservable<number> = ko.observable<number>(0);
         public minDia: KnockoutObservable<number> = ko.observable<number>(0);
         public avgDia: KnockoutObservable<number> = ko.observable<number>(0);
         public lastLectura: KnockoutObservable<number> = ko.observable<number>(0);
         public lastNodo: KnockoutObservable<any> = ko.observable<any>();
+        public lastNodoMax: KnockoutObservable<any> = ko.observable<any>();
+        public lastNodoMin: KnockoutObservable<any> = ko.observable<any>();
         public nodos: KnockoutObservableArray<any> = ko.observableArray<any>();
         public idNodo: KnockoutObservable<any> = ko.observable<any>(-1);
         public idSector: KnockoutObservable<any> = ko.observable<any>(-1);
@@ -45,6 +48,7 @@ namespace Nodos {
         updateGaugeDia() {
             let gaugeDiaActual = $('#gaugeDiaActual').dxCircularGauge('instance');       //
             gaugeDiaActual.option("value", this.kwhDia());                               //  Esto pone el valor del gauge en el valor diario calculado
+            gaugeDiaActual.option('subvalues', [this.kwhDiaAyer()]);                     //  Esto pone el subvalor del gauge en el valor total del dia anterior calculado
             if (this.idNodo() == -1) {
                 gaugeDiaActual.option('scale.endValue', 20);
                 gaugeDiaActual.option('scale.tickInterval', 5);
@@ -59,9 +63,14 @@ namespace Nodos {
         }
 
         updateGaugeLastLectura() {
-            let gaugeLecturaActual = $('#gaugeLecturaActual').dxCircularGauge('instance');       //
+            let gaugeLecturaActual = $('#gaugeLecturaActual').dxCircularGauge('instance');        //
             gaugeLecturaActual.option("value", this.lastLectura());                               //  Esto pone el valor del gauge en el valor diario calculado
             gaugeLecturaActual.option('subvalues', [this.minDia(), this.maxDia()]);
+            if (this.idNodo() == -1) {
+                gaugeLecturaActual.option('scale.endValue', 0.5);
+            } else {
+                gaugeLecturaActual.option('scale.endValue', 0.35);
+            }
         }
 
         // PODRÍA INCLUIR UN SWITCH QUE AL PONERLO EN ON LOS VALORES MIN Y MAX DE LOS GAUGES (CAMBIANDOLE EL VALUE POR INSTANCE) SE ADAPTEN DE ACUERDO A UN PROMEDIO DE SU CONSUMO HISTORICO (PROMEDIO DE LOS MAX VALUES - PROMEDIO DE LOS MIN VALUES) Y AL PONER OFF SE PONGAN LOS VALORES DEFECTOS DE CHILE.
@@ -136,20 +145,28 @@ namespace Nodos {
                 var defer = $.Deferred();
                 $.getJSON(window.location.origin + '/api/nodos/lectura/' + window.localStorage.getItem('user') + '/' + this.idSector() + '/' + this.idNodo()).done((data) => {
                     let dateactual = new Date();
+                    let dateayer = new Date();
+                    dateayer.setDate(dateayer.getDate() - 1);
                     this.lastLectura(0);
+                    this.lastNodo("");
+                    this.lastNodoMax("");
+                    this.lastNodoMin("");
                     let arrayLast: any = [];
                     let sumKwhDia = 0;
-                    let maxDia = 0;
-                    let minDia = 100;
+                    let sumKwhAyer = 0;
+                    this.maxDia(0);
+                    this.minDia(100);
                     for (var i: number = 0; i < data.length; i++) {
                         data[i].FechaHoraJS = new Date(data[i].FechaHora);
                         if (data[i].Dia == 24 && data[i].Mes == 3 && data[i].Año == 2019) { //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
                             sumKwhDia = sumKwhDia + data[i].Kwh
-                            if (data[i].Kwh > maxDia) {
-                                maxDia = data[i].Kwh;
+                            if (data[i].Kwh > this.maxDia()) {
+                                this.maxDia(data[i].Kwh);
+                                this.lastNodoMax(data[i].Nodo.Nombre);
                             }
-                            if (data[i].Kwh < minDia) {
-                                minDia = data[i].Kwh;
+                            if (data[i].Kwh < this.minDia()) {
+                                this.minDia(data[i].Kwh);
+                                this.lastNodoMin(data[i].Nodo.Nombre);
                             }
 
                             if (arrayLast.some(e => e.ID === data[i].Nodo.ID)) {                        // Este if buscara todos los ultimas lecturas de los nodos correspondientes y lo guardara en un array.
@@ -161,7 +178,15 @@ namespace Nodos {
                                 arrayLast.push({ ID: data[i].Nodo.ID, Lectura: data[i].Kwh });          //
                             }                                                                           //
 
-                            this.lastNodo(data[i].Nodo.Nombre);
+                            if (this.idNodo() != -1) {
+                                this.lastNodo(data[i].Nodo.Nombre);
+                            } else {
+                                this.lastNodo("Todos");
+                            }
+                        }
+
+                        if (data[i].Dia == 23 && data[i].Mes == 3 && data[i].Año == 2019) {         //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                            sumKwhAyer = sumKwhAyer + data[i].Kwh                                   // Suma de los valores Kwh dia anterior
                         }
                         //data[i].FechaHoraUTC = Date.parse(data[i].FechaHoraUTC);                  // Esto para filtrar con date en milisegundos. Es con UTC ya que el date parse solo se puede con UTC String
                         //let dateString = new Date(data[i].FechaHora).toString().split(" GMT");
@@ -172,9 +197,8 @@ namespace Nodos {
                         this.lastLectura(temp + item.Lectura);
                     });
                     this.kwhDia(Math.round(sumKwhDia * 1e12) / 1e12);
+                    this.kwhDiaAyer(Math.round(sumKwhAyer * 1e12) / 1e12);
                     this.avgDia((Math.round(sumKwhDia * 1e12) / 1e12) / data.length);
-                    this.maxDia(maxDia);
-                    this.minDia(minDia);
                     this.updateGaugeDia();
                     this.updateGaugeLastLectura();
                     // Perform filtering on client side
@@ -222,12 +246,6 @@ namespace Nodos {
             }
         }
 
-        box: any = {
-        direction: "row",
-            width: "100%",
-            height: 75
-        };
-
         gaugeDiaActual: any = {
             //size: { width: "600" },
             scale: {
@@ -270,8 +288,11 @@ namespace Nodos {
             tooltip: {
                 enabled: true,
                 customizeTooltip: (scaleValue) => {
-                    return {
-                        text: "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value
+                    if (scaleValue.value == this.kwhDiaAyer()) {
+                        return { text: "<b>Ayer</b>" + "<br/>" + "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                    }
+                    else {
+                        return { text: "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
                 }
             },
@@ -291,6 +312,7 @@ namespace Nodos {
                     visible: true
                 },
                 tickInterval: 0.05,
+                minorTickInterval: 0.01,
                 label: {
                     indentFromTick: 3
                 }
@@ -299,9 +321,9 @@ namespace Nodos {
                 offset: 15,
                 width: 10,
                 ranges: [
-                    { startValue: 0, endValue: 0.1, color: "#77DD77" },
-                    { startValue: 0.1, endValue: 0.2, color: "#E6E200" },
-                    { startValue: 0.2, endValue: 0.35, color: "#ff0000" }
+                    { startValue: 0, endValue: 0.15, color: "#77DD77" },
+                    { startValue: 0.15, endValue: 0.3, color: "#E6E200" },
+                    { startValue: 0.3, endValue: 0.5, color: "#ff0000" }
                 ]
             },
             valueIndicator: {
@@ -322,8 +344,14 @@ namespace Nodos {
             tooltip: {
                 enabled: true,
                 customizeTooltip: (scaleValue) => {
-                    return {
-                        text: "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value
+                    if (scaleValue.value == this.maxDia()) {
+                        return { text: "Nodo: " + this.lastNodoMax() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                    }
+                    else if (scaleValue.value == this.minDia()) {
+                        return { text: "Nodo: " + this.lastNodoMin() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                    }
+                    else {
+                        return { text: "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
                 }
             },
