@@ -57,12 +57,13 @@ End Code
         </div>
     </div>
 
-    <div class="" style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 5em;-webkit-column-rule: 1px dotted #ddd;">
+    <div style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 5em;-webkit-column-rule: 1px dotted #ddd;">
         <div style="" id="gaugeDiaActual" data-bind="dxCircularGauge: gaugeDiaActual"></div>
         <div style="" id="gaugeLecturaActual" data-bind="dxCircularGauge: gaugeLecturaActual"></div>
     </div>
-    <div class="dx-field">
+    <div style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 5em;-webkit-column-rule: 1px dotted #ddd;padding-top:14px;">
         <div id="chartYear" data-bind="dxChart: chartYear"></div>
+        <div id="chartMonth" data-bind="dxChart: chartMonth"></div>
     </div>
 
 </div>

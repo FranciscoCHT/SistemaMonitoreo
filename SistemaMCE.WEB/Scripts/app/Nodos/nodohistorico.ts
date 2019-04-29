@@ -11,7 +11,7 @@ namespace Nodos {
         public añoMes: KnockoutObservableArray<any> = ko.observableArray<any>();
         public yearSelect: KnockoutObservable<number> = ko.observable<number>(0);
         public contador: KnockoutObservable<number> = ko.observable<number>(0);
-        public mesSelect: KnockoutObservable<any> = ko.observable<any>();
+        public mesSelect: KnockoutObservable<any> = ko.observable<any>("");
         public meses: KnockoutObservableArray<any> = ko.observableArray<any>();
         public kwhDia: KnockoutObservable<number> = ko.observable<number>(0);
         public maxDia: KnockoutObservable<number> = ko.observable<number>(0);
@@ -93,6 +93,16 @@ namespace Nodos {
             }));
         }
 
+        updateChartMonth() {
+            let chartMonth = $('#chartMonth').dxChart('instance');
+            //let chartDataSource = chartYear.option('dataSource');        
+            //chartDataSource.load();
+            chartMonth.option('dataSource', new DevExpress.data.DataSource({
+                store: this.customStore,
+                filter: [['Mes', '=', this.mesSelect()], "and", ['Año', '=', this.yearSelect()]]
+            }));
+        }
+
         updateMesFilter() {
             var mon = new Array(11);
             this.meses([]);
@@ -106,6 +116,7 @@ namespace Nodos {
             });
             let mesFilterIns = $('#selectMes').dxSelectBox('instance');       
             mesFilterIns.option('value', this.mesSelect())
+            //this.updateChartMonth();
         }
 
         getNodosByUser(user: any, sect: any): void {
@@ -136,6 +147,7 @@ namespace Nodos {
                 this.idNodo(this.nodos()[0].ID);
                 //this.reloadChartLastWeek();
                 this.updateChartYear();
+                this.updateChartMonth();
                 this.updateGaugeDia();
                 this.updateGaugeLastLectura();
                 this.updateNodoFilter();
@@ -236,15 +248,17 @@ namespace Nodos {
                         //data[i].FechaHoraString = dateString[0].slice(0, -3);
                     }
                     if (this.yearSelect() == 0) {
-                        this.yearSelect(data[i-1].Año);
+                        this.yearSelect(data[i - 1].Año);
+                        this.updateAñoFilter();
                     }
+                    
                     if (this.contador() == 0) {
+                        this.updateMesFilter();
                         this.updateChartYear();
+                        this.updateChartMonth();
                         this.contador(1);
                     }
-                    this.updateAñoFilter();
-                    this.updateMesFilter();
-                    //this.updateChartMes();
+                    //this.updateChartMonth();
                     //arrayLast.forEach((item) => {
                     //    let temp = this.lastLectura();
                     //    this.lastLectura(temp + item.Lectura);
@@ -275,6 +289,7 @@ namespace Nodos {
             onItemClick: (e) => {
                 this.idNodo(e.itemData.ID);
                 this.updateChartYear();
+                this.updateChartMonth();
                 this.updateGaugeDia();
                 //let mas = this.mes(); //Hacer un SELECTBOX CON YEAR, luego al click, guardar el year en un observable, y despues un selectbox con seleccionar Mes, al hacer click, pasar el valor al filter y el year observable.
                 //let year = this.year();
@@ -307,6 +322,8 @@ namespace Nodos {
             valueExpr: 'Mes',
             value: this.mesSelect(),
             onItemClick: (e) => {
+                this.mesSelect(e.itemData.Mes);
+                this.updateChartMonth();
                 //this.idSector(e.itemData.ID);
                 //this.getNodosByUser(window.localStorage.getItem('user'), e.itemData.Año);
                 //this.reloadChartLastWeek();
@@ -323,6 +340,7 @@ namespace Nodos {
             onItemClick: (e) => {
                 this.yearSelect(e.itemData.Año);
                 this.updateMesFilter();
+                this.updateChartMonth();
                 this.updateChartYear();
                 //this.reloadChartLastWeek();
             }
@@ -501,10 +519,91 @@ namespace Nodos {
                 itemTextPosition: "bottom"
             },
             title: {
-                text: "Consumo eléctrico esta semana",
-                subtitle: {
-                    text: "(Kilowatt por hora, día equivalente)"
+                text: "Consumo del año<br/>seleccionado",
+                subtitle: { text: "(KwH, por mes)", font: { size: 12, opacity: 0.8 } },
+                font: { size: 18 }
+            },
+            "export": {
+                enabled: true
+            },
+            tooltip: {
+                enabled: true,
+                customizeTooltip: (arg) => {
+                    var options = { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric" };
+                    let slice = arg.argument.toLocaleString("es-ES", options).slice(0, -2);
+                    return {
+                        text: "Fecha: " + slice + "<br/>" + "KwH: " + Math.round(arg.value * 1e12) / 1e12
+                    }
                 }
+            }
+        }
+
+        chartMonth: any = {
+            palette: "Dark Violet",
+            dataSource: new DevExpress.data.DataSource({
+                store: this.customStore,                                // v Esto para filtrar con date en milisegundos. v
+                filter: [['Mes', '=', this.mesSelect()], "and", ['Año', '=', this.yearSelect()]]     //['FechaHoraUTC', '<=', Date.parse(new Date().toUTCString())], "and", ['FechaHoraUTC', '>=', Date.parse(new Date().toUTCString()) - 86400000*21]
+            }),
+            commonSeriesSettings: {
+                argumentField: "FechaHora"
+            },
+            margin: {
+                bottom: 20
+            },
+            argumentAxis: {
+                discreteAxisDivisionMode: "crossLabels",
+                argumentType: "datetime",
+                aggregationInterval: "day",
+                grid: {
+                    visible: true
+                },
+                label: {
+                    overlappingBehavior: "rotate",
+                    rotationAngle: "-60",
+                    //format: (FechaHora) => {
+                    //    var month = new Array(12);
+                    //    month[0] = "Enero";
+                    //    month[1] = "Febrero";
+                    //    month[2] = "Marzo";
+                    //    month[3] = "Abril";
+                    //    month[4] = "Mayo";
+                    //    month[5] = "Junio";
+                    //    month[6] = "Julio";
+                    //    month[7] = "Agosto";
+                    //    month[8] = "Septiembre";
+                    //    month[9] = "Octubre";
+                    //    month[10] = "Noviembre";
+                    //    month[11] = "Diciembre";
+                    //    return month[FechaHora.getMonth()];
+                    //}
+                },
+                tickInterval: 'day'
+            },
+            series: [
+                {
+                    axis: "Kwh",
+                    color: "#e91e63",
+                    valueField: "Kwh",
+                    point: {
+                        size: 7
+                    },
+                    type: "bar",
+                    aggregation: {
+                        enabled: true,
+                        method: "sum"
+                    },
+                    name: "Kilowatt por Hora"
+                }
+            ],
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                itemTextPosition: "bottom"
+            },
+            title: {
+                text: "Consumo del mes<br/>seleccionado",
+                subtitle: { text: "(KwH, por día)", font: { size: 12, opacity: 0.8 } },
+                font: { size: 18 }
             },
             "export": {
                 enabled: true

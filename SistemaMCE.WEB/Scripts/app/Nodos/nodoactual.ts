@@ -292,7 +292,7 @@ namespace Nodos {
                         return { text: "<b>Ayer</b>" + "<br/>" + "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
                     else {
-                        return { text: "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                        return { text: "<b>Hoy</b>" + "<br/>" + "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
                 }
             },
@@ -345,13 +345,13 @@ namespace Nodos {
                 enabled: true,
                 customizeTooltip: (scaleValue) => {
                     if (scaleValue.value == this.maxDia()) {
-                        return { text: "Nodo: " + this.lastNodoMax() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                        return { text: "<b>Valor Max</b><br/>" + "Nodo: " + this.lastNodoMax() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
                     else if (scaleValue.value == this.minDia()) {
-                        return { text: "Nodo: " + this.lastNodoMin() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                        return { text: "<b>Valor Min</b><br/>" + "Nodo: " + this.lastNodoMin() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
                     else {
-                        return { text: "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                        return { text: "<b>Valor Actual</b><br/>" + "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
                 }
             },
@@ -418,9 +418,8 @@ namespace Nodos {
             },
             title: {
                 text: "Consumo eléctrico esta semana",
-                subtitle: {
-                    text: "(Kilowatt por hora, día equivalente)"
-                }
+                font: { size: 18 },
+                subtitle: { text: "(Kilowatt por hora, día equivalente)", font: { size: 12, opacity: 0.8 } }
             },
             "export": {
                 enabled: true
