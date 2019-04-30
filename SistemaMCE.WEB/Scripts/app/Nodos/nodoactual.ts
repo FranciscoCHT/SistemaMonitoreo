@@ -221,7 +221,7 @@ namespace Nodos {
                             }
                         }
 
-                        if (data[i].Dia == 23 && data[i].Mes == 3 && data[i].Año == 2019) {          //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                        if (data[i].Dia == 23 && data[i].Mes == 3 && data[i].Año == 2019) {          //dateayer.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
                             sumKwhAyer = sumKwhAyer + data[i].Kwh;                                   // Suma de los valores Kwh dia anterior
                             sumPrecioAyer = sumPrecioAyer + data[i].Precio;
                         }
@@ -557,18 +557,18 @@ namespace Nodos {
                 },
                 label: {
                     overlappingBehavior: "rotate",
-                    rotationAngle: "-64",
-                    format: (FechaHora) => {
-                        var weekday = new Array(7);
-                        weekday[0] = "Domingo";
-                        weekday[1] = "Lunes";
-                        weekday[2] = "Martes";
-                        weekday[3] = "Miercoles";
-                        weekday[4] = "Jueves";
-                        weekday[5] = "Viernes";
-                        weekday[6] = "Sabado";
-                        return weekday[FechaHora.getDay()];
-                    }
+                    rotationAngle: "-60",
+                    //format: (FechaHora) => {
+                    //    var weekday = new Array(7);
+                    //    weekday[0] = "Domingo";
+                    //    weekday[1] = "Lunes";
+                    //    weekday[2] = "Martes";
+                    //    weekday[3] = "Miercoles";
+                    //    weekday[4] = "Jueves";
+                    //    weekday[5] = "Viernes";
+                    //    weekday[6] = "Sabado";
+                    //    return weekday[FechaHora.getDay()];
+                    //}
                 },
                 tickInterval: { days: 1 }
             },
@@ -712,17 +712,17 @@ namespace Nodos {
                 label: {
                     overlappingBehavior: "rotate",
                     rotationAngle: "-64",
-                    format: (FechaHora) => {
-                        var weekday = new Array(7);
-                        weekday[0] = "Domingo";
-                        weekday[1] = "Lunes";
-                        weekday[2] = "Martes";
-                        weekday[3] = "Miercoles";
-                        weekday[4] = "Jueves";
-                        weekday[5] = "Viernes";
-                        weekday[6] = "Sabado";
-                        return weekday[FechaHora.getDay()];
-                    }
+                    //format: (FechaHora) => {
+                    //    var weekday = new Array(7);
+                    //    weekday[0] = "Domingo";
+                    //    weekday[1] = "Lunes";
+                    //    weekday[2] = "Martes";
+                    //    weekday[3] = "Miercoles";
+                    //    weekday[4] = "Jueves";
+                    //    weekday[5] = "Viernes";
+                    //    weekday[6] = "Sabado";
+                    //    return weekday[FechaHora.getDay()];
+                    //}
                 },
                 tickInterval: { days: 1 }
             },
@@ -748,9 +748,9 @@ namespace Nodos {
                 itemTextPosition: "bottom"
             },
             title: {
-                text: "Costo diario<br/>últimos 30 días",
+                text: "Costo de energía diario<br/>últimos 30 días",
                 font: { size: 14 },
-                subtitle: { text: "($CLP, día equivalente)", font: { size: 10, opacity: 0.8 } }
+                subtitle: { text: "($CLP, por día)", font: { size: 10, opacity: 0.8 } }
             },
             "export": {
                 enabled: true

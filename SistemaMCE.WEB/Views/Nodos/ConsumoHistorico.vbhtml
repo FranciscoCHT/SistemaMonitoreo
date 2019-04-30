@@ -16,13 +16,13 @@ End Code
 
 <link rel="dx-theme" data-theme="generic.greenmist" href="https://cdn3.devexpress.com/jslib/18.2.5/css/dx.greenmist.css" />
 
-<div id="cuerpo" style="margin-bottom:70px; margin-top:20px;" class="dx-fieldset">
-    <span class="dx-form-group-caption" style="color: #6a828e;font-size:16px;">Seleccione sector/nodo:</span>
-    <div class="" style="-webkit-column-count: 2;-webkit-column-width: 300px;-webkit-column-gap: 2em; border-top: 1px solid #7eb2be; border-bottom: 1px solid #7eb2be; padding-bottom: 16px;padding-top: 8px; margin-top: 6px; margin-bottom: 24px;">
+<div id="cuerpo" style="margin-bottom:0px; margin-top:20px;" class="dx-fieldset">
+    <span class="dx-form-group-caption" style="color: #6a828e;font-size:16px;"><b>Seleccione sector/nodo:</b></span>
+    <div class="" style="-webkit-column-count: 2;-webkit-column-width: 300px;-webkit-column-gap: 2em;border-top: 1px solid #7eb2be;padding-bottom: 16px;padding-top: 8px; margin-bottom: 0px;">
         <div style="-webkit-column-count: 2;-webkit-column-width: 150px;">
             <div>
                 <label class="dx-field-item-label dx-field-item-label-location-top" for="dx_dx-e344b929-29e2-9de5-484a-2570a7dd3fa5_Sector">
-                    <span class="dx-field-item-label-content" style="width: 46px;">
+                    <span class="dx-field-item-label-content" style="width: 46px;font-size:12px;">
                         <span class="dx-field-item-label-text">Sector:</span>
                     </span>
                 </label>
@@ -30,7 +30,7 @@ End Code
             </div>
             <div>
                 <label class="dx-field-item-label dx-field-item-label-location-top" for="dx_dx-e344b929-29e2-9de5-484a-2570a7dd3fa5_Nodo">
-                    <span class="dx-field-item-label-content">
+                    <span class="dx-field-item-label-content" style="font-size:12px;">
                         <span class="dx-field-item-label-text">Nodo:</span>
                     </span>
                 </label>
@@ -40,7 +40,7 @@ End Code
         <div style="-webkit-column-count: 2;-webkit-column-width: 150px;">
             <div>
                 <label class="dx-field-item-label dx-field-item-label-location-top" for="dx_dx-e344b929-29e2-9de5-484a-2570a7dd3fa5_Sector">
-                    <span class="dx-field-item-label-content" style="width: 46px;">
+                    <span class="dx-field-item-label-content" style="width: 46px;font-size:12px;">
                         <span class="dx-field-item-label-text">Mes:</span>
                     </span>
                 </label>
@@ -48,7 +48,7 @@ End Code
             </div>
             <div>
                 <label class="dx-field-item-label dx-field-item-label-location-top" for="dx_dx-e344b929-29e2-9de5-484a-2570a7dd3fa5_Nodo">
-                    <span class="dx-field-item-label-content" style="width: 41px;">
+                    <span class="dx-field-item-label-content" style="width: 41px;font-size:12px;">
                         <span class="dx-field-item-label-text">Año:</span>
                     </span>
                 </label>
@@ -57,13 +57,16 @@ End Code
         </div>
     </div>
 
-    <div style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 5em;-webkit-column-rule: 1px dotted #ddd;">
-        <div style="" id="gaugeDiaActual" data-bind="dxCircularGauge: gaugeDiaActual"></div>
-        <div style="" id="gaugeLecturaActual" data-bind="dxCircularGauge: gaugeLecturaActual"></div>
-    </div>
-    <div style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 5em;-webkit-column-rule: 1px dotted #ddd;padding-top:14px;">
+    <span class="dx-form-group-caption" style="color: #6a828e;font-size:16px;"><b>Consumo histórico en la fecha seleccionada</b></span>
+    <div class="" style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 5em;-webkit-column-rule: 1px dotted #ddd;border-top: 1px solid #7eb2be;padding-top: 4px;padding-bottom: 20px;">
         <div id="chartYear" data-bind="dxChart: chartYear"></div>
         <div id="chartMonth" data-bind="dxChart: chartMonth"></div>
+    </div>
+
+    <span class="dx-form-group-caption" style="color: #6a828e;font-size:16px;"><b>Precio histórico en la fecha seleccionada</b></span>
+    <div class="" style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 5em;-webkit-column-rule: 1px dotted #ddd;border-top: 1px solid #7eb2be;padding-top: 4px;">
+        <div id="chartYearPrecio" data-bind="dxChart: chartYearPrecio"></div>
+        <div id="chartMonthPrecio" data-bind="dxChart: chartMonthPrecio"></div>
     </div>
 
 </div>
