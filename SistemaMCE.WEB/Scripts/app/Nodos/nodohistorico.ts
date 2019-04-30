@@ -22,8 +22,6 @@ namespace Nodos {
         public nodos: KnockoutObservableArray<any> = ko.observableArray<any>();
         public idNodo: KnockoutObservable<any> = ko.observable<any>(-1);
         public idSector: KnockoutObservable<any> = ko.observable<any>(-1);
-        public tipoNodos: KnockoutObservableArray<any> = ko.observableArray<any>();
-        public nombreTipo: KnockoutObservable<any> = ko.observable<any>();
         public sectores: KnockoutObservableArray<any> = ko.observableArray<any>();
         public usuarios: KnockoutObservableArray<any> = ko.observableArray<any>();
         public enable: KnockoutObservable<boolean> = ko.observable(true);

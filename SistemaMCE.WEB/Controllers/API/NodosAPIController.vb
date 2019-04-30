@@ -204,13 +204,14 @@ Namespace Controllers.API
                                                                 .Dia = lectura.FechaHora.Day,
                                                                 .Mes = lectura.FechaHora.Month,
                                                                 .Año = lectura.FechaHora.Year,
-                                                                .FechaHoraJS = lectura.FechaHora.ToUniversalTime,
+                                                                .FechaHoraJS = lectura.FechaHora,
                                                                 .FechaHoraString = lectura.FechaHora.ToString,
                                                                 .Nodo = New Models.NodoDTO With {.ID = lectura.Nodo.ID,
                                                                                                     .Nombre = lectura.Nodo.Nombre,
                                                                                                     .TipoStr = lectura.Nodo.Tipo.ToString,
                                                                                                     .Estado = lectura.Nodo.Estado,
-                                                                                                    .Voltaje = lectura.Nodo.Voltaje}
+                                                                                                    .Voltaje = lectura.Nodo.Voltaje,
+                                                                                                    .SectorID = lectura.Nodo.Sector.ID}
                                     })
                 Next
                 Return Me.Ok(listLecturaDto)

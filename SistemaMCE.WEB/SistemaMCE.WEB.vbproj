@@ -715,6 +715,7 @@
     <Content Include="Views\Nodos\Index.vbhtml" />
     <Content Include="Views\Nodos\ConsumoActual.vbhtml" />
     <Content Include="Views\Nodos\ConsumoHistorico.vbhtml" />
+    <Content Include="Views\Reportes\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -756,7 +757,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Reportes\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SistemaMCE.DATA\SistemaMCE.DATA.vbproj">
@@ -770,6 +770,7 @@
     <TypeScriptCompile Include="Scripts\app\Nodos\nodoactual.ts" />
     <TypeScriptCompile Include="Scripts\app\Nodos\nodohistorico.ts" />
     <TypeScriptCompile Include="Scripts\app\Nodos\nodos.ts" />
+    <TypeScriptCompile Include="Scripts\app\Reportes\reportes.ts" />
     <TypeScriptCompile Include="Scripts\app\Sectores\sectores.ts" />
     <TypeScriptCompile Include="Scripts\app\Usuarios\usuarios.ts" />
     <TypeScriptCompile Include="Scripts\index.d.ts" />
