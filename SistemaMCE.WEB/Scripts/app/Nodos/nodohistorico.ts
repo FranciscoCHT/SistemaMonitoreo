@@ -85,22 +85,24 @@ namespace Nodos {
 
         updateChartYear() {
             let chartYear = $('#chartYear').dxChart('instance');
-            //let chartDataSource = chartYear.option('dataSource');        
-            //chartDataSource.load();
-            chartYear.option('dataSource', new DevExpress.data.DataSource({ 
-                store: this.customStore,
-                filter: ['Año', '=', this.yearSelect()]
-            }));
+            let chartDataSource = chartYear.option('dataSource');  
+            chartDataSource.filter(['Año', '=', this.yearSelect()]);
+            chartDataSource.load();
+            //chartYear.option('dataSource', new DevExpress.data.DataSource({ 
+            //    store: this.customStore,
+            //    filter: ['Año', '=', this.yearSelect()]
+            //}));
         }
 
         updateChartMonth() {
             let chartMonth = $('#chartMonth').dxChart('instance');
-            //let chartDataSource = chartYear.option('dataSource');        
-            //chartDataSource.load();
-            chartMonth.option('dataSource', new DevExpress.data.DataSource({
-                store: this.customStore,
-                filter: [['Mes', '=', this.mesSelect()], "and", ['Año', '=', this.yearSelect()]]
-            }));
+            let chartDataSource = chartMonth.option('dataSource');
+            chartDataSource.filter([['Mes', '=', this.mesSelect()], "and", ['Año', '=', this.yearSelect()]]);
+            chartDataSource.load();
+            //chartMonth.option('dataSource', new DevExpress.data.DataSource({
+            //    store: this.customStore,
+            //    filter: [['Mes', '=', this.mesSelect()], "and", ['Año', '=', this.yearSelect()]]
+            //}));
         }
 
         updateMesFilter() {

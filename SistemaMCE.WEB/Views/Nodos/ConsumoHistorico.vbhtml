@@ -17,7 +17,7 @@ End Code
 <link rel="dx-theme" data-theme="generic.greenmist" href="https://cdn3.devexpress.com/jslib/18.2.5/css/dx.greenmist.css" />
 
 <div id="cuerpo" style="margin-bottom:70px; margin-top:20px;" class="dx-fieldset">
-    <span class="dx-form-group-caption" style="color: #6a828e;">Seleccione sector/nodo:</span>
+    <span class="dx-form-group-caption" style="color: #6a828e;font-size:16px;">Seleccione sector/nodo:</span>
     <div class="" style="-webkit-column-count: 2;-webkit-column-width: 300px;-webkit-column-gap: 2em; border-top: 1px solid #7eb2be; border-bottom: 1px solid #7eb2be; padding-bottom: 16px;padding-top: 8px; margin-top: 6px; margin-bottom: 24px;">
         <div style="-webkit-column-count: 2;-webkit-column-width: 150px;">
             <div>

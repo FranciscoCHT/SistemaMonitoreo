@@ -13,7 +13,7 @@ End Code
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Lowin</title>
+    <title>Login</title>
     <link rel="stylesheet" href="~/Content/customCSS/loginauth.css">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")

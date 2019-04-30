@@ -270,17 +270,16 @@ desired effect
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="@Url.Action("Index", "Nodos")"><i class="fa fa-tasks"></i><span>Gestión de nodos</span></a></li>
-                            <li><a href="@Url.Action("ConsumoActual", "Nodos")"><i class="fa fa-tasks"></i><span>Consumo Actual</span></a></li>
-                            <li><a href="@Url.Action("ConsumoHistorico", "Nodos")"><i class="fa fa-tasks"></i><span>Consumo histórico</span></a></li>
-                            <li><a href="#">Consumo por fecha</a></li>
-                            <li><a href="#">Reportes</a></li>
+                            <li><a href="@Url.Action("ConsumoActual", "Nodos")"><i class="fa fa-pie-chart"></i><span>Consumo Actual</span></a></li>
+                            <li><a href="@Url.Action("ConsumoHistorico", "Nodos")"><i class="fa fa-bar-chart"></i><span>Consumo histórico</span></a></li>
                         </ul>
                     </li>
+                    <li><a href="@Url.Action("Index", "Reportes")"><i class="fa fa-file-excel-o"></i><span>Reporte Lecturas</span></a></li>
                     <li><a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-user"></i><span>Usuarios</span></a></li>
-                    <li><a href="@Url.Action("Index", "Sectores")"><i class="fa fa-user"></i><span>Sectores</span></a></li>
+                    <li><a href="@Url.Action("Index", "Sectores")"><i class="fa fa-map-marker"></i><span>Sectores</span></a></li>
                     <li><a href="@Url.Action("About", "Home")"><i class="fa fa-info"></i><span>About</span></a></li>
                     <li><a href="@Url.Action("Contact", "Home")"><i class="fa fa-address-card"></i><span>Contact</span></a></li>
-                    <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+                    @*<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-link"></i> <span>Multilevel</span>
@@ -292,7 +291,7 @@ desired effect
                             <li><a href="#">Link in level 2</a></li>
                             <li><a href="#">Link in level 2</a></li>
                         </ul>
-                    </li>
+                    </li>*@
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

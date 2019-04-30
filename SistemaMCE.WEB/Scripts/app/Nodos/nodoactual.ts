@@ -8,7 +8,9 @@ namespace Nodos {
 
         public lectura: KnockoutObservableArray<any> = ko.observableArray<any>();
         public kwhDia: KnockoutObservable<number> = ko.observable<number>(0);
+        public precioDia: KnockoutObservable<number> = ko.observable<number>(0);
         public kwhDiaAyer: KnockoutObservable<number> = ko.observable<number>(0);
+        public precioDiaAyer: KnockoutObservable<number> = ko.observable<number>(0);
         public maxDia: KnockoutObservable<number> = ko.observable<number>(0);
         public minDia: KnockoutObservable<number> = ko.observable<number>(0);
         public avgDia: KnockoutObservable<number> = ko.observable<number>(0);
@@ -29,15 +31,34 @@ namespace Nodos {
 
         getLastWeek() {
             var today = new Date();
-            today.setDate(today.getDate() - 40);
+            today.setDate(today.getDate() - 30);
             var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             return lastWeek;
         }
 
-        reloadChartLastWeek() {
+        getLastMonth() {
+            var today = new Date();
+            today.setDate(today.getDate() - 40);
+            var lastMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            return lastMonth;
+        }
+
+        reloadChartBar() {
             let chartHist = $('#chartHist').dxChart('instance');            //
             let chartDataSource = chartHist.option('dataSource');           //  Esto recarga el datasource, lo que hace que se consulte de nuevo la lectura, con el nuevo IDNODO
             chartDataSource.load();                                         //
+
+            let chartMonth = $('#chartMonth').dxChart('instance');            //
+            chartDataSource = chartMonth.option('dataSource');           //  Esto recarga el datasource, lo que hace que se consulte de nuevo la lectura, con el nuevo IDNODO
+            chartDataSource.load(); 
+
+            let chartWeekPrecio = $('#chartWeekPrecio').dxChart('instance');            //
+            chartDataSource = chartWeekPrecio.option('dataSource');           //  Esto recarga el datasource, lo que hace que se consulte de nuevo la lectura, con el nuevo IDNODO
+            chartDataSource.load(); 
+
+            let chartMonthPrecio = $('#chartMonthPrecio').dxChart('instance');            //
+            chartDataSource = chartMonthPrecio.option('dataSource');           //  Esto recarga el datasource, lo que hace que se consulte de nuevo la lectura, con el nuevo IDNODO
+            chartDataSource.load(); 
         }
 
         updateNodoFilter() {
@@ -55,9 +76,9 @@ namespace Nodos {
                 gaugeDiaActual.option('scale.minorTickInterval', 1);
                 //gaugeDiaActual.option('subvalues', [this.minDia(), this.maxDia()]);
             } else {
-                gaugeDiaActual.option('scale.endValue', 10);
-                gaugeDiaActual.option('scale.tickInterval', 1);
-                gaugeDiaActual.option('scale.minorTickInterval', 0.1);
+                gaugeDiaActual.option('scale.endValue', 20);
+                gaugeDiaActual.option('scale.tickInterval', 5);
+                gaugeDiaActual.option('scale.minorTickInterval', 1);
                 //gaugeDiaActual.option('subvalues', [this.minDia(), this.maxDia()]);
             }
         }
@@ -70,6 +91,17 @@ namespace Nodos {
                 gaugeLecturaActual.option('scale.endValue', 0.5);
             } else {
                 gaugeLecturaActual.option('scale.endValue', 0.35);
+            }
+        }
+
+        updateGaugeDiaPrecio() {
+            let gaugeDiaPrecio = $('#gaugeDiaPrecio').dxCircularGauge('instance');        //
+            gaugeDiaPrecio.option("value", this.precioDia());                               //  Esto pone el valor del gauge en el valor diario calculado
+            gaugeDiaPrecio.option('subvalues', [this.precioDiaAyer()]);
+            if (this.idNodo() == -1) {
+                gaugeDiaPrecio.option('scale.endValue', 1500);
+            } else {
+                gaugeDiaPrecio.option('scale.endValue', 800);
             }
         }
 
@@ -101,9 +133,10 @@ namespace Nodos {
                     }
                 }
                 this.idNodo(this.nodos()[0].ID);
-                this.reloadChartLastWeek();
+                this.reloadChartBar();
                 this.updateGaugeDia();
                 this.updateGaugeLastLectura();
+                this.updateGaugeDiaPrecio();
                 this.updateNodoFilter();
                 //let chartHist = $('#chartHist').dxChart('instance'); 
                 //let ds = chartHist.option('dataSource')
@@ -154,12 +187,15 @@ namespace Nodos {
                     let arrayLast: any = [];
                     let sumKwhDia = 0;
                     let sumKwhAyer = 0;
+                    let sumPrecioDia = 0;
+                    let sumPrecioAyer = 0;
                     this.maxDia(0);
                     this.minDia(100);
                     for (var i: number = 0; i < data.length; i++) {
                         data[i].FechaHoraJS = new Date(data[i].FechaHora);
                         if (data[i].Dia == 24 && data[i].Mes == 3 && data[i].Año == 2019) { //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
-                            sumKwhDia = sumKwhDia + data[i].Kwh
+                            sumKwhDia = sumKwhDia + data[i].Kwh;
+                            sumPrecioDia = sumPrecioDia + data[i].Precio;
                             if (data[i].Kwh > this.maxDia()) {
                                 this.maxDia(data[i].Kwh);
                                 this.lastNodoMax(data[i].Nodo.Nombre);
@@ -185,8 +221,9 @@ namespace Nodos {
                             }
                         }
 
-                        if (data[i].Dia == 23 && data[i].Mes == 3 && data[i].Año == 2019) {         //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
-                            sumKwhAyer = sumKwhAyer + data[i].Kwh                                   // Suma de los valores Kwh dia anterior
+                        if (data[i].Dia == 23 && data[i].Mes == 3 && data[i].Año == 2019) {          //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                            sumKwhAyer = sumKwhAyer + data[i].Kwh;                                   // Suma de los valores Kwh dia anterior
+                            sumPrecioAyer = sumPrecioAyer + data[i].Precio;
                         }
                         //data[i].FechaHoraUTC = Date.parse(data[i].FechaHoraUTC);                  // Esto para filtrar con date en milisegundos. Es con UTC ya que el date parse solo se puede con UTC String
                         //let dateString = new Date(data[i].FechaHora).toString().split(" GMT");
@@ -197,10 +234,13 @@ namespace Nodos {
                         this.lastLectura(temp + item.Lectura);
                     });
                     this.kwhDia(Math.round(sumKwhDia * 1e12) / 1e12);
+                    this.precioDia(Math.round(sumPrecioDia));
                     this.kwhDiaAyer(Math.round(sumKwhAyer * 1e12) / 1e12);
+                    this.precioDiaAyer(Math.round(sumPrecioAyer));
                     this.avgDia((Math.round(sumKwhDia * 1e12) / 1e12) / data.length);
                     this.updateGaugeDia();
                     this.updateGaugeLastLectura();
+                    this.updateGaugeDiaPrecio();
                     // Perform filtering on client side
                     var query = DevExpress.data.query(data);
                     if (loadOptions.filter) {
@@ -221,8 +261,8 @@ namespace Nodos {
             value: this.idNodo(),
             onItemClick: (e) => {
                 this.idNodo(e.itemData.ID);
-                this.reloadChartLastWeek();
-                this.updateGaugeDia();
+                this.reloadChartBar();
+                //this.updateGaugeDia();
                 //let mas = this.mes(); //Hacer un SELECTBOX CON YEAR, luego al click, guardar el year en un observable, y despues un selectbox con seleccionar Mes, al hacer click, pasar el valor al filter y el year observable.
                 //let year = this.year();
                 //chartHist.option('dataSource', new DevExpress.data.DataSource({ //ME SERVIRÁ PARA PODER HACER UN FILTRO SELECCIONANDO UN MES Y CAMBIAR EL MES DE LOS GRAFICOS filter: [['Mes', '=', '3']]
@@ -242,7 +282,7 @@ namespace Nodos {
             onItemClick: (e) => {
                 this.idSector(e.itemData.ID);
                 this.getNodosByUser(window.localStorage.getItem('user'), this.idSector());
-                //this.reloadChartLastWeek();
+                //this.reloadChartBar();
             }
         }
 
@@ -259,7 +299,8 @@ namespace Nodos {
                 },
                 tickInterval: 5,
                 label: {
-                    indentFromTick: 3
+                    indentFromTick: 3,
+                    font: { size: 10 }
                 }
             },
             rangeContainer: {
@@ -279,8 +320,9 @@ namespace Nodos {
                 offset: -25
             },
             title: {
-                text: "Consumo actual en el día<br>(KwH en el día)",
-                font: { size: 18 }
+                text: "Consumo actual en el día",
+                subtitle: { text: "(KwH en el día)", font: { size: 10, opacity: 0.8 } },
+                font: { size: 14 }
             },
             "export": {
                 enabled: true
@@ -314,7 +356,8 @@ namespace Nodos {
                 tickInterval: 0.05,
                 minorTickInterval: 0.01,
                 label: {
-                    indentFromTick: 3
+                    indentFromTick: 3,
+                    font: { size: 14 }
                 }
             },
             rangeContainer: {
@@ -335,8 +378,8 @@ namespace Nodos {
             },
             title: {
                 text: "Última lectura por nodo<br>(KwH ultima lectura)",
-                subtitle: { text: "Con indicadores de lectura mín y<br>máx del nodo selecionado (del día).", font: { size: 12, opacity: 0.8 }},
-                font: { size: 18 }
+                subtitle: { text: "Con indicadores de lectura mín y<br>máx del nodo selecionado (del día).", font: { size: 10, opacity: 0.8 }},
+                font: { size: 14 }
             },
             "export": {
                 enabled: true
@@ -352,6 +395,63 @@ namespace Nodos {
                     }
                     else {
                         return { text: "<b>Valor Actual</b><br/>" + "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                    }
+                }
+            },
+            value: this.lastLectura(),
+            //subvalues: [40, 90] //https://www.iea.org/statistics/?country=CHILE&year=2016&category=Energy%20consumption&indicator=ElecConsPerCapita&mode=chart&dataTable=INDICATORS
+        }
+
+        gaugeDiaPrecio: any = {
+            //size: { width: '600' },
+            scale: {
+                startValue: 0, endValue: 1500,
+                tick: {
+                    color: "#536878"
+                },
+                minorTick: {
+                    color: "#9c9c9c",
+                    visible: true
+                },
+                tickInterval: 100,
+                minorTickInterval: 20,
+                label: {
+                    indentFromTick: 3,
+                    font: { size: 10 }
+                }
+            },
+            rangeContainer: {
+                offset: 15,
+                width: 10,
+                ranges: [
+                    { startValue: 0, endValue: 800, color: "#77DD77" },
+                    { startValue: 800, endValue: 1300, color: "#E6E200" },
+                    { startValue: 1300, endValue: 1500, color: "#ff0000" }
+                ]
+            },
+            valueIndicator: {
+                offset: 10,
+                type: "TriangleNeedle"
+            },
+            subvalueIndicator: {
+                offset: -25
+            },
+            title: {
+                text: "Precio Actual en el día",
+                subtitle: { text: "($ en el día)", font: { size: 10, opacity: 0.8 } },
+                font: { size: 14 }
+            },
+            "export": {
+                enabled: true
+            },
+            tooltip: {
+                enabled: true,
+                customizeTooltip: (scaleValue) => {
+                    if (scaleValue.value == this.precioDiaAyer()) {
+                        return { text: "<b>Ayer</b>" + "<br/>" + "Nodo: " + this.lastNodo() + "<br/>" + "Precio: " + scaleValue.value }
+                    }
+                    else {
+                        return { text: "<b>Hoy</b>" + "<br/>" + "Nodo: " + this.lastNodo() + "<br/>" + "Precio: " + scaleValue.value }
                     }
                 }
             },
@@ -380,7 +480,84 @@ namespace Nodos {
                 },
                 label: {
                     overlappingBehavior: "rotate",
-                    rotationAngle: "-60",
+                    rotationAngle: "-64",
+                    format: (FechaHora) => {
+                        var weekday = new Array(7);
+                        weekday[0] = "Domingo";
+                        weekday[1] = "Lunes";
+                        weekday[2] = "Martes";
+                        weekday[3] = "Miercoles";
+                        weekday[4] = "Jueves";
+                        weekday[5] = "Viernes";
+                        weekday[6] = "Sabado";
+                        return weekday[FechaHora.getDay()];
+                    }
+                },
+                tickInterval: { days: 1 }
+            },
+            series: [
+                {
+                    axis: "Kwh",
+                    color: "#e91e63",
+                    valueField: "Kwh",
+                    point: {
+                        size: 7
+                    },
+                    type: "bar",
+                    aggregation: {
+                        enabled: true,
+                        method: "sum"
+                    },
+                    name: "Kilowatt por Hora"
+                },
+            ],
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                itemTextPosition: "bottom"
+            },
+            title: {
+                text: "Consumo eléctrico<br/>últimos 7 días",
+                font: { size: 14 },
+                subtitle: { text: "(KwH, día equivalente)", font: { size: 10, opacity: 0.8 } }
+            },
+            "export": {
+                enabled: true
+            },
+            tooltip: {
+                enabled: true,
+                customizeTooltip: (arg) => {
+                    var options = { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric" };
+                    let slice = arg.argument.toLocaleString("es-ES", options).slice(0, -2);
+                    return {
+                        text: "Fecha: " + slice + "<br/>" + "KwH: " + Math.round(arg.value * 1e12) / 1e12
+                    }
+                }
+            }
+        }
+
+        chartMonth: any = {
+            palette: "Dark Violet",
+            dataSource: new DevExpress.data.DataSource({
+                store: this.customStore,                                // v Esto para filtrar con date en milisegundos. v
+                filter: [['FechaHoraJS', '>=', this.getLastMonth()]]     //['FechaHoraUTC', '<=', Date.parse(new Date().toUTCString())], "and", ['FechaHoraUTC', '>=', Date.parse(new Date().toUTCString()) - 86400000*21]
+            }),
+            commonSeriesSettings: {
+                argumentField: "FechaHora"
+            },
+            margin: {
+                bottom: 20
+            },
+            argumentAxis: {
+                discreteAxisDivisionMode: "crossLabels",
+                argumentType: "datetime",
+                aggregationInterval: "day",
+                grid: {
+                    visible: true
+                },
+                label: {
+                    overlappingBehavior: "rotate",
+                    rotationAngle: "-64",
                     format: (FechaHora) => {
                         var weekday = new Array(7);
                         weekday[0] = "Domingo";
@@ -417,9 +594,9 @@ namespace Nodos {
                 itemTextPosition: "bottom"
             },
             title: {
-                text: "Consumo eléctrico esta semana",
-                font: { size: 18 },
-                subtitle: { text: "(Kilowatt por hora, día equivalente)", font: { size: 12, opacity: 0.8 } }
+                text: "Consumo eléctrico<br/>últimos 30 días",
+                font: { size: 14 },
+                subtitle: { text: "(KwH, día equivalente)", font: { size: 10, opacity: 0.8 } }
             },
             "export": {
                 enabled: true
@@ -431,6 +608,160 @@ namespace Nodos {
                     let slice = arg.argument.toLocaleString("es-ES", options).slice(0, -2);
                     return {
                         text: "Fecha: " + slice + "<br/>" + "KwH: " + Math.round(arg.value * 1e12) / 1e12
+                    }
+                }
+            }
+        }
+
+        chartWeekPrecio: any = {
+            palette: "Dark Violet",
+            dataSource: new DevExpress.data.DataSource({
+                store: this.customStore,                                // v Esto para filtrar con date en milisegundos. v
+                filter: [['FechaHoraJS', '>=', this.getLastWeek()]]     //['FechaHoraUTC', '<=', Date.parse(new Date().toUTCString())], "and", ['FechaHoraUTC', '>=', Date.parse(new Date().toUTCString()) - 86400000*21]
+            }),
+            commonSeriesSettings: {
+                argumentField: "FechaHora"
+            },
+            margin: {
+                bottom: 20
+            },
+            argumentAxis: {
+                discreteAxisDivisionMode: "crossLabels",
+                argumentType: "datetime",
+                aggregationInterval: "day",
+                grid: {
+                    visible: true
+                },
+                label: {
+                    overlappingBehavior: "rotate",
+                    rotationAngle: "-64",
+                    format: (FechaHora) => {
+                        var weekday = new Array(7);
+                        weekday[0] = "Domingo";
+                        weekday[1] = "Lunes";
+                        weekday[2] = "Martes";
+                        weekday[3] = "Miercoles";
+                        weekday[4] = "Jueves";
+                        weekday[5] = "Viernes";
+                        weekday[6] = "Sabado";
+                        return weekday[FechaHora.getDay()];
+                    }
+                },
+                tickInterval: { days: 1 }
+            },
+            series: [
+                {
+                    axis: "Precio",
+                    color: "#5dcc5d",
+                    valueField: "Precio",
+                    point: {
+                        size: 7
+                    },
+                    type: "bar",
+                    aggregation: {
+                        enabled: true,
+                        method: "sum"
+                    },
+                    name: "Precio total día"
+                }
+            ],
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                itemTextPosition: "bottom"
+            },
+            title: {
+                text: "Costo diario<br/>últimos 7 días",
+                font: { size: 14 },
+                subtitle: { text: "($CLP, día equivalente)", font: { size: 10, opacity: 0.8 } }
+            },
+            "export": {
+                enabled: true
+            },
+            tooltip: {
+                enabled: true,
+                customizeTooltip: (arg) => {
+                    var options = { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric" };
+                    let slice = arg.argument.toLocaleString("es-ES", options).slice(0, -2);
+                    return {
+                        text: "Fecha: " + slice + "<br/>" + "Precio: $" + Math.round(arg.value)
+                    }
+                }
+            }
+        }
+
+        chartMonthPrecio: any = {
+            palette: "Dark Violet",
+            dataSource: new DevExpress.data.DataSource({
+                store: this.customStore,                                // v Esto para filtrar con date en milisegundos. v
+                filter: [['FechaHoraJS', '>=', this.getLastMonth()]]     //['FechaHoraUTC', '<=', Date.parse(new Date().toUTCString())], "and", ['FechaHoraUTC', '>=', Date.parse(new Date().toUTCString()) - 86400000*21]
+            }),
+            commonSeriesSettings: {
+                argumentField: "FechaHora"
+            },
+            margin: {
+                bottom: 20
+            },
+            argumentAxis: {
+                discreteAxisDivisionMode: "crossLabels",
+                argumentType: "datetime",
+                aggregationInterval: "day",
+                grid: {
+                    visible: true
+                },
+                label: {
+                    overlappingBehavior: "rotate",
+                    rotationAngle: "-64",
+                    format: (FechaHora) => {
+                        var weekday = new Array(7);
+                        weekday[0] = "Domingo";
+                        weekday[1] = "Lunes";
+                        weekday[2] = "Martes";
+                        weekday[3] = "Miercoles";
+                        weekday[4] = "Jueves";
+                        weekday[5] = "Viernes";
+                        weekday[6] = "Sabado";
+                        return weekday[FechaHora.getDay()];
+                    }
+                },
+                tickInterval: { days: 1 }
+            },
+            series: [
+                {
+                    axis: "Precio",
+                    color: "#5dcc5d",
+                    valueField: "Precio",
+                    point: {
+                        size: 7
+                    },
+                    type: "bar",
+                    aggregation: {
+                        enabled: true,
+                        method: "sum"
+                    },
+                    name: "Precio total día"
+                }
+            ],
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                itemTextPosition: "bottom"
+            },
+            title: {
+                text: "Costo diario<br/>últimos 30 días",
+                font: { size: 14 },
+                subtitle: { text: "($CLP, día equivalente)", font: { size: 10, opacity: 0.8 } }
+            },
+            "export": {
+                enabled: true
+            },
+            tooltip: {
+                enabled: true,
+                customizeTooltip: (arg) => {
+                    var options = { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric" };
+                    let slice = arg.argument.toLocaleString("es-ES", options).slice(0, -2);
+                    return {
+                        text: "Fecha: " + slice + "<br/>" + "Precio: $" + Math.round(arg.value)
                     }
                 }
             }

@@ -213,6 +213,7 @@
     <Compile Include="Controllers\API\UsuariosAPIController.vb" />
     <Compile Include="Controllers\LoginController.vb" />
     <Compile Include="Controllers\NodosController.vb" />
+    <Compile Include="Controllers\ReportesController.vb" />
     <Compile Include="Controllers\SectoresController.vb" />
     <Compile Include="Controllers\UsuariosController.vb" />
     <Compile Include="Global.asax.vb">
@@ -755,6 +756,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Reportes\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SistemaMCE.DATA\SistemaMCE.DATA.vbproj">
