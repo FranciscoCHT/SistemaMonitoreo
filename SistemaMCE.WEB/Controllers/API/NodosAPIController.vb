@@ -66,6 +66,11 @@ Namespace Controllers.API
 
             Dim db As New MCEContext
             Try
+                Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = model.UsuarioLogin).SingleOrDefault()
+                If usuarioAdmin.EsAdmin = False Then
+                    Return Me.Content(HttpStatusCode.BadRequest, "No tiene privilegios para manejar esta operación.")
+                End If
+
                 If model.ID <> 0 Then
                     Dim nodoExist As Nodo = db.Nodos.Where(Function(n) n.ID = model.ID).SingleOrDefault()
                     With nodoExist
@@ -109,8 +114,8 @@ Namespace Controllers.API
         End Function
 
         <HttpDelete>
-        <Route("{id}", Name:="DeleteNodo")>
-        Public Function DeleteNodo(id As Integer) As IHttpActionResult
+        <Route("{user}/{id}", Name:="DeleteNodo")>
+        Public Function DeleteNodo(user As String, id As Integer) As IHttpActionResult
 
             If id = 0 Then
                 Return Me.Content(HttpStatusCode.NotFound, "No se puede eliminar el nodo debido a posibles dependencias asociadas.")
@@ -118,6 +123,11 @@ Namespace Controllers.API
 
             Dim db As New MCEContext
             Try
+                Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = user).SingleOrDefault()
+                If usuarioAdmin.EsAdmin = False Then
+                    Return Me.Content(HttpStatusCode.BadRequest, "No tiene privilegios para manejar esta operación.")
+                End If
+
                 Dim nodo As Nodo = db.Nodos.Where(Function(n) n.ID = id).SingleOrDefault
 
                 If db.Lecturas.Where(Function(l) l.Nodo.ID = nodo.ID).Any() Then

@@ -21,9 +21,9 @@ namespace Usuarios {
             formData.EsAdmin = false;
         };
 
-        getUsuarios(): void {
+        getUsuarios(user: any, esGrid: any): void {
             this.usuarios([]);
-            let url = 'api/usuarios';
+            let url = 'api/usuarios/' + user + '/' + esGrid;
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -78,12 +78,13 @@ namespace Usuarios {
                     Apellido: formData.Apellido,
                     User: formData.User,
                     Pass: formData.Pass,
-                    EsAdmin: formData.EsAdmin
+                    EsAdmin: formData.EsAdmin,
+                    UsuarioLogin: window.localStorage.getItem('user')
                 }
             }).done((data: any) => {
                 DevExpress.ui.notify("Datos guardados correctamente.", "success", 2000);
                 $('#form-usuarios').dxForm('instance').resetValues();
-                this.getUsuarios();
+                this.getUsuarios(window.localStorage.getItem('user'), 'grid');
                 let grid = $('#grid-usuarios').dxDataGrid('instance');
                 // this.limpiarForm();
                 this.enable(true);
@@ -110,7 +111,10 @@ namespace Usuarios {
         };
 
         constructor() {
-            this.getUsuarios();
+            if (window.localStorage.getItem('user') === null || window.localStorage.getItem('user') == undefined) {
+                window.location.replace(window.location.origin + '/Login');
+            }
+            this.getUsuarios(window.localStorage.getItem('user'), 'grid');
         }
 
         formOptions: any = {

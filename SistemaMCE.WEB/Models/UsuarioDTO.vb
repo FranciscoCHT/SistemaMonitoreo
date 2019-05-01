@@ -7,6 +7,7 @@
         Public Property User As String
         Public Property Pass As String
         Public Property EsAdmin As Boolean
+        Public Property UsuarioLogin As String
     End Class
 End Namespace
 

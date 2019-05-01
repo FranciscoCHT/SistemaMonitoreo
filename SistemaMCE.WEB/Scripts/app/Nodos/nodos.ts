@@ -68,9 +68,9 @@ namespace Nodos {
             });
         }
 
-        getUsuarios(): void {
+        getUsuarios(user: any, esGrid: any): void {
             this.usuarios([]);
-            let url = 'api/usuarios';
+            let url = 'api/usuarios/' + user + '/' + esGrid;
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -130,7 +130,8 @@ namespace Nodos {
                     Estado: formData.Estado,
                     Voltaje: formData.Voltaje,
                     SectorID: formData.Sector,
-                    UsuarioID: formData.Usuario
+                    UsuarioID: formData.Usuario,
+                    UsuarioLogin: window.localStorage.getItem('user')
                 }
             }).done((data: any) => {
                 DevExpress.ui.notify("Datos guardados correctamente.", "success", 2000);
@@ -146,8 +147,8 @@ namespace Nodos {
             });
         }
 
-        deleteNodo(id: number): void {
-            let url = 'api/nodos/' + id;
+        deleteNodo(user: string, id: number): void {
+            let url = 'api/nodos/' + user + '/' + id;
             $.ajax({
                 type: 'DELETE',
                 url: url
@@ -162,7 +163,10 @@ namespace Nodos {
         };
 
         constructor() {
-            this.getUsuarios();
+            if (window.localStorage.getItem('user') === null || window.localStorage.getItem('user') == undefined) {
+                window.location.replace(window.location.origin + '/Login');
+            }
+            this.getUsuarios(window.localStorage.getItem('user'), 'nogrid');
             this.getSectores();
             this.getNodosByUser(window.localStorage.getItem('user'), -1);
             $.getJSON('api/nodos/tipos').then((result: any): void => {
@@ -264,7 +268,7 @@ namespace Nodos {
             },
             onRowRemoved: () => {
                 let index = this.idRow();
-                this.deleteNodo(index);
+                this.deleteNodo(window.localStorage.getItem('user'), index);
             },
             grouping: {
                 allowCollapsing: true

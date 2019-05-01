@@ -10,8 +10,15 @@ namespace Login {
         public loading: KnockoutObservable<boolean> = ko.observable<boolean>(false);
 
         PostLogin(): void {
-            let userBox: any = $("#textbox-user").dxTextBox('instance').option('value');
-            let passBox: any = $("#textbox-pass").dxTextBox('instance').option('value');
+            var userBox: any;
+            var passBox: any;
+            if ((window.localStorage.getItem('user') != null && window.localStorage.getItem('user') != undefined) && (window.localStorage.getItem('pass') != null && window.localStorage.getItem('pass') != undefined) ) {
+                userBox = window.localStorage.getItem('user');
+                passBox = window.localStorage.getItem('pass');
+            } else {
+                userBox = $("#textbox-user").dxTextBox('instance').option('value');
+                passBox = $("#textbox-pass").dxTextBox('instance').option('value');
+            }
             let url = 'api/login';
             $.ajax({
                 type: 'POST',
@@ -26,7 +33,10 @@ namespace Login {
                     window.localStorage.setItem('nombre', data.NombreCompleto);
                     window.localStorage.setItem('pass', data.Pass);
                     window.location.replace(window.location.origin + '/Home');
-            }).fail((data: any) => {
+                }).fail((data: any) => {
+                    window.localStorage.removeItem('user');
+                    window.localStorage.removeItem('nombre');
+                    window.localStorage.removeItem('pass');
                     this.loading(false);
                     DevExpress.ui.notify(data.responseJSON, "error", 3000);
             });
@@ -54,8 +64,11 @@ namespace Login {
         }
 
         constructor() {
-            if (window.localStorage.getItem("user") !== null) {
-                window.location.replace(window.location.origin + '/Home');
+            //if (window.localStorage.getItem("user") != null) {
+            //    window.location.replace(window.location.origin + '/Home');
+            //}
+            if ((window.localStorage.getItem('user') != null && window.localStorage.getItem('user') != undefined) && (window.localStorage.getItem('pass') != null && window.localStorage.getItem('pass') != undefined)) {
+                this.PostLogin();
             }
         }
 

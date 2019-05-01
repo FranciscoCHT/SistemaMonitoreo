@@ -108,6 +108,9 @@ namespace Reportes {
         }
 
         constructor() {
+            if (window.localStorage.getItem('user') === null || window.localStorage.getItem('user') == undefined) {
+                window.location.replace(window.location.origin + '/Login');
+            }
             this.getNodosByUser(window.localStorage.getItem('user'), -1);
             this.getSectores();
         }

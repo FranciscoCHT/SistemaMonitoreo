@@ -50,7 +50,8 @@ namespace Sectores {
                 url: url,
                 data: {
                     ID: formData.ID,
-                    Nombre: formData.Nombre
+                    Nombre: formData.Nombre,
+                    UsuarioLogin: window.localStorage.getItem('user')
                 }
             }).done((data: any) => {
                 DevExpress.ui.notify("Datos guardados correctamente.", "success", 2000);
@@ -66,8 +67,8 @@ namespace Sectores {
             });
         }
 
-        deleteSector(id: number): void {
-            let url = 'api/sectores/' + id;
+        deleteSector(user: string, id: number): void {
+            let url = 'api/sectores/' + user + '/' + id;
             $.ajax({
                 type: 'DELETE',
                 url: url
@@ -82,6 +83,9 @@ namespace Sectores {
         };
 
         constructor() {
+            if (window.localStorage.getItem('user') === null || window.localStorage.getItem('user') == undefined) {
+                window.location.replace(window.location.origin + '/Login');
+            }
             this.getSectores();
         }
 
@@ -132,7 +136,7 @@ namespace Sectores {
             },
             onRowRemoved: () => {
                 let index = this.idRow();
-                this.deleteSector(index);
+                this.deleteSector(window.localStorage.getItem('user'), index);
             },
             grouping: {
                 allowCollapsing: true

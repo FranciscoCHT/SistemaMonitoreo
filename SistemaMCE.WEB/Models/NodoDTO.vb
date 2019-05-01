@@ -10,5 +10,6 @@
         Public Overridable Property SectorID As Integer
         Public Overridable Property Usuario As UsuarioDTO
         Public Overridable Property UsuarioID As Integer
+        Public Overridable Property UsuarioLogin As String
     End Class
 End Namespace

@@ -8,11 +8,16 @@ Namespace Controllers.API
         Inherits ApiController
 
         <HttpGet>
-        <Route("", Name:="GetUsuarios")>
-        Public Function GetUsuarios() As IHttpActionResult
+        <Route("{user}/{esGrid}", Name:="GetUsuarios")>
+        Public Function GetUsuarios(user As String, esGrid As String) As IHttpActionResult
 
             Dim db As New MCEContext
             Try
+                Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = user).SingleOrDefault()
+                If usuarioAdmin.EsAdmin = False And esGrid = "grid" Then
+                    Return Me.Content(HttpStatusCode.BadRequest, "No tiene privilegios para manejar esta operación.")
+                End If
+
                 Dim listUsuarios As List(Of Usuario) = db.Usuarios.ToList()
                 If listUsuarios Is Nothing OrElse listUsuarios.Count = 0 Then Return Me.Ok(New List(Of Models.UsuarioDTO))
                 Dim listUsuarioDto As New List(Of Models.UsuarioDTO)
@@ -43,6 +48,11 @@ Namespace Controllers.API
 
             Dim db As New MCEContext
             Try
+                Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = model.UsuarioLogin).SingleOrDefault()
+                If usuarioAdmin.EsAdmin = False Then
+                    Return Me.Content(HttpStatusCode.BadRequest, "No tiene privilegios para manejar esta operación.")
+                End If
+
                 If model.ID <> 0 Then
                     Dim userExist As Usuario = db.Usuarios.Where(Function(t) t.ID = model.ID).SingleOrDefault()
                     With userExist

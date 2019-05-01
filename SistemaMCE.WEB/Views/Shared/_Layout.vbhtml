@@ -258,7 +258,7 @@ desired effect
                 <!-- /.search form -->
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">HEADER</li>
+                    <li class="header">MENÚ</li>
                     <!-- Optionally, you can add icons to the links -->
                     <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i><span>Inicio</span></a></li>
                     <li class="treeview">

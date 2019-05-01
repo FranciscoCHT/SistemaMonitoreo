@@ -38,6 +38,11 @@ Namespace Controllers.API
 
             Dim db As New MCEContext
             Try
+                Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = model.UsuarioLogin).SingleOrDefault()
+                If usuarioAdmin.EsAdmin = False Then
+                    Return Me.Content(HttpStatusCode.BadRequest, "No tiene privilegios para manejar esta operación.")
+                End If
+
                 If model.ID <> 0 Then
                     Dim sectorExist As Sector = db.Sectores.Where(Function(s) s.ID = model.ID).SingleOrDefault()
                     With sectorExist
@@ -67,8 +72,8 @@ Namespace Controllers.API
         End Function
 
         <HttpDelete>
-        <Route("{id}", Name:="DeleteSector")>
-        Public Function DeleteSector(id As Integer) As IHttpActionResult
+        <Route("{user}/{id}", Name:="DeleteSector")>
+        Public Function DeleteSector(user As String, id As Integer) As IHttpActionResult
 
             If id = 0 Then
                 Return Me.Content(HttpStatusCode.NotFound, "No se puede eliminar el sector debido a posibles dependencias asociadas.")
@@ -76,6 +81,11 @@ Namespace Controllers.API
 
             Dim db As New MCEContext
             Try
+                Dim usuarioAdmin As Usuario = db.Usuarios.Where(Function(u) u.User = user).SingleOrDefault()
+                If usuarioAdmin.EsAdmin = False Then
+                    Return Me.Content(HttpStatusCode.BadRequest, "No tiene privilegios para manejar esta operación.")
+                End If
+
                 Dim sector As Sector = db.Sectores.Where(Function(s) s.ID = id).SingleOrDefault
 
                 If db.Nodos.Where(Function(n) n.Sector.ID = sector.ID).Any() Then
