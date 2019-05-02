@@ -716,6 +716,7 @@
     <Content Include="Views\Nodos\ConsumoActual.vbhtml" />
     <Content Include="Views\Nodos\ConsumoHistorico.vbhtml" />
     <Content Include="Views\Reportes\Index.vbhtml" />
+    <Content Include="Views\Usuarios\UsuarioConfig.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -772,6 +773,7 @@
     <TypeScriptCompile Include="Scripts\app\Nodos\nodos.ts" />
     <TypeScriptCompile Include="Scripts\app\Reportes\reportes.ts" />
     <TypeScriptCompile Include="Scripts\app\Sectores\sectores.ts" />
+    <TypeScriptCompile Include="Scripts\app\Usuarios\usuarioconf.ts" />
     <TypeScriptCompile Include="Scripts\app\Usuarios\usuarios.ts" />
     <TypeScriptCompile Include="Scripts\index.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\devextreme\devextreme.d.ts" />

@@ -2,7 +2,7 @@
     ViewData("Title") = "Index"
 End Code
 
-<section class="content-header">
+<section class="content-header" style="border-bottom: 1px solid #000;padding-bottom: 10px; margin-left:10px;margin-right: 10px;">
     <h1>
         <span style="text-shadow: 3px 3px 11px #a7a7a7; letter-spacing:1px;">Gestión de sectores</span>
         <small>Lista de sectores en el sistema y creación de éstos.</small>

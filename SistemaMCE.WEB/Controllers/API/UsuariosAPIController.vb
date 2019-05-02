@@ -117,5 +117,69 @@ Namespace Controllers.API
 
         End Function
 
+        <HttpGet>
+        <Route("{user}", Name:="GetUsuarioConfig")>
+        Public Function GetUsuarioConfig(user As String) As IHttpActionResult
+
+            Dim db As New MCEContext
+            Try
+                Dim usuarioConf As Usuario = db.Usuarios.Where(Function(u) u.User = user).SingleOrDefault()
+                'If usuarioAdmin.EsAdmin = False And esGrid = "grid" Then
+                '    Return Me.Content(HttpStatusCode.BadRequest, "No tiene privilegios para manejar esta operación.")
+                'End If
+
+                'Dim listUsuarios As List(Of Usuario) = db.Usuarios.ToList()
+                If usuarioConf Is Nothing Then Return Me.Ok(New Models.UsuarioDTO)
+                Dim usuarioConfDto As New Models.UsuarioDTO
+
+                usuarioConfDto = (New Models.UsuarioDTO With {.ID = usuarioConf.ID,
+                                                                .Nombre = usuarioConf.Nombre,
+                                                                .Apellido = usuarioConf.Apellido,
+                                                                .NombreCompleto = usuarioConf.Nombre + " " + usuarioConf.Apellido,
+                                                                .User = usuarioConf.User,
+                                                                .Pass = usuarioConf.Pass,
+                                                                .EsAdmin = usuarioConf.EsAdmin})
+                Return Me.Ok(usuarioConfDto)
+
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+        End Function
+
+        <HttpPost>
+        <Route("modificar", Name:="PostUsuarioConfig")>
+        Public Function PostUsuarioConfig(<FromBody> model As Models.UsuarioDTO) As IHttpActionResult
+
+            If model Is Nothing Then Return Me.Content(HttpStatusCode.BadRequest, "Error al obtener información.")
+
+            Dim db As New MCEContext
+            Try
+                If model.ID <> 0 Then
+                    Dim userExist As Usuario = db.Usuarios.Where(Function(t) t.ID = model.ID).SingleOrDefault()
+                    With userExist
+                        .Nombre = model.Nombre
+                        .Apellido = model.Apellido
+                        .User = model.User
+                        .Pass = model.Pass
+                        .EsAdmin = model.EsAdmin
+                    End With
+                    db.SaveChanges()
+                    Return Me.Ok(model)
+                End If
+
+                If db.Usuarios.Where(Function(t) t.User = model.User).Any Then
+                    Return Me.Content(HttpStatusCode.BadRequest, "Este usuario ya existe.")
+                End If
+
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+
+        End Function
+
     End Class
 End Namespace

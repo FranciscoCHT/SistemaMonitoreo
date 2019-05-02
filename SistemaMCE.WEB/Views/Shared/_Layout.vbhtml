@@ -77,7 +77,7 @@ desired effect
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
                         <!-- Messages: style can be found in dropdown.less-->
-                        <li class="dropdown messages-menu">
+                        @*<li class="dropdown messages-menu">
                             <!-- Menu toggle button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-envelope-o"></i>
@@ -173,7 +173,7 @@ desired effect
                                     <a href="#">View all tasks</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>*@
                         <!-- User Account Menu -->
                         <li class="dropdown user user-menu">
                             <!-- Menu Toggle Button -->
@@ -193,7 +193,7 @@ desired effect
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
-                                <li class="user-body">
+                                @*<li class="user-body">
                                     <div class="row">
                                         <div class="col-xs-4 text-center">
                                             <a href="#">Followers</a>
@@ -206,11 +206,11 @@ desired effect
                                         </div>
                                     </div>
                                     <!-- /.row -->
-                                </li>
+                                </li>*@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                                        <a href="~/Usuarios/UsuarioConfig" class="btn btn-default btn-flat">Perfil</a>
                                     </div>
                                     <div class="pull-right">
                                         <a href="#" onClick="logout()" class="btn btn-default btn-flat">Cerrar sesión</a>
@@ -219,9 +219,9 @@ desired effect
                             </ul>
                         </li>
                         <!-- Control Sidebar Toggle Button -->
-                        <li>
+                        @*<li>
                             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                        </li>
+                        </li>*@
                     </ul>
                 </div>
             </nav>
@@ -278,7 +278,7 @@ desired effect
                     <li><a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-user"></i><span>Usuarios</span></a></li>
                     <li><a href="@Url.Action("Index", "Sectores")"><i class="fa fa-map-marker"></i><span>Sectores</span></a></li>
                     <li><a href="@Url.Action("About", "Home")"><i class="fa fa-info"></i><span>About</span></a></li>
-                    <li><a href="@Url.Action("Contact", "Home")"><i class="fa fa-address-card"></i><span>Contact</span></a></li>
+                    <li><a href="#" onClick="logout()"><i class="fa fa-sign-out"></i><span>Cerrar sesión</span></a></li>
                     @*<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
                     <li class="treeview">
                         <a href="#">
@@ -334,7 +334,7 @@ desired effect
         </footer>
 
         <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
+        @*<aside class="control-sidebar control-sidebar-dark">
             <!-- Create the tabs -->
             <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
                 <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
@@ -404,7 +404,7 @@ desired effect
                 </div>
                 <!-- /.tab-pane -->
             </div>
-        </aside>
+        </aside>*@
         <!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
         immediately after the control sidebar -->
@@ -478,6 +478,9 @@ desired effect
         }
         else if (window.location.pathname.split('/').slice(-1)[0] == "ConsumoActual") {
             titulo = "Consumo Actual";
+        }
+        else if (window.location.pathname.split('/').slice(-1)[0] == "UsuarioConfig") {
+            titulo = "Configuración";
         }
         document.title = "Sistema MCE | " + titulo;
         //document.getElementById("titulo").innerHTML = window.location.pathname.split('/').slice(-1)[0];

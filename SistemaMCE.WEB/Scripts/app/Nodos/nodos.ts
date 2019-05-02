@@ -252,7 +252,7 @@ namespace Nodos {
 
         dataGridOptions: any = {
             dataSource: this.nodos,
-            widthasd: "80%",
+            width: "80%",
             loadPanel: {
                 enabled: true,
                 text: 'Cargando datos...'
@@ -260,7 +260,7 @@ namespace Nodos {
             selection: {
                 mode: "single"
             },
-            columns: [{ dataField: 'ID', visible: false }, { dataField: 'Estado', caption: 'Activo', width: '7%' }, 'Nombre', { dataField: 'TipoStr', caption: 'Tipo' }, 'Sector.Nombre', { dataField: 'Voltaje', alignment: "left", width: '10%' }, { dataField: 'Usuario.User', caption: 'Usuario' } ],
+            columns: [{ dataField: 'ID', width: 'auto' }, { dataField: 'Estado', caption: 'Activo', width: '7%' }, 'Nombre', { dataField: 'TipoStr', caption: 'Tipo' }, 'Sector.Nombre', { dataField: 'Voltaje', alignment: "left", width: '10%' }, { dataField: 'Usuario.User', caption: 'Usuario' } ],
             editing: {
                 texts: {
                     confirmDeleteMessage: '¿Esta seguro de eliminar registro de nodo?'

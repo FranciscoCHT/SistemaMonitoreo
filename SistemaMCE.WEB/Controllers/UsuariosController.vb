@@ -9,5 +9,10 @@ Namespace Controllers
         Function Index() As ActionResult
             Return View()
         End Function
+
+        <Route("UsuarioConfig")>
+        Function UsuarioConfig() As ActionResult
+            Return View()
+        End Function
     End Class
 End Namespace
