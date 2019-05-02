@@ -58,16 +58,31 @@ End Code
     </div>
 
     <span class="dx-form-group-caption" style="color: #6a828e;font-size:16px;"><b>Consumo histórico en la fecha seleccionada</b></span>
-    <div class="" style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 5em;-webkit-column-rule: 1px dotted #ddd;border-top: 1px solid #7eb2be;padding-top: 4px;padding-bottom: 20px;">
+    <div class="" style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 4em;-webkit-column-rule: 1px dotted #ddd;border-top: 1px solid #7eb2be;padding-top: 4px;padding-bottom: 20px;">
         <div id="chartYear" data-bind="dxChart: chartYear"></div>
         <div id="chartMonth" data-bind="dxChart: chartMonth"></div>
     </div>
 
     <span class="dx-form-group-caption" style="color: #6a828e;font-size:16px;"><b>Precio histórico en la fecha seleccionada</b></span>
-    <div class="" style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 5em;-webkit-column-rule: 1px dotted #ddd;border-top: 1px solid #7eb2be;padding-top: 4px;">
+    <div class="" style="-webkit-column-count: 2;-webkit-column-width: 280px;-webkit-column-gap: 4em;-webkit-column-rule: 1px dotted #ddd;border-top: 1px solid #7eb2be;padding-top: 4px;">
         <div id="chartYearPrecio" data-bind="dxChart: chartYearPrecio"></div>
         <div id="chartMonthPrecio" data-bind="dxChart: chartMonthPrecio"></div>
     </div>
+
+    <div style="-webkit-column-count: 2;-webkit-column-width: 130px; margin-bottom:10px;">
+        <div style="text-align:center;">
+            <div id="buttonYear" data-bind="dxButton: buttonYear" style="margin-bottom:8px;"></div>
+        </div>
+        <div style="text-align:center;">
+            <div id="buttonMes" data-bind="dxButton: buttonMes" ></div>
+        </div>
+    </div>
+
+    <div class="dx-field" style="display: none;">
+        <div id="gridLectura" style="margin: 0 auto;" data-bind="dxDataGrid: gridLectura"></div>
+    </div>
+
+    <div id="gridPopup" data-bind="dxPopup: gridPopup"></div>
 
 </div>
 

@@ -657,5 +657,162 @@ namespace Nodos {
                 }
             }
         }
+
+        gridPopup: any = {
+            visible: false,
+            width: '80%',
+            height: "80%",
+            position: {
+                my: 'center',
+                at: 'center',
+                of: window
+            },
+            dragEnabled: true,
+            closeOnOutsideClick: true,
+            contentTemplate: (e) => {
+                return $('#gridLectura')
+            },
+            toolbarItems: [{
+                toolbar: 'top',
+                text: "Detalle Lecturas",
+                location: "center"
+            }]
+        };
+
+        buttonMes: any = {
+            text: "Detalle Mes",
+            icon: "fa fa-table",
+            type: 'default',
+            onClick: (e) => {
+                let chartMonth = $('#chartMonth').dxChart('instance').option('dataSource');
+                let chartItems = chartMonth.items();
+
+                let gridLectura = $('#gridLectura').dxDataGrid('instance'); 
+                gridLectura.option('dataSource', chartItems);
+                $("#gridLectura").css('font-size', 10 + 'px')
+
+                let popGrid = $('#gridPopup').dxPopup('instance');
+                popGrid.show();
+            }
+        }
+
+        buttonYear: any = {
+            text: "Detalle Año",
+            icon: "fa fa-table",
+            type: 'default',
+           // disabled: this.enable,
+            onClick: (e) => {
+                let chartYear = $('#chartYear').dxChart('instance').option('dataSource');
+                let chartItems = chartYear.items();
+
+                let gridLectura = $('#gridLectura').dxDataGrid('instance'); 
+                gridLectura.option('dataSource', chartItems);
+                $("#gridLectura").css('font-size', 10 + 'px')
+
+                let popGrid = $('#gridPopup').dxPopup('instance');
+                popGrid.show();
+            }
+        }
+
+        gridLectura: any = {
+            dataSource: this.lectura,
+            height: '100%',
+            width: '100%',
+            loadPanel: {
+                enabled: true,
+                text: 'Cargando datos...'
+            },
+            selection: {
+                mode: "multiple",
+                showCheckBoxesMode: 'onLongTap'
+            },
+            columns: [
+                { dataField: 'ID', visible: false },
+                { dataField: 'Nodo.Nombre', caption: 'Nodo', width: "auto" },
+                { dataField: 'FechaHora', caption: 'Fecha', width: "auto", dataType: 'date', format: 'dd/MM/yy hh:mm', sortOrder: 'asc' },
+                'Irms',
+                'Watt',
+                { dataField: 'Kwh', caption: 'Kilowatt Hora' },
+                { dataField: 'Precio', caption: 'Precio ($)', format: { type: 'currency', precision: 2 } }
+            ],
+            editing: {
+                texts: {
+                    confirmDeleteMessage: '¿Esta seguro de eliminar registro de usuario?'
+                }
+            },
+            grouping: {
+                allowCollapsing: true
+            },
+            export: {
+                allowExportSelectedData: true,
+                enabled: true,
+                fileName: 'lecturas',
+                texts: {
+                    exportAll: 'Exportar todo',
+                    exportSelectedRows: 'Exportar selección',
+                    exportTo: 'Exportar'
+                }
+            }, columnChooser: {
+                allowSearch: true
+            },
+            showBorders: true
+            , rowAlternationEnabled: true
+            , showRowLines: true
+            , showColumnLines: true
+            , filterRow: {
+                visible: true,
+                showOperationChooser: true,
+                applyFilter: "auto"
+            },
+            summary: {
+                totalItems: [{
+                    column: "FechaHora",
+                    summaryType: "count",
+                    customizeText: (e) => {
+                        return "Lecturas: " + e.value
+                    }
+                }, {
+                    column: "Irms",
+                    summaryType: "sum",
+                    valueFormat: { type: "fixedPoint", precision: 2 },
+                    customizeText: (e) => {
+                        return "Total: " + e.valueText
+                    }
+                }, {
+                    column: "Watt",
+                    summaryType: "sum",
+                    valueFormat: { type: "fixedPoint", precision: 2 },
+                    customizeText: (e) => {
+                        return "Total: " + e.valueText
+                    }
+                }, {
+                    column: "Kwh",
+                    summaryType: "sum",
+                    valueFormat: { type: "fixedPoint", precision: 2 },
+                    customizeText: (e) => {
+                        return "Total: " + e.valueText
+                    }
+                }, {
+                    column: "Precio",
+                    summaryType: "sum",
+                    valueFormat: "currency",
+                    customizeText: (e) => {
+                        return "Total: " + e.valueText
+                    }
+                }],
+                texts: {
+                    count: "",
+                    sum: "",
+                }
+            },
+            searchPanel: {
+                visible: true,
+                width: 250,
+                placeholder: "Buscar..."
+            },
+            onRowClick: (e) => {
+                this.enable(false);
+            }
+        };
     }
 }
