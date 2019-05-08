@@ -211,6 +211,7 @@
     <Compile Include="Controllers\API\NodosAPIController.vb" />
     <Compile Include="Controllers\API\SectoresAPIController.vb" />
     <Compile Include="Controllers\API\UsuariosAPIController.vb" />
+    <Compile Include="Controllers\ControlController.vb" />
     <Compile Include="Controllers\LoginController.vb" />
     <Compile Include="Controllers\NodosController.vb" />
     <Compile Include="Controllers\ReportesController.vb" />
@@ -717,6 +718,7 @@
     <Content Include="Views\Nodos\ConsumoHistorico.vbhtml" />
     <Content Include="Views\Reportes\Index.vbhtml" />
     <Content Include="Views\Usuarios\UsuarioConfig.vbhtml" />
+    <Content Include="Views\Control\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -766,6 +768,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\app\Control\control.ts" />
     <TypeScriptCompile Include="Scripts\app\Home\home.ts" />
     <TypeScriptCompile Include="Scripts\app\Login\login.ts" />
     <TypeScriptCompile Include="Scripts\app\Nodos\nodoactual.ts" />

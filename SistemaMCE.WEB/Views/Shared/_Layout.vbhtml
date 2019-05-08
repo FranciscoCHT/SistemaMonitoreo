@@ -274,6 +274,7 @@ desired effect
                             <li><a href="@Url.Action("ConsumoHistorico", "Nodos")"><i class="fa fa-bar-chart"></i><span>Consumo histórico</span></a></li>
                         </ul>
                     </li>
+                    <li><a href="@Url.Action("Index", "Control")"><i class="fa fa-file-excel-o"></i><span>Control Nodos</span></a></li>
                     <li><a href="@Url.Action("Index", "Reportes")"><i class="fa fa-file-excel-o"></i><span>Reporte Lecturas</span></a></li>
                     <li><a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-user"></i><span>Usuarios</span></a></li>
                     <li><a href="@Url.Action("Index", "Sectores")"><i class="fa fa-map-marker"></i><span>Sectores</span></a></li>
