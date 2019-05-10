@@ -10,8 +10,11 @@ namespace Reportes {
         public contador: KnockoutObservable<number> = ko.observable<number>(0);
         public start: KnockoutObservable<boolean> = ko.observable<boolean>(true);
         public nodos: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public listNodoReport: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public idReporte: KnockoutObservable<any> = ko.observable<any>(0);
         public idNodo: KnockoutObservable<any> = ko.observable<any>(-1);
         public idSector: KnockoutObservable<any> = ko.observable<any>(-1);
+        public fechaReporte: KnockoutObservable<any> = ko.observable<any>();
         public fechaStart: KnockoutObservable<any> = ko.observable<any>(null);
         public fechaEnd: KnockoutObservable<any> = ko.observable<any>(null);
         public sectores: KnockoutObservableArray<any> = ko.observableArray<any>();
@@ -63,6 +66,67 @@ namespace Reportes {
                 //let chartHist = $('#chartHist').dxChart('instance'); 
                 //let ds = chartHist.option('dataSource')
                 //chartHist.option('dataSource', ds);
+            }).fail((data: any) => {
+                DevExpress.ui.notify(data.responseJSON, "error", 3000);
+            });
+        }
+
+        addReporte(): void {
+            if (this.fechaReporte() === "" || this.fechaReporte() === null || this.fechaReporte() === undefined) {
+                DevExpress.ui.notify("No se puede guardar reporte, falta fecha.", "error", 3000);
+                return;
+            }
+            if (this.fechaStart() === "" || this.fechaStart() === null || this.fechaStart() === undefined) {
+                DevExpress.ui.notify("No se puede crear reporte, falta fecha de inicio.", "error", 3000);
+                return;
+            }
+            if (this.fechaEnd() === "" || this.fechaEnd() === null || this.fechaEnd() === undefined) {
+                DevExpress.ui.notify("No se puede crear reporte, falta fecha de término.", "error", 3000);
+                return;
+            }
+
+            let url = 'api/reportes';
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    FechaHora: this.fechaReporte(),
+                    FechaInicio: new Date(this.fechaStart()).toISOString(),
+                    FechaTermino: new Date(this.fechaEnd()).toISOString(),
+                    UsuarioLogin: window.localStorage.getItem('user')
+                }
+            }).done((data: any) => {
+                DevExpress.ui.notify("Reporte creado correctamente.", "success", 2000);
+                this.idReporte(data.ID);
+                this.addNodoReporte();
+            }).fail((data: any) => {
+                DevExpress.ui.notify(data.responseJSON, "error", 3000);
+            });
+        }
+
+        addNodoReporte(): void {
+            if (this.idNodo() != -1) {
+                this.listNodoReport.push({
+                    NodoID: this.idNodo()
+                })
+            } else {
+                for (var i: number = 0; i < this.nodos().length; i++) {
+                    if (this.nodos()[i].ID != -1) {
+                        this.listNodoReport.push({
+                            NodoID: this.nodos()[i].ID
+                        })
+                    }
+                }
+            }
+            let info = JSON.stringify(this.listNodoReport());
+            let url = 'api/reportes/nodoReporte';
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: { listNodoReportDTO: this.listNodoReport(), ID: this.idReporte() }
+            }).done((data: any) => {
+                DevExpress.ui.notify("Reporte creado correctamente.", "success", 2000);
+                this.listNodoReport([]);
             }).fail((data: any) => {
                 DevExpress.ui.notify(data.responseJSON, "error", 3000);
             });
@@ -239,6 +303,8 @@ namespace Reportes {
                 store: this.customStore,
                 filter: ['Año', '=', 0]
             }),
+            allowColumnResizing: true,
+            columnResizingMode: 'widget',
             loadPanel: {
                 enabled: true,
                 text: 'Cargando datos...'
@@ -250,12 +316,15 @@ namespace Reportes {
             columns: [
                 { dataField: 'ID', visible: false },
                 { dataField: 'Nodo.Nombre', caption: 'Nodo', width: "auto" },
-                { dataField: 'FechaHora', caption: 'Fecha', width: "auto", dataType: 'date', format: 'dd/MM/yy hh:mm', sortOrder: 'asc' },
+                { dataField: 'FechaHora', caption: 'Fecha', width: "auto", dataType: 'date', format: 'dd/MM/yy HH:mm', sortOrder: 'asc' },
                 'Irms',
                 'Watt',
                 { dataField: 'Kwh', caption: 'Kilowatt Hora' },
                 { dataField: 'Precio', caption: 'Precio ($)', format: { type: 'currency', precision: 2 } }
             ],
+            onContentReady: (e) => {
+                e.component.element().find(".dx-datagrid-export-button").dxButton("instance").option("disabled", e.component.totalCount() === 0);
+            },
             editing: {
                 texts: {
                     confirmDeleteMessage: '¿Esta seguro de eliminar registro de usuario?'
@@ -265,14 +334,22 @@ namespace Reportes {
                 allowCollapsing: true
             },
             export: {
-                allowExportSelectedData: true,
+                //allowExportSelectedData: true,
                 enabled: true,
                 fileName: 'lecturas',
+                excelFilterEnabled: true,
                 texts: {
                     exportAll: 'Exportar todo',
                     exportSelectedRows: 'Exportar selección',
                     exportTo: 'Exportar'
                 }
+            },
+            onExported: (e) => {
+                this.fechaReporte(new Date().toLocaleString());
+                this.addReporte();
+            },
+            onFileSaving: (e) => {
+                e.fileName = "lecturas-" + this.fechaReporte();
             }, columnChooser: {
                 allowSearch: true
             },

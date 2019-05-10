@@ -16,6 +16,8 @@ Namespace Model
         Public Overridable Property Nodos As DbSet(Of Nodo)
         Public Overridable Property Sectores As DbSet(Of Sector)
         Public Overridable Property Lecturas As DbSet(Of Lectura)
+        Public Overridable Property Reportes As DbSet(Of Reporte)
+        Public Overridable Property NodoReportes As DbSet(Of NodoReporte)
 
         Protected Overrides Sub OnModelCreating(modelBuilder As DbModelBuilder)
             MyBase.OnModelCreating(modelBuilder)

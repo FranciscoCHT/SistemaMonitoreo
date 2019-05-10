@@ -54,13 +54,21 @@ namespace Login {
 
         userBoxOptions: any = {
             showClearButton: false,
-            stylingMode: "underlined"
+            stylingMode: "underlined",
+            onEnterKey: (e) => {
+                this.loading(true);
+                this.PostLogin();
+            }
         }
 
         passBoxOptions: any = {
             showClearButton: false,
             mode: "password",
-            stylingMode: "underlined"
+            stylingMode: "underlined",
+            onEnterKey: (e) => {
+                this.loading(true);
+                this.PostLogin();
+            }
         }
 
         constructor() {

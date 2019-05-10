@@ -9,5 +9,6 @@
         Public Overridable Property Usuario As Usuario
 
         Public Overridable Property Lecturas As IList(Of Lectura)
+        Public Overridable Property NodoReportes As IList(Of NodoReporte)
     End Class
 End Namespace

@@ -209,6 +209,7 @@
     <Compile Include="Controllers\API\HomeAPIController.vb" />
     <Compile Include="Controllers\API\LoginAPIController.vb" />
     <Compile Include="Controllers\API\NodosAPIController.vb" />
+    <Compile Include="Controllers\API\ReportesAPIController.vb" />
     <Compile Include="Controllers\API\SectoresAPIController.vb" />
     <Compile Include="Controllers\API\UsuariosAPIController.vb" />
     <Compile Include="Controllers\ControlController.vb" />
@@ -222,6 +223,8 @@
     </Compile>
     <Compile Include="Models\LecturaDTO.vb" />
     <Compile Include="Models\NodoDTO.vb" />
+    <Compile Include="Models\NodoReporteDTO.vb" />
+    <Compile Include="Models\ReporteDTO.vb" />
     <Compile Include="Models\SectorDTO.vb" />
     <Compile Include="Models\TipoDTO.vb" />
     <Compile Include="Models\UsuarioDTO.vb" />
@@ -719,6 +722,7 @@
     <Content Include="Views\Reportes\Index.vbhtml" />
     <Content Include="Views\Usuarios\UsuarioConfig.vbhtml" />
     <Content Include="Views\Control\Index.vbhtml" />
+    <Content Include="Views\Reportes\Historial.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -774,6 +778,7 @@
     <TypeScriptCompile Include="Scripts\app\Nodos\nodoactual.ts" />
     <TypeScriptCompile Include="Scripts\app\Nodos\nodohistorico.ts" />
     <TypeScriptCompile Include="Scripts\app\Nodos\nodos.ts" />
+    <TypeScriptCompile Include="Scripts\app\Reportes\historial.ts" />
     <TypeScriptCompile Include="Scripts\app\Reportes\reportes.ts" />
     <TypeScriptCompile Include="Scripts\app\Sectores\sectores.ts" />
     <TypeScriptCompile Include="Scripts\app\Usuarios\usuarioconf.ts" />

@@ -98,10 +98,20 @@
       <DependentUpon>201904142048517_BDModificada_ValoresConfig.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201904142048517_BDModificada_ValoresConfig.vb" />
+    <Compile Include="Migrations\201905090336060_ReporteNodosTable.Designer.vb">
+      <DependentUpon>201905090336060_ReporteNodosTable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905090336060_ReporteNodosTable.vb" />
+    <Compile Include="Migrations\201905092002365_addDatesReporte.Designer.vb">
+      <DependentUpon>201905092002365_addDatesReporte.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905092002365_addDatesReporte.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\Lectura.vb" />
     <Compile Include="Model\MCEContext.vb" />
     <Compile Include="Model\Nodo.vb" />
+    <Compile Include="Model\NodoReporte.vb" />
+    <Compile Include="Model\Reporte.vb" />
     <Compile Include="Model\Sector.vb" />
     <Compile Include="Model\Tipo.vb" />
     <Compile Include="Model\Usuario.vb" />
@@ -130,6 +140,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904142048517_BDModificada_ValoresConfig.resx">
       <DependentUpon>201904142048517_BDModificada_ValoresConfig.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905090336060_ReporteNodosTable.resx">
+      <DependentUpon>201905090336060_ReporteNodosTable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905092002365_addDatesReporte.resx">
+      <DependentUpon>201905092002365_addDatesReporte.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

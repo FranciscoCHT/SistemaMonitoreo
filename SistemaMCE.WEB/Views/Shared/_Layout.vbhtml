@@ -274,25 +274,36 @@ desired effect
                             <li><a href="@Url.Action("ConsumoHistorico", "Nodos")"><i class="fa fa-bar-chart"></i><span>Consumo histórico</span></a></li>
                         </ul>
                     </li>
-                    <li><a href="@Url.Action("Index", "Control")"><i class="fa fa-file-excel-o"></i><span>Control Nodos</span></a></li>
-                    <li><a href="@Url.Action("Index", "Reportes")"><i class="fa fa-file-excel-o"></i><span>Reporte Lecturas</span></a></li>
-                    <li><a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-user"></i><span>Usuarios</span></a></li>
-                    <li><a href="@Url.Action("Index", "Sectores")"><i class="fa fa-map-marker"></i><span>Sectores</span></a></li>
-                    <li><a href="@Url.Action("About", "Home")"><i class="fa fa-info"></i><span>About</span></a></li>
-                    <li><a href="#" onClick="logout()"><i class="fa fa-sign-out"></i><span>Cerrar sesión</span></a></li>
-                    @*<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+                    <li><a href="@Url.Action("Index", "Control")"><i class="fa fa-plug"></i><span>Control Nodos</span></a></li>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-link"></i> <span>Multilevel</span>
+                            <i class="fa fa-link"></i> <span>Reportes</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="#">Link in level 2</a></li>
-                            <li><a href="#">Link in level 2</a></li>
+                            <li><a href="@Url.Action("Index", "Reportes")"><i class="fa fa-file-excel-o"></i><span>Reporte Lecturas</span></a></li>
+                            <li><a href="@Url.Action("Historial", "Reportes")"><i class="fa fa-history"></i><span>Historial Reportes</span></a></li>
                         </ul>
-                    </li>*@
+                    </li>
+                    <li><a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-user"></i><span>Usuarios</span></a></li>
+                    <li><a href="@Url.Action("Index", "Sectores")"><i class="fa fa-map-marker"></i><span>Sectores</span></a></li>
+                    <li><a href="@Url.Action("About", "Home")"><i class="fa fa-info"></i><span>About</span></a></li>
+                    <li><a href="#" onClick="logout()"><i class="fa fa-sign-out"></i><span>Cerrar sesión</span></a></li>
+                    @*<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-link"></i> <span>Multilevel</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="#">Link in level 2</a></li>
+                <li><a href="#">Link in level 2</a></li>
+            </ul>
+        </li>*@
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
