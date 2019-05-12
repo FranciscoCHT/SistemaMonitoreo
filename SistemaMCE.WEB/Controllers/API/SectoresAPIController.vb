@@ -19,7 +19,9 @@ Namespace Controllers.API
 
                 For Each sector As Sector In listSectores
                     listSectorDto.Add(New Models.SectorDTO With {.ID = sector.ID,
-                                                                .Nombre = sector.Nombre})
+                                                                .Nombre = sector.Nombre,
+                                                                .Codigo = sector.Codigo,
+                                                                .FechaCreacion = sector.FechaCreacion})
                 Next
                 Return Me.Ok(listSectorDto)
 
@@ -47,6 +49,7 @@ Namespace Controllers.API
                     Dim sectorExist As Sector = db.Sectores.Where(Function(s) s.ID = model.ID).SingleOrDefault()
                     With sectorExist
                         .Nombre = model.Nombre
+                        .Codigo = model.Codigo
                     End With
                     db.SaveChanges()
                     Return Me.Ok(model)
@@ -56,7 +59,9 @@ Namespace Controllers.API
                     Return Me.Content(HttpStatusCode.BadRequest, "Este sector ya existe.")
                 End If
 
-                Dim sector As New Sector With {.Nombre = model.Nombre}
+                Dim sector As New Sector With {.Nombre = model.Nombre,
+                                               .Codigo = model.Codigo,
+                                               .FechaCreacion = Date.Now}
 
                 db.Sectores.Add(sector)
                 db.SaveChanges()

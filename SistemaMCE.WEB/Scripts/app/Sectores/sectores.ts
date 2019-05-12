@@ -15,6 +15,7 @@ namespace Sectores {
             let formData: any = $('#form-sectores').dxForm('option').formData;
             formData.ID = 0;
             formData.Nombre = "";
+            formData.Codigo = "";
         };
 
         getSectores(): void {
@@ -27,7 +28,9 @@ namespace Sectores {
                 for (var i: number = 0; i < data.length; i++) {
                     this.sectores.push({
                         ID: data[i].ID,
-                        Nombre: data[i].Nombre
+                        Nombre: data[i].Nombre,
+                        FechaCreacion: data[i].FechaCreacion,
+                        Codigo: data[i].Codigo
                     });
                 }
             }).fail((data: any) => {
@@ -44,6 +47,11 @@ namespace Sectores {
                 return;
             }
 
+            if (formData.Codigo === "" || formData.Codigo === null || formData.Codigo === undefined) {
+                DevExpress.ui.notify("No se puede crear sector, falta código.", "error", 3000);
+                return;
+            }
+
             let url = 'api/sectores';
             $.ajax({
                 type: 'POST',
@@ -51,6 +59,7 @@ namespace Sectores {
                 data: {
                     ID: formData.ID,
                     Nombre: formData.Nombre,
+                    Codigo: formData.Codigo,
                     UsuarioLogin: window.localStorage.getItem('user')
                 }
             }).done((data: any) => {
@@ -102,6 +111,13 @@ namespace Sectores {
                         placeholder: "Ej. Cocina, Departamento B...",
                         showClearButton: true
                     }
+                }, {
+                    dataField: "Codigo",
+                    editorType: "dxTextBox",
+                    editorOptions: {
+                        placeholder: "Ej. DI01, DF04...",
+                        showClearButton: true
+                    }
                 }]
             }]
         };
@@ -128,7 +144,7 @@ namespace Sectores {
             selection: {
                 mode: "single"
             },
-            columns: [{ dataField: 'ID', width: "12%", alignment: "left" }, { dataField: 'Nombre', caption: 'Nombre de Sector' }],
+            columns: [{ dataField: 'ID', width: "10%", alignment: "left" }, { dataField: 'Codigo', caption: 'Código', alignment: "left", width: "12%" }, { dataField: 'Nombre', caption: 'Nombre de Sector' }, { dataField: 'FechaCreacion', caption: 'Fecha de Creacion', dataType: 'date', format: 'dd/MM/yy HH:mm' }],
             editing: {
                 texts: {
                     confirmDeleteMessage: '¿Esta seguro de eliminar registro de sector?'
@@ -167,7 +183,8 @@ namespace Sectores {
                 let formData: any = $('#form-sectores').dxForm('option');
                 let sectorData: any = {
                     ID: e.data.ID,
-                    Nombre: e.data.Nombre
+                    Nombre: e.data.Nombre,
+                    Codigo: e.data.Codigo
                 }
                 this.idRow(sectorData.ID);
                 this.idRowIndex(e.rowIndex);
