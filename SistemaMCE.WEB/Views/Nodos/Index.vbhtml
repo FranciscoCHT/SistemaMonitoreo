@@ -21,7 +21,7 @@ End Code
         <div id="form-nodos" data-bind="dxForm: formOptions"></div>
     </div>
 
-    <div class="dx-field" style="width: 80%;margin: 10px auto;">
+    <div class="dx-field" style="margin: 10px auto;">
         <div id="botonesDetalle" class="btn-group" role="group" style="float:right;">
             <div id="botonOpt" data-bind="dxButton: modifPopup"></div>
             <div id="botonOpt" data-bind="dxButton: buttonOptionsDelete"></div>

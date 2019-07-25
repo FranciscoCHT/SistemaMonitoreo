@@ -39,6 +39,7 @@ Namespace Controllers.API
                                                                 .TipoStr = nodo.Tipo.ToString,
                                                                 .Estado = nodo.Estado,
                                                                 .Voltaje = nodo.Voltaje,
+                                                                .FCalibracion = nodo.FCalibracion,
                                                                 .Sector = New Models.SectorDTO With {.ID = nodo.Sector.ID,
                                                                                                     .Nombre = nodo.Sector.Nombre},
                                                                 .Usuario = New Models.UsuarioDTO With {.ID = nodo.Usuario.ID, 'No creo que esto sea necesario, al ser el mismo usuario en cada iteracion.
@@ -78,6 +79,7 @@ Namespace Controllers.API
                         .Tipo = model.Tipo
                         .Estado = model.Estado
                         .Voltaje = model.Voltaje
+                        .FCalibracion = model.FCalibracion
                         .Sector = db.Sectores.Where(Function(s) s.ID = model.SectorID).SingleOrDefault()
                         .Usuario = db.Usuarios.Where(Function(u) u.ID = model.UsuarioID).SingleOrDefault()
                     End With
@@ -95,6 +97,7 @@ Namespace Controllers.API
                                                 .Tipo = model.Tipo,
                                                 .Estado = model.Estado,
                                                 .Voltaje = model.Voltaje,
+                                                .FCalibracion = model.FCalibracion,
                                                 .Sector = db.Sectores.Where(Function(s) s.ID = model.SectorID).SingleOrDefault(),
                                                 .Usuario = db.Usuarios.Where(Function(u) u.ID = model.UsuarioID).SingleOrDefault()
                 }

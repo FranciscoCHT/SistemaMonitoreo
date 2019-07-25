@@ -22,6 +22,7 @@ namespace Nodos {
             formData.Tipo = "";
             formData.Estado = "";
             formData.Voltaje = "";
+            formData.FCalibracion = "";
             formData.Sector = "";
             formData.Usuario = "";
         };
@@ -41,6 +42,7 @@ namespace Nodos {
                         TipoStr: data[i].TipoStr,
                         Estado: data[i].Estado,
                         Voltaje: data[i].Voltaje,
+                        FCalibracion: data[i].FCalibracion,
                         Sector: data[i].Sector,
                         Usuario: data[i].Usuario
                     });
@@ -110,6 +112,10 @@ namespace Nodos {
                 DevExpress.ui.notify("No se puede crear nodo, falta definir voltaje", "error", 3000);
                 return;
             }
+            if (formData.FCalibracion === "" || formData.FCalibracion === null || formData.FCalibracion === undefined) {
+                DevExpress.ui.notify("No se puede crear nodo, falta definir factor de calibración", "error", 3000);
+                return;
+            }
             if (formData.Sector === "" || formData.Sector === null || formData.Sector === undefined) {
                 DevExpress.ui.notify("No se puede crear nodo, falta seleccionar sector.", "error", 3000);
                 return;
@@ -129,6 +135,7 @@ namespace Nodos {
                     Tipo: formData.Tipo,
                     Estado: formData.Estado,
                     Voltaje: formData.Voltaje,
+                    FCalibracion: formData.FCalibracion,
                     SectorID: formData.Sector,
                     UsuarioID: formData.Usuario,
                     UsuarioLogin: window.localStorage.getItem('user')
@@ -217,6 +224,14 @@ namespace Nodos {
                         placeholder: "220",
                     }
                 }, {
+                    dataField: "FCalibracion",
+                    editorType: "dxNumberBox",
+                    label: { text: 'Factor de calibración' },
+                    editorOptions: {
+                        showClearButton: true,
+                        placeholder: "2.65, 10.0...",
+                    }
+                }, {
                     dataField: "Sector",
                     editorType: "dxSelectBox",
                     editorOptions: {
@@ -252,7 +267,7 @@ namespace Nodos {
 
         dataGridOptions: any = {
             dataSource: this.nodos,
-            width: "80%",
+
             loadPanel: {
                 enabled: true,
                 text: 'Cargando datos...'
@@ -260,7 +275,7 @@ namespace Nodos {
             selection: {
                 mode: "single"
             },
-            columns: [{ dataField: 'ID', width: 'auto' }, { dataField: 'Estado', caption: 'Activo', width: '7%' }, 'Nombre', { dataField: 'TipoStr', caption: 'Tipo' }, 'Sector.Nombre', { dataField: 'Voltaje', alignment: "left", width: '10%' }, { dataField: 'Usuario.User', caption: 'Usuario' } ],
+            columns: [{ dataField: 'ID', width: 'auto' }, { dataField: 'Estado', caption: 'Activo', width: '7%' }, 'Nombre', { dataField: 'TipoStr', caption: 'Tipo' }, 'Sector.Nombre', { dataField: 'Voltaje', alignment: "left", width: '10%' }, { dataField: 'FCalibracion', caption: 'Factor Calibracion', alignment: "left", width: '10%' }, { dataField: 'Usuario.User', caption: 'Usuario' } ],
             editing: {
                 texts: {
                     confirmDeleteMessage: '¿Esta seguro de eliminar registro de nodo?'
@@ -303,6 +318,7 @@ namespace Nodos {
                     Tipo: e.data.Tipo,
                     Estado: e.data.Estado,
                     Voltaje: e.data.Voltaje,
+                    FCalibracion: e.data.FCalibracion,
                     Sector: e.data.Sector.ID,
                     Usuario: e.data.Usuario.ID
                 }

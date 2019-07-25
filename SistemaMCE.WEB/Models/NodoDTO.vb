@@ -6,6 +6,7 @@
         Public Property TipoStr As String
         Public Property Estado As Boolean
         Public Property Voltaje As Integer
+        Public Property FCalibracion As Decimal
         Public Overridable Property Sector As SectorDTO
         Public Overridable Property SectorID As Integer
         Public Overridable Property Usuario As UsuarioDTO

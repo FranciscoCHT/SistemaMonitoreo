@@ -110,6 +110,10 @@
       <DependentUpon>201905122220148_FechaYCod_Sector.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201905122220148_FechaYCod_Sector.vb" />
+    <Compile Include="Migrations\201907250043041_addFCalibracion.Designer.vb">
+      <DependentUpon>201907250043041_addFCalibracion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907250043041_addFCalibracion.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\Lectura.vb" />
     <Compile Include="Model\MCEContext.vb" />
@@ -153,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905122220148_FechaYCod_Sector.resx">
       <DependentUpon>201905122220148_FechaYCod_Sector.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907250043041_addFCalibracion.resx">
+      <DependentUpon>201907250043041_addFCalibracion.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
