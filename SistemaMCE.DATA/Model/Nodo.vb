@@ -4,7 +4,7 @@
         Public Property Nombre As String
         Public Property Tipo As Tipo
         Public Property Estado As Boolean
-        Public Property Voltaje As Integer
+        Public Property Voltaje As Decimal
         Public Property FCalibracion As Decimal
         Public Overridable Property Sector As Sector
         Public Overridable Property Usuario As Usuario

@@ -118,6 +118,10 @@
       <DependentUpon>201908182127244_changeDecimals.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201908182127244_changeDecimals.vb" />
+    <Compile Include="Migrations\201908182319251_VoltajeADecimal.Designer.vb">
+      <DependentUpon>201908182319251_VoltajeADecimal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908182319251_VoltajeADecimal.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\Lectura.vb" />
     <Compile Include="Model\MCEContext.vb" />
@@ -167,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908182127244_changeDecimals.resx">
       <DependentUpon>201908182127244_changeDecimals.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908182319251_VoltajeADecimal.resx">
+      <DependentUpon>201908182319251_VoltajeADecimal.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
