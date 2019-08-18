@@ -114,6 +114,10 @@
       <DependentUpon>201907250043041_addFCalibracion.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201907250043041_addFCalibracion.vb" />
+    <Compile Include="Migrations\201908182127244_changeDecimals.Designer.vb">
+      <DependentUpon>201908182127244_changeDecimals.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908182127244_changeDecimals.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\Lectura.vb" />
     <Compile Include="Model\MCEContext.vb" />
@@ -160,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907250043041_addFCalibracion.resx">
       <DependentUpon>201907250043041_addFCalibracion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908182127244_changeDecimals.resx">
+      <DependentUpon>201908182127244_changeDecimals.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

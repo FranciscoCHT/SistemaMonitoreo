@@ -24,10 +24,10 @@ Namespace Model
             modelBuilder.Conventions.Remove(Of PluralizingTableNameConvention)()
             modelBuilder.Conventions.Remove(Of OneToManyCascadeDeleteConvention)()
             modelBuilder.Conventions.Remove(Of ManyToManyCascadeDeleteConvention)()
-            modelBuilder.Entity(Of Lectura)().Property(Function(p) p.Irms).HasPrecision(18, 10)
-            modelBuilder.Entity(Of Lectura)().Property(Function(p) p.Kwh).HasPrecision(18, 10)
-            modelBuilder.Entity(Of Lectura)().Property(Function(p) p.Precio).HasPrecision(18, 10)
-            modelBuilder.Entity(Of Lectura)().Property(Function(p) p.Watt).HasPrecision(18, 10)
+            modelBuilder.Entity(Of Lectura)().Property(Function(p) p.Irms).HasPrecision(18, 9)
+            modelBuilder.Entity(Of Lectura)().Property(Function(p) p.Kwh).HasPrecision(18, 9)
+            modelBuilder.Entity(Of Lectura)().Property(Function(p) p.Precio).HasPrecision(18, 9)
+            modelBuilder.Entity(Of Lectura)().Property(Function(p) p.Watt).HasPrecision(18, 9)
         End Sub
 
     End Class
