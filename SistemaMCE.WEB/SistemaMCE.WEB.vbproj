@@ -212,6 +212,7 @@
     <Compile Include="Controllers\API\ReportesAPIController.vb" />
     <Compile Include="Controllers\API\SectoresAPIController.vb" />
     <Compile Include="Controllers\API\UsuariosAPIController.vb" />
+    <Compile Include="Controllers\ConfigController.vb" />
     <Compile Include="Controllers\ControlController.vb" />
     <Compile Include="Controllers\LoginController.vb" />
     <Compile Include="Controllers\NodosController.vb" />
@@ -221,6 +222,7 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConfigDTO.vb" />
     <Compile Include="Models\LecturaDTO.vb" />
     <Compile Include="Models\NodoDTO.vb" />
     <Compile Include="Models\NodoReporteDTO.vb" />
@@ -723,6 +725,7 @@
     <Content Include="Views\Usuarios\UsuarioConfig.vbhtml" />
     <Content Include="Views\Control\Index.vbhtml" />
     <Content Include="Views\Reportes\Historial.vbhtml" />
+    <Content Include="Views\Config\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -773,6 +776,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\app\Control\control.ts" />
+    <TypeScriptCompile Include="Scripts\app\Home\config.ts" />
     <TypeScriptCompile Include="Scripts\app\Home\home.ts" />
     <TypeScriptCompile Include="Scripts\app\Login\login.ts" />
     <TypeScriptCompile Include="Scripts\app\Nodos\nodoactual.ts" />

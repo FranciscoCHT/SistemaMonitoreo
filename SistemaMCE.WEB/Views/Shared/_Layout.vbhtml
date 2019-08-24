@@ -289,7 +289,7 @@ desired effect
                     </li>
                     <li><a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-user"></i><span>Usuarios</span></a></li>
                     <li><a href="@Url.Action("Index", "Sectores")"><i class="fa fa-map-marker"></i><span>Sectores</span></a></li>
-                    <li><a href="@Url.Action("About", "Home")"><i class="fa fa-info"></i><span>About</span></a></li>
+                    <li><a href="@Url.Action("Index", "Config")"><i class="fa fa-gear"></i><span>Configuración</span></a></li>
                     <li><a href="#" onClick="logout()"><i class="fa fa-sign-out"></i><span>Cerrar sesión</span></a></li>
                     @*<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
         <li class="treeview">
