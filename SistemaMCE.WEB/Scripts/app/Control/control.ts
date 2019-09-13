@@ -175,7 +175,7 @@ namespace Control {
 
         onButton: any = {
             text: "Encender",
-            icon: "plus",
+            icon: "check",
             disabled: this.disableOn,
             type: 'success',
             onClick: (e) => {
@@ -192,7 +192,7 @@ namespace Control {
 
         offButton: any = {
             text: "Apagar",
-            icon: "plus",
+            icon: "close",
             disabled: this.disableOff,
             type: 'danger',
             onClick: (e) => {
