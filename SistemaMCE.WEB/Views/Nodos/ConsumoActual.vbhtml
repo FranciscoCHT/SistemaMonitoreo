@@ -26,6 +26,7 @@ End Code
                 </span>
             </label>
             <div id="selectSect" data-bind="dxSelectBox: sectFilter"></div>
+            <div id="boton" type="button"></div>
         </div>
         <div class="dx-item dx-box-item dx-item-content dx-box-item-content" style="display: flex; min-width: auto; flex: 1 1 0px; width: auto;height: auto;flex-basis: 0px;flex-grow: 1;flex-direction: column; padding-left: 15px;">
             <label class="dx-field-item-label dx-field-item-label-location-top" for="dx_dx-e344b929-29e2-9de5-484a-2570a7dd3fa5_Nodo">

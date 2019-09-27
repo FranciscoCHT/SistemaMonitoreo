@@ -131,6 +131,7 @@ namespace Nodos {
                     }
                 }
                 this.idNodo(this.nodos()[0].ID);
+                this.getCustomStore();
                 this.reloadChartBar();
                 this.updateGaugeDia();
                 this.updateGaugeLastLectura();
@@ -172,6 +173,90 @@ namespace Nodos {
             }
             this.getNodosByUser(window.localStorage.getItem('user'), -1);
             this.getSectores();
+
+            var btn = document.getElementById("boton");
+            btn.addEventListener("click", (e: Event) => this.getCustomStore());
+            setInterval(function () { btn.click() }, 100000);
+        }
+
+        getCustomStore(): any {
+            var defer = $.Deferred();
+            $.getJSON(window.location.origin + '/api/nodos/lectura/' + window.localStorage.getItem('user') + '/' + this.idSector() + '/' + this.idNodo()).done((data) => {
+                //console.log(data);
+                let dateactual = new Date();
+                let dateayer = new Date();
+                dateayer.setDate(dateayer.getDate() - 1);
+                this.lastLectura(0);
+                this.lastNodo("");
+                this.lastNodoMax("");
+                this.lastNodoMin("");
+                let arrayLast: any = [];
+                let sumKwhDia = 0;
+                let sumKwhAyer = 0;
+                let sumPrecioDia = 0;
+                let sumPrecioAyer = 0;
+                this.maxDia(0);
+                this.minDia(100);
+                for (var i: number = 0; i < data.length; i++) {
+                    data[i].FechaHoraJS = new Date(data[i].FechaHora);
+                    if (/*data[i].Dia == dateactual.getDate() && data[i].Mes == dateactual.getMonth()+1 && data[i].Año == dateactual.getFullYear()*/data[i].Dia == 18 && data[i].Mes == 8 && data[i].Año == 2019) { //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                        sumKwhDia = sumKwhDia + data[i].Kwh;
+                        sumPrecioDia = sumPrecioDia + data[i].Precio;
+                        if (data[i].Kwh > this.maxDia()) {
+                            this.maxDia(data[i].Kwh);
+                            this.lastNodoMax(data[i].Nodo.Nombre);
+                        }
+                        if (data[i].Kwh < this.minDia()) {
+                            this.minDia(data[i].Kwh);
+                            this.lastNodoMin(data[i].Nodo.Nombre);
+                        }
+
+                        if (arrayLast.some(e => e.ID === data[i].Nodo.ID)) {                        // Este if buscara todos los ultimas lecturas de los nodos correspondientes y lo guardara en un array.
+                            arrayLast.forEach((item, x) => {                                        //
+                                if (item.ID == data[i].Nodo.ID)                                     //
+                                    arrayLast[x] = { ID: data[i].Nodo.ID, Lectura: data[i].Kwh };   //
+                            });                                                                     //
+                        } else {                                                                    //
+                            arrayLast.push({ ID: data[i].Nodo.ID, Lectura: data[i].Kwh });          //
+                        }                                                                           //
+
+                        if (this.idNodo() != -1) {
+                            this.lastNodo(data[i].Nodo.Nombre);
+                        } else {
+                            this.lastNodo("Todos");
+                        }
+                    }
+
+                    if (/*data[i].Dia == dateayer.getDate() && data[i].Mes == dateayer.getMonth()+1 && data[i].Año == dateayer.getFullYear()*/data[i].Dia == 17 && data[i].Mes == 8 && data[i].Año == 2019) {          //dateayer.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                        sumKwhAyer = sumKwhAyer + data[i].Kwh;                                   // Suma de los valores Kwh dia anterior
+                        sumPrecioAyer = sumPrecioAyer + data[i].Precio;
+                    }
+                    //data[i].FechaHoraUTC = Date.parse(data[i].FechaHoraUTC);                  // Esto para filtrar con date en milisegundos. Es con UTC ya que el date parse solo se puede con UTC String
+                    //let dateString = new Date(data[i].FechaHora).toString().split(" GMT");
+                    //data[i].FechaHoraString = dateString[0].slice(0, -3);
+                }
+                arrayLast.forEach((item) => {
+                    let temp = this.lastLectura();
+                    this.lastLectura(temp + item.Lectura);
+                });
+                this.kwhDia(Math.round(sumKwhDia * 1e12) / 1e12);
+                this.precioDia(Math.round(sumPrecioDia));
+                this.kwhDiaAyer(Math.round(sumKwhAyer * 1e12) / 1e12);
+                this.precioDiaAyer(Math.round(sumPrecioAyer));
+                this.avgDia((Math.round(sumKwhDia * 1e12) / 1e12) / data.length);
+                this.updateGaugeDia();
+                this.updateGaugeLastLectura();
+                this.updateGaugeDiaPrecio();
+                this.reloadChartBar();
+                // Perform filtering on client side
+                var query = DevExpress.data.query(data);
+                //if (loadOptions.filter) {
+                //    query = query.filter(loadOptions.filter);
+                //}
+                defer.resolve(query.toArray());
+                return data;
+            });
+            //return defer.promise();
         }
 
         public customStore = new DevExpress.data.CustomStore({
@@ -194,7 +279,7 @@ namespace Nodos {
                     this.minDia(100);
                     for (var i: number = 0; i < data.length; i++) {
                         data[i].FechaHoraJS = new Date(data[i].FechaHora);
-                        if (data[i].Dia == 24 && data[i].Mes == 3 && data[i].Año == 2019) { //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                        if (/*data[i].Dia == dateactual.getDate() && data[i].Mes == dateactual.getMonth()+1 && data[i].Año == dateactual.getFullYear()*/data[i].Dia == 18 && data[i].Mes == 8 && data[i].Año == 2019) { //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
                             sumKwhDia = sumKwhDia + data[i].Kwh;
                             sumPrecioDia = sumPrecioDia + data[i].Precio;
                             if (data[i].Kwh > this.maxDia()) {
@@ -222,7 +307,7 @@ namespace Nodos {
                             }
                         }
 
-                        if (data[i].Dia == 23 && data[i].Mes == 3 && data[i].Año == 2019) {          //dateayer.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                        if (/*data[i].Dia == dateayer.getDate() && data[i].Mes == dateayer.getMonth()+1 && data[i].Año == dateayer.getFullYear()*/data[i].Dia == 17 && data[i].Mes == 8 && data[i].Año == 2019) {          //dateayer.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
                             sumKwhAyer = sumKwhAyer + data[i].Kwh;                                   // Suma de los valores Kwh dia anterior
                             sumPrecioAyer = sumPrecioAyer + data[i].Precio;
                         }
@@ -262,6 +347,7 @@ namespace Nodos {
             value: this.idNodo(),
             onItemClick: (e) => {
                 this.idNodo(e.itemData.ID);
+                this.getCustomStore();
                 this.reloadChartBar();
                 //this.updateGaugeDia();
                 //let mas = this.mes(); //Hacer un SELECTBOX CON YEAR, luego al click, guardar el year en un observable, y despues un selectbox con seleccionar Mes, al hacer click, pasar el valor al filter y el year observable.
