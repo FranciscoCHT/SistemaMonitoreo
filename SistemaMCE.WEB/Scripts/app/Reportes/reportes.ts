@@ -274,6 +274,7 @@ namespace Reportes {
             type: "date",
             pickerType: 'calendar',
             acceptCustomValue: false,
+            max: new Date(),
             adaptivityEnabled: true,
             displayFormat: "dd/MM/yyyy",
             onValueChanged: (e) => {
@@ -288,6 +289,7 @@ namespace Reportes {
             type: "date",
             pickerType: 'calendar',
             acceptCustomValue: false,
+            max: new Date(),
             adaptivityEnabled: true,
             displayFormat: "dd/MM/yyyy",
             onValueChanged: (e) => {
@@ -345,11 +347,11 @@ namespace Reportes {
                 }
             },
             onExported: (e) => {
-                this.fechaReporte(new Date().toLocaleString());
+                this.fechaReporte(new Date().toISOString());
                 this.addReporte();
             },
             onFileSaving: (e) => {
-                e.fileName = "lecturas-" + this.fechaReporte();
+                e.fileName = "lecturas-" + new Date(this.fechaReporte()).toLocaleString();
             }, columnChooser: {
                 allowSearch: true
             },
