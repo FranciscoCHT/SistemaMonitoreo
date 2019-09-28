@@ -176,7 +176,7 @@ namespace Nodos {
 
             var btn = document.getElementById("boton");
             btn.addEventListener("click", (e: Event) => this.getCustomStore());
-            setInterval(function () { btn.click() }, 100000);
+            setInterval(function () { btn.click() }, 3000);
         }
 
         getCustomStore(): any {
