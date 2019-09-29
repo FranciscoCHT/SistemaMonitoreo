@@ -1948,8 +1948,8 @@ INSERT INTO `nodo` (`ID`, `Nombre`, `Tipo`, `Estado`, `Voltaje`, `Sector_ID`, `U
 (3, 'Depto 1 Nodo 1', 0, 1, '220.00', 1, 7, '2.65'),
 (4, 'Depto 1 Nodo 2', 0, 1, '220.00', 1, 7, '2.65'),
 (5, 'Sala 1 Nodo 3', 0, 1, '110.00', 2, 8, '2.65'),
-(6, 'Sala 1 Nodo 4', 1, 0, '220.00', 2, 8, '0.00'),
-(7, 'Sala 2 Nodo 5', 0, 1, '220.00', 2, 7, '2.65');
+(6, 'Sala 1 Nodo 4', 1, 1, '220.00', 2, 8, '0.00'),
+(7, 'Nodo de prueba', 0, 1, '220.00', 6, 7, '2.65');
 
 -- --------------------------------------------------------
 
@@ -2062,11 +2062,10 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 --
 
 INSERT INTO `usuario` (`ID`, `Nombre`, `Apellido`, `User`, `Pass`, `EsAdmin`) VALUES
-(1, '123', '123', '123', '123', 0),
-(6, '4343', '3434', '3434', '3434', 0),
+(1, 'Pedro', 'Perez', 'Pedro123', 'pedro123', 0),
+(6, 'Pablo', 'Perez', 'PPerez', '123pperez', 0),
 (7, 'Francisco', 'Chacón', 'Admin', '123admin', 1),
-(8, 'Juan', 'Perez', 'Invitado', '123invitado', 0),
-(9, '11', '11', '11', '11', 1);
+(8, 'Juan', 'Perez', 'Jperez', '123invitado', 0);
 
 -- --------------------------------------------------------
 
