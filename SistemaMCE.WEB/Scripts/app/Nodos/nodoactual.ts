@@ -14,6 +14,8 @@ namespace Nodos {
         public maxDia: KnockoutObservable<number> = ko.observable<number>(0);
         public minDia: KnockoutObservable<number> = ko.observable<number>(0);
         public avgDia: KnockoutObservable<number> = ko.observable<number>(0);
+        public contadorMax: KnockoutObservable<number> = ko.observable<number>(0);
+        public contadorMin: KnockoutObservable<number> = ko.observable<number>(0);
         public lastLectura: KnockoutObservable<number> = ko.observable<number>(0);
         public lastNodo: KnockoutObservable<any> = ko.observable<any>();
         public lastNodoMax: KnockoutObservable<any> = ko.observable<any>();
@@ -88,7 +90,7 @@ namespace Nodos {
             if (this.idNodo() == -1) {
                 gaugeLecturaActual.option('scale.endValue', 0.5);
             } else {
-                gaugeLecturaActual.option('scale.endValue', 0.35);
+                gaugeLecturaActual.option('scale.endValue', 0.1);
             }
         }
 
@@ -176,7 +178,7 @@ namespace Nodos {
 
             var btn = document.getElementById("boton");
             btn.addEventListener("click", (e: Event) => this.getCustomStore());
-            setInterval(function () { btn.click() }, 3000);
+            setInterval(function () { btn.click() }, 10000);
         }
 
         getCustomStore(): any {
@@ -199,7 +201,7 @@ namespace Nodos {
                 this.minDia(100);
                 for (var i: number = 0; i < data.length; i++) {
                     data[i].FechaHoraJS = new Date(data[i].FechaHora);
-                    if (/*data[i].Dia == dateactual.getDate() && data[i].Mes == dateactual.getMonth()+1 && data[i].Año == dateactual.getFullYear()*/data[i].Dia == 18 && data[i].Mes == 8 && data[i].Año == 2019) { //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                    if (data[i].Dia == dateactual.getDate() && data[i].Mes == dateactual.getMonth()+1 && data[i].Año == dateactual.getFullYear()/*data[i].Dia == 18 && data[i].Mes == 8 && data[i].Año == 2019*/) { //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
                         sumKwhDia = sumKwhDia + data[i].Kwh;
                         sumPrecioDia = sumPrecioDia + data[i].Precio;
                         if (data[i].Kwh > this.maxDia()) {
@@ -227,7 +229,7 @@ namespace Nodos {
                         }
                     }
 
-                    if (/*data[i].Dia == dateayer.getDate() && data[i].Mes == dateayer.getMonth()+1 && data[i].Año == dateayer.getFullYear()*/data[i].Dia == 17 && data[i].Mes == 8 && data[i].Año == 2019) {          //dateayer.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                    if (data[i].Dia == dateayer.getDate() && data[i].Mes == dateayer.getMonth()+1 && data[i].Año == dateayer.getFullYear()/*data[i].Dia == 17 && data[i].Mes == 8 && data[i].Año == 2019*/) {          //dateayer.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
                         sumKwhAyer = sumKwhAyer + data[i].Kwh;                                   // Suma de los valores Kwh dia anterior
                         sumPrecioAyer = sumPrecioAyer + data[i].Precio;
                     }
@@ -279,7 +281,7 @@ namespace Nodos {
                     this.minDia(100);
                     for (var i: number = 0; i < data.length; i++) {
                         data[i].FechaHoraJS = new Date(data[i].FechaHora);
-                        if (/*data[i].Dia == dateactual.getDate() && data[i].Mes == dateactual.getMonth()+1 && data[i].Año == dateactual.getFullYear()*/data[i].Dia == 18 && data[i].Mes == 8 && data[i].Año == 2019) { //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                        if (data[i].Dia == dateactual.getDate() && data[i].Mes == dateactual.getMonth()+1 && data[i].Año == dateactual.getFullYear()/*data[i].Dia == 18 && data[i].Mes == 8 && data[i].Año == 2019*/) { //dateactual.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
                             sumKwhDia = sumKwhDia + data[i].Kwh;
                             sumPrecioDia = sumPrecioDia + data[i].Precio;
                             if (data[i].Kwh > this.maxDia()) {
@@ -307,7 +309,7 @@ namespace Nodos {
                             }
                         }
 
-                        if (/*data[i].Dia == dateayer.getDate() && data[i].Mes == dateayer.getMonth()+1 && data[i].Año == dateayer.getFullYear()*/data[i].Dia == 17 && data[i].Mes == 8 && data[i].Año == 2019) {          //dateayer.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                        if (data[i].Dia == dateayer.getDate() && data[i].Mes == dateayer.getMonth()+1 && data[i].Año == dateayer.getFullYear()/*data[i].Dia == 17 && data[i].Mes == 8 && data[i].Año == 2019*/) {          //dateayer.getDay() CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
                             sumKwhAyer = sumKwhAyer + data[i].Kwh;                                   // Suma de los valores Kwh dia anterior
                             sumPrecioAyer = sumPrecioAyer + data[i].Precio;
                         }
@@ -440,7 +442,7 @@ namespace Nodos {
                     color: "#9c9c9c",
                     visible: true
                 },
-                tickInterval: 0.05,
+                tickInterval: 0.02,
                 minorTickInterval: 0.01,
                 label: {
                     indentFromTick: 3,
@@ -474,10 +476,12 @@ namespace Nodos {
             tooltip: {
                 enabled: true,
                 customizeTooltip: (scaleValue) => {
-                    if (scaleValue.value == this.maxDia()) {
+                    if (scaleValue.value == this.maxDia() && this.contadorMax() == 0) {
+                        this.contadorMax(1);
                         return { text: "<b>Valor Max</b><br/>" + "Nodo: " + this.lastNodoMax() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
-                    else if (scaleValue.value == this.minDia()) {
+                    else if (scaleValue.value == this.minDia() && this.contadorMin() == 0) {
+                        this.contadorMin(1);
                         return { text: "<b>Valor Min</b><br/>" + "Nodo: " + this.lastNodoMin() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
                     else {

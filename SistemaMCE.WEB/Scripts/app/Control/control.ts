@@ -184,7 +184,7 @@ namespace Control {
                 this.onOff(true);
                 this.addNodos();
                 var req = new XMLHttpRequest();
-                req.open("POST", "http://190.100.190.43:5204/"); //Acceso a servicio de control Processing -- Para global, abrir puerto y cambiar a IP pública
+                req.open("POST", "http://192.168.0.5:5204/"); //Acceso a servicio de control Processing -- Para global, abrir puerto y cambiar a IP pública
                 req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
                 req.send("?" + "E" + this.idNodo());
             }
@@ -201,7 +201,7 @@ namespace Control {
                 this.onOff(false);
                 this.addNodos();
                 var req = new XMLHttpRequest();
-                req.open("POST", "http://190.100.190.43:5204/"); //Acceso a servicio de control Processing -- Para global, abrir puerto y cambiar a IP pública
+                req.open("POST", "http://192.168.0.5:5204/"); //Acceso a servicio de control Processing -- Para global, abrir puerto y cambiar a IP pública
                 req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
                 req.send("?" + "A" + this.idNodo());
             }
