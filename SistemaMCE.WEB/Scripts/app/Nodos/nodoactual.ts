@@ -477,15 +477,15 @@ namespace Nodos {
                 enabled: true,
                 customizeTooltip: (scaleValue) => {
                     if (scaleValue.value == this.maxDia() && this.contadorMax() == 0) {
-                        this.contadorMax(1);
-                        return { text: "<b>Valor Max</b><br/>" + "Nodo: " + this.lastNodoMax() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                        //this.contadorMax(1);
+                        return { text: "<b>Valor</b><br/>" + "Nodo: " + this.lastNodoMax() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
                     else if (scaleValue.value == this.minDia() && this.contadorMin() == 0) {
-                        this.contadorMin(1);
-                        return { text: "<b>Valor Min</b><br/>" + "Nodo: " + this.lastNodoMin() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                        //this.contadorMin(1);
+                        return { text: "<b>Valor</b><br/>" + "Nodo: " + this.lastNodoMin() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
                     else {
-                        return { text: "<b>Valor Actual</b><br/>" + "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
+                        return { text: "<b>Valor</b><br/>" + "Nodo: " + this.lastNodo() + "<br/>" + "Valor Kwh: " + scaleValue.value }
                     }
                 }
             },
